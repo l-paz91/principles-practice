@@ -1,0 +1,121 @@
+//-------------------------------//
+// main.cpp
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	//Drill 1
+	cout << "Enter the name of the person you want to write to (followed by 'enter'):\n";
+	string firstName;
+	cin >> firstName;
+	cout << "Dear " << firstName << ",\n";
+
+	//Drill 2
+	cout << "\tHow are you? It is freezing here in Lower Bullocks. All there is to do is listen to Nigel Bigglesworth on the radio.\n"
+		 << "Aunt Jemima came down with a nasty case of bloaty head over the weekend.\n";
+
+	//Drill 3
+	string friendName;
+	cout << "Enter the name of a friend (followed by 'enter'):\n";
+	cin >> friendName;
+	cout << "\nHave you seen " << friendName << " lately?";
+
+	//Drill 4
+	char friendSex = 0;
+	cout << "\nIs this friend male (m) or female (f)?\n>>";
+	cin >> friendSex;
+
+	if (friendSex == 'm')
+		cout << "\nIf you see " << friendName << " please ask him to call me.\n";
+	if (friendSex == 'f')
+		cout << "\nIf you see " << friendName << " please ask her to call me.\n";
+
+	//Drill 5
+	int age = 0;
+	cout << "\nWhat is the age of the recipient?\n>>";
+	cin >> age;
+
+	cout << "\nI hear you just had a birthday and you are " << age << " years old!";
+	if (age <= 0)
+		simple_error("You're kidding!");
+	if (age >= 110)
+		simple_error("You're kidding!");
+
+	//Drill 6
+	if (age < 12)
+		cout << "\nNext year you will be " << age + 1;
+	if (age == 17)
+		cout << "\nNext year you will be able to vote.";
+	if (age > 70)
+		cout << "\nI hope you are enjoying retirement.";
+
+	//Drill 7
+	cout << "\nYours sincerely,\n\nl-paz91\n\n";
+
+	keep_window_open();
+
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------
+//re-arranged to make more sense
+
+//-------------------------------//
+// main.cpp
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+
+	cout << "Enter the name of the person you want to write to (followed by 'enter'):\n";
+	string firstName;
+	cin >> firstName;
+
+	string friendName;
+	cout << "Enter the name of a friend (followed by 'enter'):\n";
+	cin >> friendName;
+
+	char friendSex = 0;
+	cout << "\nIs this friend male (m) or female (f)?\n>>";
+	cin >> friendSex;
+
+	int age = 0;
+	cout << "\nWhat is the age of the recipient?\n>>";
+	cin >> age;
+	if (age <= 0)
+		simple_error("You're kidding!");
+	if (age >= 110)
+		simple_error("You're kidding!");
+
+
+	cout << "Dear " << firstName << ",\n";
+
+	cout << "\tHow are you? It is freezing here in Lower Bullocks. All there is to do is listen to Nigel Bigglesworth on the radio.\n"
+		 << "Aunt Jemima came down with a nasty case of bloaty head over the weekend.\n";
+
+	cout << "\nHave you seen " << friendName << " lately?";
+
+	if (friendSex == 'm')
+		cout << "\nIf you see " << friendName << " please ask him to call me.\n";
+	if (friendSex == 'f')
+		cout << "\nIf you see " << friendName << " please ask her to call me.\n";
+
+	cout << "\nI hear you just had a birthday and you are " << age << " years old!";
+
+	if (age < 12)
+		cout << "\nNext year you will be " << age + 1 << ".";
+	if (age == 17)
+		cout << "\nNext year you will be able to vote.";
+	if (age > 70)
+		cout << "\nI hope you are enjoying retirement.";
+
+	cout << "\nYours sincerely,\n\nl-paz91\n\n";
+
+	keep_window_open();
+
+	return 0;
+}
