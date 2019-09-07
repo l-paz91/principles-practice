@@ -1,0 +1,45 @@
+// in the original I did in 2016, I stupidly divided the sum by 10...how did this even pass testing? Did I even test it?
+// original - https://lptcp.blogspot.com/2016/06/chapter-3-exercises-principles-practice.html
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	int pennies, nickels, dimes, quarters, halfdollars;
+	double sum;
+
+	cout << "Change counter.\nPennies >> "; cin >> pennies;
+	cout << "\nNickels >> "; cin >> nickels;
+	cout << "\nDimes >> "; cin >> dimes;
+	cout << "\nQuarters >> "; cin >> quarters;
+	cout << "\nHalf Dollars >> "; cin >> halfdollars;
+
+	if (pennies == 1)
+		cout << "\nYou have " << pennies << " penny" << endl;
+	else 
+		cout << "\nYou have " << pennies << " pennies" << endl;
+	if (nickels == 1)
+		cout << "\nYou have " << nickels << " nickel" << endl;
+	else
+		cout << "\nYou have " << nickels << " nickels" << endl;
+	if (dimes == 1)
+		cout << "\nYou have " << dimes << " dime" << endl;
+	else
+		cout << "\nYou have " << dimes << " dimes" << endl;
+	if (quarters == 1)
+		cout << "\nYou have " << quarters << " quarter" << endl;
+	else
+		cout << "\nYou have " << quarters << " quarters" << endl;
+	if (halfdollars == 1)
+		cout << "\nYou have " << halfdollars << " halfdollar" << endl;
+	else
+		cout << "\nYou have " << halfdollars << " halfdollars" << endl;
+
+	sum = pennies + (nickels * 5) + (dimes * 10) + (quarters * 25) + (halfdollars * 50);
+
+	cout << "\nThe value of all of your coins is " << sum << " cents or $" << (sum/100.0) << endl;
+
+	keep_window_open();
+
+	return 0;
+}
