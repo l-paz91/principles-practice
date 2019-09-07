@@ -1,0 +1,17 @@
+#include "std_lib_facilities.h"
+
+int main()
+{
+	cout << "Please enter an integer:\n>>";
+	int integer;
+	cin >> integer;
+
+	if (integer % 2 == 0)
+		cout << "\nThe number " << integer << " is even.\n";
+	else
+		cout << "\nThe number " << integer << " is odd.\n";
+
+	keep_window_open();
+
+	return 0;
+}
