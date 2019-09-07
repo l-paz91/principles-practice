@@ -1,0 +1,18 @@
+//Chapter 3 - Exercise 2
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	constexpr double kilometer = 1.609;
+
+	//program to convert miles to kilometers
+	cout << "Please enter miles to convert to kilometers:\n>>";
+	double miles;
+	cin >> miles;
+	cout << ">>" << miles * kilometer << " km\n";
+
+	keep_window_open();
+
+	return 0;
+}
