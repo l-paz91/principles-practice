@@ -1,0 +1,37 @@
+#include "std_lib_facilities.h"
+
+int main()
+{
+	int val1, val2;
+	double ratio;
+
+	cout << "Please enter two integer values:"
+		<< "\nValue 1 >>";
+	cin >> val1;
+	cout << "\nValue 2 >>";
+	cin >> val2;
+
+	if (val1 < val2)
+	{
+		cout << "\n\nSmallest: " << val1;
+		cout << "\nLargest: " << val2;
+		cout << "\nDifference: " << val2 - val1;
+		ratio = double(val1) / double(val2);
+	}
+	else
+	{
+		cout << "\n\nSmallest: " << val2;
+		cout << "\nLargest: " << val1;
+		cout << "\nDifference: " << val1 - val2;
+		ratio = double(val2) / double(val1);
+	}
+
+	cout << "\nProduct: " << val1 * val2;
+	
+	ratio = 1.0f / ratio;
+	cout << "\nRatio: 1:" << ratio << "\n\n";
+
+	keep_window_open();
+
+	return 0;
+}
