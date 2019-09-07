@@ -1,0 +1,57 @@
+// Barely any changes here. Just changed integer to word and the ints to string. Jesus, you should've seen the way I did this 3 years
+// ago when I first started learning to program https://lptcp.blogspot.com/2016/06/chapter-3-exercises-principles-practice.html
+// what a mess.
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	int i = 0;
+	string word, smallest, middle, largest;
+	cout << "Please enter three words:";
+
+	while (i < 3)
+	{
+		cout << "\nWord " << i + 1 << ": ";
+		if (i == 0)
+			cin >> largest;
+		if(i == 1)
+		{
+			cin >> word;
+			if (word > largest)
+			{
+				smallest = largest;
+				largest = word;
+			}
+			else
+				smallest = word;
+		}
+		if (i == 2)
+		{
+			cin >> word;
+			if (word > smallest && word < largest
+				|| word == smallest
+				|| word == largest)
+			{
+				middle = word;
+			}
+			if (word > largest)
+			{
+				middle = largest;
+				largest = word;
+			}
+			if (word < smallest)
+			{
+				middle = smallest;
+				smallest = word;
+			}
+		}
+		++i;
+	}
+
+	cout << "\n" << smallest << " " << middle << " " << largest << "\n";
+
+	keep_window_open();
+
+	return 0;
+}
