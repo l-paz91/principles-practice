@@ -49,7 +49,7 @@ int main()
 		++i;
 	}
 
-	cout << "\n" << smallest << " " << middle << " " << largest << "\n";
+	cout << "\n" << smallest << ", " << middle << ", " << largest << "\n";
 
 	keep_window_open();
 
