@@ -1,0 +1,26 @@
+#include "std_lib_facilities.h"
+
+int main()
+{
+	string operation;
+	double val1(0), val2(0);
+	
+	cout << "Please enter an operation, followed by two operands:" << endl;
+	cout << "Operation >> "; cin >> operation;
+	cout << "\nValue 1 >> "; cin >> val1;
+	cout << "\nValue 2 >> "; cin >> val2;
+
+	if (operation == "+" || operation == "plus")
+		cout << val1 << " + " << val2 << " = " << val1 + val2 << endl;
+	if (operation == "-" || operation == "minus")
+		cout << val1 << " - " << val2 << " = " << val1 - val2 << endl;
+	if (operation == "*" || operation == "mul")
+		cout << val1 << " * " << val2 << " = " << val1 * val2 << endl;
+	if (operation == "/" || operation == "div")
+		cout << val1 << " / " << val2 << " = " << val1 / val2 << endl;
+	else cout << "\nSorry, that's not a valid operation.";
+
+	keep_window_open();
+
+	return 0;
+}
