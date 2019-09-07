@@ -1,0 +1,25 @@
+#include "std_lib_facilities.h"
+
+int main()
+{
+	cout << "Please enter a spelled-out number between 0 and 4:\n>>";
+	string integer;
+	cin >> integer;
+
+	if (integer == "zero")
+		cout << "\n0\n";
+	else if (integer == "one")
+		cout << "\n1\n";
+	else if (integer == "two")
+		cout << "\n2\n";
+	else if (integer == "three")
+		cout << "\n3\n";
+	else if (integer == "four")
+		cout << "\n4\n";
+	else
+		cout << "\nNot a number I know...stupid computer!\n";
+
+	keep_window_open();
+
+	return 0;
+}
