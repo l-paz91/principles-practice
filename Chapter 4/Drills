@@ -1,0 +1,258 @@
+//-------------------------------//
+// Drill 1
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	int val1, val2;
+	cout << "Please enter two numbers. Enter | to exit.\n";
+	while (cin >> val1 >> val2)
+	{
+		cout << "Value 1: " << val1 << "\nValue 2: " << val2 << endl;
+		cout << "\nPlease enter two numbers. Enter | to exit.\n";
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 2
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<int> values(2);
+	cout << "Please enter two numbers. Enter | to exit.\n";
+	while (cin >> values[0] >> values[1])
+	{
+		sort(values);
+		cout << "The smaller value is: " << values[0] << endl;
+		cout << "The larger value is: " << values[1] << endl;
+
+		cout << "\nPlease enter two numbers. Enter | to exit.\n";
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 3
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<int> values(2);
+	cout << "Please enter two numbers. Enter | to exit.\n";
+	while (cin >> values[0] >> values[1])
+	{
+		sort(values);
+		cout << "The smaller value is: " << values[0] << endl;
+		cout << "The larger value is: " << values[1] << endl;
+
+		if(values[0] == values[1])
+			cout << "The numbers are equal." << endl;
+
+		cout << "\nPlease enter two numbers. Enter | to exit.\n";
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 4 & 5 - For fun, check out my original implementation 3 years ago here https://lptcp.blogspot.com/2016/07/chapter-4-drill-45-principles-practice.html
+// we all have to start somewhere. I remember how frustrated I was with this simple exercise which this time around took me 2 minutes.
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> values(2);
+	cout << "Please enter two numbers. Enter | to exit.\n";
+	while (cin >> values[0] >> values[1])
+	{
+		sort(values);
+		cout << "The smaller value is: " << values[0] << endl;
+		cout << "The larger value is: " << values[1] << endl;
+
+		if(values[0] == values[1])
+			cout << "The numbers are equal." << endl;
+
+		else if ((values[1] - values[0]) < (1.0 / 100))
+			cout << "The numbers are almost equal." << endl;
+
+		cout << "\nPlease enter two numbers. Enter | to exit.\n";
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 6 - ok, I did a little cheating with this one as I didn't use two variables to keep track. I just keep pushing everything into a
+// vector and sorting it but vectors, push_back() and sort() were introduced this chapter so it's not unfair.
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> values;
+	double number;
+
+	cout << "Please enter a number. Enter | to exit.\n";
+	while (cin >> number)
+	{
+		values.push_back(number);
+		sort(values);
+		cout << "The smallest value so far is: " << values[0] << endl;
+		cout << "The largest value so far is: " << values[values.size() -1] << endl;
+
+		cout << "\nPlease enter a number. Enter | to exit.\n";
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 7 & 8 - Without creating a pair value this was quite annoying. Also please ignore the magic numbers...
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> values;
+	vector<string> units;
+	double number, smallest, largest;
+	string unit, largestUnit, smallestUnit;
+
+	cout << "Please enter a number and measurement. Enter | to exit.\n";
+	while (cin >> number >> unit)
+	{
+		double temp = number;
+		string tempUnit = unit;
+
+		if (unit == "m") {}
+		else if (unit == "cm")
+			temp /= 100.0;
+		else if (unit == "ft")
+			temp /= 3.281;
+		else if (unit == "in")
+			temp /= 39.37;
+		else
+		{
+			cout << "That's an incorrect unit or the unit is missing!" << endl;
+			break;
+		}
+
+		values.push_back(temp);
+		sort(values);
+
+		if (values.size() == 1)
+		{
+			smallest = largest = number;
+			smallestUnit = largestUnit = tempUnit;
+		}
+		if (temp <= values[0])
+		{
+			smallest = number;
+			smallestUnit = tempUnit;
+		}
+		else if (temp >= values[values.size() - 1])
+		{
+			largest = number;
+			largestUnit = tempUnit;
+		}
+		cout << "The smallest value so far is: " << smallest << smallestUnit << endl;
+		cout << "The largest value so far is: " << largest << largestUnit << endl;
+	}
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------//
+// Drill 9 & 10 & 11
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> values;
+	vector<string> units;
+	double number, sum, smallest, largest;
+	sum = smallest = largest = 0;
+	string unit, largestUnit, smallestUnit;
+
+	cout << "Please enter a number and measurement. Enter ctrl+z to exit.\n";
+	while (cin >> number >> unit)
+	{
+		double temp = number;
+		string tempUnit = unit;
+
+		if (unit == "m") {}
+		else if (unit == "cm")
+			temp /= 100.0;
+		else if (unit == "ft")
+			temp /= 3.281;
+		else if (unit == "in")
+			temp /= 39.37;
+		else
+		{
+			cout << "That's an incorrect unit or the unit is missing!" << endl;
+			break;
+		}
+
+		values.push_back(temp);
+		sort(values);
+
+		if (values.size() == 1)
+		{
+			smallest = largest = number;
+			smallestUnit = largestUnit = tempUnit;
+		}
+		if (temp <= values[0])
+		{
+			smallest = number;
+			smallestUnit = tempUnit;
+		}
+		else if (temp >= values[values.size() - 1])
+		{
+			largest = number;
+			largestUnit = tempUnit;
+		}
+
+		sum += temp;
+	}
+
+	cout << "The smallest value is: " << smallest << smallestUnit << endl;
+	cout << "The largest value is: " << largest << largestUnit << endl;
+	cout << "The sum of all the values (in meters) is: " << sum << "m" << endl;
+	cout << "Total number of values entered: " << values.size() << endl;
+
+	cout << "Values entered in meters: " << endl;
+	for (int i = 0; i < values.size(); ++i)
+		cout << values[i] << endl;
+
+	keep_window_open();
+
+	return 0;
+}
