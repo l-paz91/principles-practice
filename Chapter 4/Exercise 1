@@ -1,0 +1,194 @@
+//--------------------------------------------//
+//Try This pg105
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	//currency converter
+	constexpr double yen_to_dollars = 0.0094;
+	constexpr double kroner_to_dollars = 0.11;
+	constexpr double pound_to_dollars = 1.23;
+	double amount = 0;
+	char currency;
+
+	cout << "Please enter amount to be converted to dollars. The following currencies are available:\nYen 'y'\nKroner 'k'\nPounds 'p'\n>>";
+	cin >> amount >> currency;
+
+	if (currency == 'y')
+	{
+		amount *= yen_to_dollars;
+	}
+	else if (currency == 'k')
+	{
+		amount *= kroner_to_dollars;
+	}
+	else if (currency == 'p')
+	{
+		amount *= pound_to_dollars;
+	}
+	else
+	{
+		cout << "Sorry, I don't know that currency." << endl;
+	}
+
+	cout << " is $" << amount << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+//Try This pg109
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	//currency converter
+	constexpr double yen_to_dollars = 0.0094;
+	constexpr double kroner_to_dollars = 0.11;
+	constexpr double pound_to_dollars = 1.23;
+	constexpr double yuan_to_dollars = 0.14;
+	double amount = 0;
+	char currency;
+
+	cout << "Please enter amount to be converted to dollars. The following currencies are available:\nYen 'y'\nKroner 'k'\nPounds 'p'\nYuan 'c'\n>>";
+	cin >> amount >> currency;
+
+	switch (currency)
+	{
+	case 'y':
+		amount *= yen_to_dollars;
+		break;
+	case 'k':
+		amount *= kroner_to_dollars;
+		break;
+	case 'p':
+		amount *= pound_to_dollars;
+		break;
+	case 'c':
+		amount *= yuan_to_dollars;
+		break;
+	default:
+		cout << "Sorry, I don't know that currency." << endl;
+		break;
+	}
+
+	cout << " is $" << amount << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+//Try This pg111
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	char letter = 'a';
+
+	while (letter <= 'z')
+	{
+		cout << letter << " " << int(letter) << endl;
+		++letter;
+	}
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+//Try This pg113
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	//lowercase
+	for (int i = 'a'; i <= 'z'; ++i)
+	{
+		cout << char(i) << " " << i << endl;
+	}
+
+	cout << endl;
+	//digits
+	for (int i = '0'; i <= '9'; ++i)
+	{
+		cout << char(i) << " " << i << endl;
+	}
+
+	cout << endl;
+	//uppercase
+	for (int i = 'A'; i <= 'Z'; ++i)
+	{
+		cout << char(i) << " " << i << endl;
+	}
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+// Try This pg116
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+void print_square(int v)
+{
+	int number = 0;
+
+	for (int i = 0; i < v; ++i)
+		number += v;
+
+	cout << v << '\t' << number << endl;
+}
+
+int main()
+{
+	for (int i = 0; i < 100; ++i)
+		print_square(i);
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+//Try This pg125
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+//simple word bleeper
+int main()
+{
+	vector<string> dislikedWords{"broccoli", "tea", "moist", "squanch"};
+	vector<string> words;
+	string temp;
+
+	while (cin >> temp)
+	{
+		words.push_back(temp);
+	}
+	
+	for (int i = 0; i < words.size(); ++i)
+	{
+		for (int n = 0; n < dislikedWords.size(); ++n)
+		{
+			if (dislikedWords[n] == words[i])
+				words[i] = "Bleep";
+		}
+
+		cout << words[i] << " ";
+	}
+
+	keep_window_open();
+	return 0;
+}
