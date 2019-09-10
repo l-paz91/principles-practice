@@ -1,0 +1,28 @@
+//--------------------------------------------//
+//C4 - Exercise 2
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> temps;
+	for (double temp; cin >> temp;)
+		temps.push_back(temp);
+
+	sort(temps);
+
+	//if temps.size() is an odd number
+	if(temps.size() % 2 != 0)
+		cout << "Median Temperature: " << temps[temps.size() / 2] << endl;
+	//it's an even number
+	else
+	{
+		double difference = ((temps.size() / 2) + 1) - (temps.size() / 2);
+		double median = (temps.size() / 2) + (difference / 2);
+		cout << "Median Temperature: " << median << endl;
+	}
+
+	keep_window_open();
+	return 0;
+}
