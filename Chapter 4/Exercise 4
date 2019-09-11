@@ -1,0 +1,47 @@
+//--------------------------------------------//
+// C4 - Exercise 4
+// This page was useful in solving this problem https://math.stackexchange.com/questions/512994/guessing-a-number-between-1-and-100-in-7-guesses-or-less
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<int> points{ 25, 13, 6, 3, 2, 1 };
+	char answer;
+	int guess = 50;
+	int questions = 0;
+
+	cout << "Think of a number between 1-100. I bet I can guess it in 7 tries or less!" << endl;
+	cout << "c = correct, l = lower, h = higher " << endl;
+	cout << "Is it 50?" << endl;
+
+	while (cin >> answer)
+	{
+		++questions;
+
+		switch (answer)
+		{
+		case 'c':
+			cout << "I knew it! It took me " << questions << " question(s) to figure it out." << endl;
+			keep_window_open();
+			return 0;
+			break;
+		case 'l':
+			guess -= points[questions - 1];
+			break;
+		case 'h':
+			guess += points[questions - 1];
+			break;
+		default:
+			cout << "Yikes, don't know that one. Try again." << endl;
+			--questions;
+			break;
+		}
+
+		cout << "Is it " << guess << "?" << endl;
+	}
+
+	keep_window_open();
+	return 0;
+}
