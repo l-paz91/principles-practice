@@ -1,0 +1,38 @@
+//--------------------------------------------//
+//C4 - Exercise 3
+// The first time I did this I completely misread what he wanted us to do. I made the same mistake this time as well and realised half-way through.
+// I kept thinking he meant "find the largest and smallest difference between to values in the vector". He deliberately chose that wording.
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<double> twoPoints;
+	cout << "please enter distances:" << endl;
+
+	//each value is the distance between two cities
+	for (double temp; cin >> temp;)
+		twoPoints.push_back(temp);
+	
+	double sum, smallest, largest;
+	sum = 0;
+	smallest = largest = twoPoints[0];
+
+	for (int i = 0; i < twoPoints.size(); ++i)
+	{
+		sum += twoPoints[i];
+		if (twoPoints[i] > largest)
+			largest = twoPoints[i];
+		else if (twoPoints[i] < smallest)
+			smallest = twoPoints[i];
+	}
+
+	cout << "Sum of all distances: " << sum << endl;
+	cout << "The smallest distance: " << smallest << endl;
+	cout << "The largest distance: " << largest << endl;
+	cout << "The mean distance: " << sum / twoPoints.size() << endl;
+
+	keep_window_open();
+	return 0;
+}
