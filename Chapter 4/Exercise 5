@@ -1,0 +1,43 @@
+//--------------------------------------------//
+// C4 - Exercise 5
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	double val1(0), val2(0);
+	char operation(' ');
+	cout << "Calculator input format [operation] [value1] [value2]" << endl;
+	cout << "Enter ee to quit." << endl;
+
+	while (operation != 'e')
+	{
+		cout << ">> "; cin >> operation;
+		cin >> val1 >> val2;
+		switch (operation)
+		{
+		case '+':
+			cout << ">> " << val1 << " + " << val2 << " = " << val1 + val2 << endl;
+			break;
+		case '-':
+			cout << ">> " << val1 << " - " << val2 << " = " << val1 - val2 << endl;
+			break;
+		case '*':
+			cout << ">> " << val1 << " * " << val2 << " = " << val1 * val2 << endl;
+			break;
+		case '/':
+			cout << ">> " << val1 << " / " << val2 << " = " << val1 / val2 << endl;
+			break;
+		case 'e':
+			keep_window_open();
+			return 0;
+		default:
+			cout << "Don't know that operation?? Try again." << endl;
+			break;
+		}
+	}
+
+	keep_window_open();
+	return 0;
+}
