@@ -1,0 +1,34 @@
+//--------------------------------------------//
+//C4 - Exercise 6
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<string> numberWords{ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+	int number(0);
+	char q(' ');
+	string word;
+
+	while(q != 'y')
+	{	
+		cout << "Please enter a number between 0-9 >> ";
+		cin >> number;
+		cout << "That is spelled: " << numberWords[number] << endl;
+
+		cout << "Please spell out a number between 0-9 >> ";
+		cin >> word;
+		cout << "That is the number: ";
+		for (int i = 0; i < numberWords.size(); ++i)
+		{
+			if (word == numberWords[i])
+			{
+				cout << i << endl;
+			}
+		}
+		cout << "Quit? (y/n) >> "; cin >> q;
+	} 
+
+	return 0;
+}
