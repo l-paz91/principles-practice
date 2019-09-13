@@ -1,0 +1,23 @@
+//--------------------------------------------//
+// C4 - Exercise 8/9
+// at square 32, weird stuff will happen due to not being able to fit in an int anymore
+// when changed to a double at 32, it will start to show in notation form
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	int squares(1), curGrains(1), prevGrains(0);
+
+	while (squares <= 64)
+	{
+		cout << "Square: " << squares << " | Number of Grains: " << curGrains << " | Running Amount: " << prevGrains + curGrains << endl;
+		++squares;
+		prevGrains += curGrains;
+		curGrains *= 2;
+	}
+
+	keep_window_open();
+	return 0;
+}
