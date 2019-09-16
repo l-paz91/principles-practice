@@ -48,7 +48,7 @@ int main()
 	vector<char> guesses2{ paper, scissors, paper, paper, rock, scissors, paper, rock, rock, paper, paper };
 	vector<char> guesses3{ scissors, paper, paper, scissors, scissors, scissors, rock, rock, rock, rock, scissors };
 
-	char answer(' '), pcguess;
+	char answer(' '), pcguess(' ');
 	int iterator(0);
 
 	while (answer != quit)
