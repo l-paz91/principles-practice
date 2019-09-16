@@ -1,0 +1,92 @@
+//--------------------------------------------//
+// C4 - Exercise 10
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+constexpr char quit('q'), rock('r'), paper('p'), scissors('s');
+int userScore(0), pcScore(0);
+
+void determineWinner(char userAnswer, char pcAnswer)
+{
+	//it's a draw
+	if (userAnswer == pcAnswer)
+		cout << "It's a draw!" << endl;
+
+	switch (userAnswer)
+	{
+	case rock:
+		if (pcAnswer == paper)
+			++pcScore;
+		else if (pcAnswer == scissors)
+			++userScore;
+		break;
+	case paper:
+		if (pcAnswer == scissors)
+			++pcScore;
+		else if (pcAnswer == rock)
+			++userScore;
+		break;
+	case scissors:
+		if (pcAnswer == rock)
+			++pcScore;
+		else if (pcAnswer == paper)
+			++userScore;
+		break;
+	case quit:
+		cout << "Thanks for playing!" << endl;
+		break;
+	default:
+		cout << "Sorry, don't know that one. Try again." << endl;
+		break;
+	}
+}
+
+int main()
+{
+	vector<char> guesses1{ rock, rock, paper, scissors, rock, scissors, paper, paper, rock, scissors, scissors };
+	vector<char> guesses2{ paper, scissors, paper, paper, rock, scissors, paper, rock, rock, paper, paper };
+	vector<char> guesses3{ scissors, paper, paper, scissors, scissors, scissors, rock, rock, rock, rock, scissors };
+
+	char answer(' '), pcguess;
+	int iterator(0);
+
+	while (answer != quit)
+	{
+		cout << "Lets play Rock, Paper, Scissors. Enter 'r', 'p' or 's'. Enter 'q' to quit." << endl;
+		cin >> answer;
+
+		switch (answer)
+		{
+		case rock:
+			pcguess = guesses3[iterator];
+			cout << ">> " << guesses3[iterator] << endl;
+			--iterator;
+			break;
+		case paper:
+			pcguess = guesses1[iterator];
+			cout << ">> " << guesses1[iterator] << endl;
+			++iterator;
+			break;
+		case scissors:
+			pcguess = guesses2[iterator];
+			cout << ">> " << guesses2[iterator] << endl;
+			iterator += 2;
+			break;
+		}
+
+		determineWinner(answer, pcguess);
+		if (userScore == 3 || pcScore == 3)
+		{
+			cout << "We have a winner!" << endl;
+			answer = quit;
+		}
+		cout << "Current score // You: " << userScore << " // Me: " << pcScore << endl;
+
+		if (iterator < 0 || iterator > guesses1.size()-1)
+			iterator = 5;
+	}
+
+	keep_window_open();
+	return 0;
+}
