@@ -1,0 +1,35 @@
+//--------------------------------------------//
+// C4 - Exercise 12
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+	vector<int> user_primes; 
+
+	bool isitPrime(int i)
+	{
+		for(int n = 0; n < user_primes.size(); ++n)
+		{
+			if (i % user_primes[n] == 0 && i != user_primes[n])
+				return false;
+		}
+		return true;
+	}
+
+int main()
+{
+	int userMax(0);
+	cout << "Please give a max to stop finding primes at: "; cin >> userMax;
+
+	for (int i = 2; i < userMax; ++i)
+	{
+		if (isitPrime(i))
+			user_primes.push_back(i);
+	}
+
+	for (int i : user_primes)
+		cout << i << " ";
+
+	keep_window_open();
+	return 0;
+}
