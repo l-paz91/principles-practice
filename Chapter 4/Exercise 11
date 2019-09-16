@@ -1,0 +1,34 @@
+//--------------------------------------------//
+// C4 - Exercise 11
+// this is a terribly written exercise.
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+	vector<int> user_primes; 
+	vector<int> primes{ 2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97};
+
+	bool isitPrime(int i)
+	{
+		for(int n = 0; n < primes.size(); ++n)
+		{
+			if (i % primes[n] == 0 && i != primes[n])
+				return false;
+		}
+		return true;
+	}
+
+int main()
+{
+	for (int i = 2; i < 100; ++i)
+	{
+		if (isitPrime(i))
+			user_primes.push_back(i);
+	}
+
+	for (int i : user_primes)
+		cout << i << " ";
+
+	keep_window_open();
+	return 0;
+}
