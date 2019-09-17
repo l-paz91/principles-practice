@@ -1,0 +1,48 @@
+//--------------------------------------------//
+// C4 - Exercise 13
+// please be aware that std_lib_facilities.h implements a special version of vector that
+// does not allow the vector<bool> template. As such I have not used it for this exercise.
+// I used the pseudocode from here to solve this: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes#Algorithmic_complexity
+//--------------------------------------------//
+
+//#include "std_lib_facilities.h"
+
+#include <iostream>
+#include <vector>
+#include <conio.h>
+using namespace std;
+
+vector<bool> prime_sieve(100, true);
+
+void sieveOfAnnoyingness()
+{
+	int n = prime_sieve.size();
+
+	for (int i = 2; i < sqrt(n); ++i)
+	{
+		if (prime_sieve[i])
+		{
+			int temp = i * i;
+			int temp2 = 1;
+			for (int j = i * i; j < n; j = temp + (i*temp2))
+			{
+				prime_sieve[j] = false;
+				++temp2;
+			}
+		}
+	}
+}
+
+int main()
+{
+	sieveOfAnnoyingness();
+
+	for (int i = 2; i < prime_sieve.size(); ++i)
+	{
+		if (prime_sieve[i])
+			cout << i << " ";
+	}
+
+	_getch();
+	return 0;
+}
