@@ -1,0 +1,51 @@
+//--------------------------------------------//
+// C4 - Exercise 15
+//--------------------------------------------//
+
+//#include "std_lib_facilities.h"
+
+#include <iostream>
+#include <vector>
+#include <conio.h>
+using namespace std;
+
+vector<bool> prime_sieve;
+
+void sieveOfAnnoyingness(int minNumber, int maxNumber)
+{
+	prime_sieve.resize(maxNumber, true);
+
+	int n = prime_sieve.size();
+
+	for (int i = 2; i < sqrt(n); ++i)
+	{
+
+		if (prime_sieve[i])
+		{
+			int temp = i * i;
+			int temp2 = 1;
+			for (int j = i * i; j < n; j = temp + (i*temp2))
+			{
+				prime_sieve[j] = false;
+				++temp2;
+			}
+		}
+	}
+}
+
+int main()
+{
+	int maxPrimes(0), minPrimes(0);
+	cout << "Find prime numbers from >> "; cin >> minPrimes;
+	cout << "Up to >> "; cin >> maxPrimes;
+	sieveOfAnnoyingness(minPrimes, maxPrimes);
+
+	for (int i = minPrimes; i < prime_sieve.size(); ++i)
+	{
+		if (prime_sieve[i])
+			cout << i << " ";
+	}
+
+	_getch();
+	return 0;
+}
