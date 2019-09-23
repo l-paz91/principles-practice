@@ -1,0 +1,62 @@
+//--------------------------------------------//
+// C4 - Exercise 17
+// when there is only 1 min/max/mode
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+bool compareWordSize(string a, string b)
+{
+	return (a.size() < b.size());
+}
+
+int main()
+{
+	string word;
+	vector<string> words;
+	cout << "Please enter words. Press ctrl+z to stop: " << endl;
+	while (cin >> word)
+		words.push_back(word);
+
+	sort(words.begin(), words.end(), compareWordSize);
+
+	//min/max words (word with least/most amount of letters)
+	int minWordSize(words[0].size()), maxWordSize(words[0].size());
+	string minWord(words[0]), maxWord(words[0]);
+	for (int i = 0; i < words.size(); ++i)
+	{
+		if (words[i].size() < minWordSize)
+			minWord = words[i];
+		else if (words[i].size() > maxWordSize)
+			maxWord = words[i];
+	}
+
+	//most occurring word
+	sort(words);
+	int count(0), highCount(0);
+	string mode;
+	for (int i = 0; i < words.size() - 1; ++i)
+	{
+		if (words[i] == words[i + 1])
+		{
+			++count;
+			if (count >= highCount)
+			{
+				highCount = count + 1;
+				mode = words[i];
+			}			
+		}
+		else
+			count = 0;
+	}
+
+	cout << "Smallest word: " << minWord << endl;
+	cout << "Largest word: " << maxWord << endl;
+	if(mode == "")
+		cout << "There is no mode" << endl;
+	else
+		cout << "Most occurring word: " << mode << " mentioned " << highCount << " time(s)." << endl;
+	
+	keep_window_open();
+	return 0;
+}
