@@ -35,3 +35,87 @@ int main()
 	keep_window_open();
 	return 0;
 }
+
+//--------------------------------------------//
+// C4 - Exercise 16
+// when there is more than 1 mode - I had to use a struct to solve this one
+// I just don't think it's possible otherwise without lots of variables
+//--------------------------------------------//
+
+//#include "std_lib_facilities.h"
+
+#include <iostream>
+#include <vector>
+#include <conio.h>
+#include <algorithm>
+using namespace std;
+
+struct ModePair
+{
+	ModePair(int m, int f) : mode(m), frequency(f) {}
+	int mode, frequency;
+};
+
+int main()
+{
+	int number(0);
+	vector<int> numbers;
+	vector<ModePair> modePair;
+	cout << "Please enter numbers. Press ctrl+z to stop: " << endl;
+	while (cin >> number)
+		numbers.push_back(number);
+
+	sort(numbers.begin(), numbers.end());
+	int count(0), highCount(1), mode(0);
+	for (int i = 0; i < numbers.size(); ++i)
+	{
+		if (i != numbers.size() - 1)
+		{
+			if (numbers[i] == numbers[i + 1])
+			{
+				if (count == 0)
+					count = 2;
+				else
+					++count;
+				//highCount = count;
+				mode = numbers[i];
+			}
+			else
+			{
+				highCount = count;
+				bool match = false;
+				for (int n = 0; n < modePair.size(); ++n)
+					if (modePair[n].mode == mode)
+						match = true;
+				if (!match && count >= highCount)
+					modePair.emplace_back(mode, count);
+				count = 0;
+			}
+		}
+		else
+		{
+			if (count != 0)
+			{
+				highCount = count;
+				bool match = false;
+				for (int n = 0; n < modePair.size(); ++n)
+					if (modePair[n].mode == mode)
+						match = true;
+				if (!match && count >= highCount)
+					modePair.emplace_back(mode, count);
+			}
+		}
+	}
+
+	//check through pairs to see if there were multiple modes or just 1
+	for (int i = 0; i < modePair.size(); ++i)
+	{
+		if (modePair[i].frequency == highCount)
+		{
+			cout << "Mode found: " << modePair[i].mode << " which appeared " << highCount << " times." << endl;
+		}
+	}
+
+	_getch();
+	return 0;
+}
