@@ -77,7 +77,6 @@ int main()
 					count = 2;
 				else
 					++count;
-				//highCount = count;
 				mode = numbers[i];
 			}
 			else
