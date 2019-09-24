@@ -60,3 +60,112 @@ int main()
 	keep_window_open();
 	return 0;
 }
+
+//--------------------------------------------//
+// C4 - Exercise 17
+// when there is more than 1 min/max/mode
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+bool compareWordSize(string a, string b)
+{
+	return (a.size() < b.size());
+}
+
+
+struct ModePair
+{
+	ModePair(string m, int f) : mode(m), frequency(f) {}
+	string mode;
+	int frequency;
+};
+
+int main()
+{
+	vector<string> words, minWords, maxWords;
+	string word;
+	int minSize(0), maxSize(0);
+
+	cout << "Please enter words. Press ctrl+z to stop: " << endl;
+	while (cin >> word)
+		words.push_back(word);
+
+	//---------------find min/max words, can be more than 1
+	sort(words.begin(), words.end(), compareWordSize);
+
+	minSize = words[0].size();
+	maxSize = words[words.size() - 1].size();
+
+	for (int i = 0; i < words.size(); ++i)
+	{
+		if (words[i].size() == minSize)
+			minWords.push_back(words[i]);
+		if (words[i].size() == maxSize)
+			maxWords.push_back(words[i]);
+	}
+
+	//------------------------get mode, can be more than 1
+	sort(words.begin(), words.end());
+	vector<ModePair> modePair;
+	string mode;
+	int count(0), highCount(1);
+	for (int i = 0; i < words.size(); ++i)
+	{
+		if (i != words.size() - 1)
+		{
+			if(words[i] == words[i + 1])
+			{
+				if (count == 0)
+					count = 2;
+				else
+					++count;
+				mode = words[i];
+			}
+			else
+			{
+				highCount = count;
+				bool match = false;
+				for (int n = 0; n < modePair.size(); ++n)
+					if (modePair[n].mode == mode)
+						match = true;
+				if (!match && count >= highCount)
+					modePair.emplace_back(mode, count);
+				count = 0;
+			}
+		}
+		else
+		{
+			if (count != 0)
+			{
+				highCount = count;
+			}
+
+			bool match = false;
+			for (int n = 0; n < modePair.size(); ++n)
+				if (modePair[n].mode == mode)
+					match = true;
+			if (!match && count >= highCount)
+				modePair.emplace_back(mode, count);
+		}
+	}
+
+	//check through pairs to see if there were multiple modes or just 1
+	for (int i = 0; i < modePair.size(); ++i)
+	{
+		if (modePair[i].frequency == highCount)
+			cout << "Mode found: '" << modePair[i].mode << "', which appeared " << highCount << " time(s)." << endl;
+	}
+
+	cout << "The minimum word size is: " << minSize << " which appeared " << minWords.size() << " time(s)." << endl;
+	cout << "Smallest word(s): ";
+	for (string s : minWords)
+		cout << s << ". ";
+	cout << "\nThe maximum word size is: " << maxSize << " which appeared " << maxWords.size() << " times(s)." << endl;
+	cout << "Largest word(s): ";
+	for (string s : maxWords)
+		 cout << s << ". ";
+	
+	keep_window_open();
+	return 0;
+}
