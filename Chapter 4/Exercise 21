@@ -1,0 +1,48 @@
+//--------------------------------------------//
+// C4 - Exercise 20
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+{
+	vector<string> names;
+	vector<int> scores;
+	string name;
+	int score(1);
+
+	cout << "Please enter names and scores in the format 'Name Score'. Enter NoName 0 to stop." << endl;
+	while (name != "NoName" && score != 0)
+	{
+		cout << "Name: "; cin >> name;
+		cout << "\nAge: "; cin >> score;
+
+		bool match = false;
+		for (int i = 0; i < names.size(); ++i)
+		{
+			if (name == names[i])
+			{
+				match = true;
+				cout << "That name has already been entered. Try a different one." << endl;
+			}
+		}
+
+		if (!match)
+		{
+			names.push_back(name);
+			scores.push_back(score);
+		}
+	}
+
+	cout << "Please enter a score: "; cin >> score;
+	for (int i = 0; i < scores.size() - 1; ++i)
+	{
+		if (score == scores[i])
+			cout << "Name: " << names[i] << endl;
+		else
+			cout << "Score not found" << endl;
+	}
+		
+	keep_window_open();
+	return 0;
+}
