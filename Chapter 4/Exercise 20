@@ -39,6 +39,8 @@ int main()
 	{
 		if (name == names[i])
 			cout << "Score: " << scores[i] << endl;
+		else
+			cout << "Name not found" << endl;
 	}
 		
 	keep_window_open();
