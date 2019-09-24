@@ -1,0 +1,35 @@
+//--------------------------------------------//
+// C4 - Exercise 18
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+double solveQuadratic(double a, double b, double c, char operand)
+{
+	switch (operand)
+	{
+	case '+':
+		return (-(b)+sqrt(((b*b) - (4 * a*c)))) / (2 * a);
+		break;
+	case '-':
+		return(-(b)-sqrt(((b*b) - (4 * a*c)))) / (2 * a);
+		break;
+	default:
+		cout << "Don't know that one sorry.";
+		break;
+	}
+}
+
+int main()
+{
+	double x1(0), x2(0);
+
+	x1 = solveQuadratic(5, 6, 1, '+');
+	x2 = solveQuadratic(5, 6, 1, '-');
+
+	cout << "X1: " << x1 << endl;
+	cout << "X2: " << x2 << endl;
+	
+	keep_window_open();
+	return 0;
+}
