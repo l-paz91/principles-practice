@@ -1,0 +1,64 @@
+//--------------------------------------------//
+// C5 - Exercise 12
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+try {
+	const vector<int> answer{ 1,2,3,4 };
+	vector<int> guesses{ 0,0,0,0 };
+	vector<char> compare(4);
+
+	cout << "Bulls & Cows" << endl;
+	cout << "Rules: You need to correctly guess the 4 digit number." << endl;
+	cout << "Bull - Getting a number right in the right place." << endl;
+	cout << "Cow - Getting a number right in the wrong place." << endl;
+
+	int guess(0);
+	char gameWon = false;
+
+	while (!gameWon)
+	{
+		cout << "\nGuess (0-9, no repeats) >> ";
+		for (int i = 0; i < guesses.size(); ++i)
+			cin >> guesses[i];
+
+		//loop through guesses
+		for (int i = 0; i < guesses.size(); ++i)
+		{
+			//loop through answers
+			for (int n = 0; n < answer.size(); ++n)
+			{
+				if (i == n)
+				{
+					if (guesses[i] == answer[n])
+						cout << "1 Bull,";
+				}
+				else
+				{
+					if (guesses[i] == answer[n])
+						cout << "1 Cow,";
+				}
+			}
+		}
+
+		//they guessed all the digits
+		if(guesses == answer)
+		{
+			cout << "Congrats, you guessed correctly!" << endl;
+			gameWon = true;
+		}
+		else
+			cout << "Hmmm, not quite, try again.\n ";
+	
+	}
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
