@@ -1,0 +1,39 @@
+//--------------------------------------------//
+// C5 - Exercise 8
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+int main()
+try {
+
+	cout << "Please enter the number of values you want to sum >> ";
+	int numberToSum(0);
+	cin >> numberToSum;
+
+	cout << "Please enter some integers (press '|' to stop) >> ";
+	int value(0);
+	vector<int> values;
+	while (cin >> value)
+		values.push_back(value);
+
+	//to stop '|' character from being used in keep_window_open()
+	cin.clear(); cin.ignore();
+
+	if (numberToSum > values.size())
+		cerr << "Not enough integers to sum" << endl;
+
+	int sum(0);
+	for (int i = 0; i < numberToSum; ++i)
+		sum += values[i];
+
+	cout << "The sum of the first " << numberToSum << " number(s) is: " << sum << endl;
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
