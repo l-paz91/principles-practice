@@ -1,0 +1,55 @@
+//--------------------------------------------//
+// C5 - Exercise 14
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+vector<string> allowedDays{ "Monday", "monday", "Mon", "mon",
+"Tuesday", "tuesday", "tue", "Tue",
+"Wednesday", "wednesday", "wed", "Wed",
+"Thursday", "thursday", "thur", "Thur",
+"Friday", "friday", "fri", "Fri",
+"Saturday", "saturday", "sat", "Sat",
+"Sunday", "sunday", "sun", "Sun" };
+
+int main()
+try {
+	vector<string> dayOfTheWeek;
+	vector<int> value;
+
+	cout << "Please enter 7 day-of-the-week value pairs. Example: tuesday 19 wednesday 7" << endl;
+	string day;
+	int number(0), rejected(0);
+
+	while(dayOfTheWeek.size() != 7)
+	{
+		cin >> day;
+		cin >> number;
+		bool flag = false;
+		for (int n = 0; n < allowedDays.size(); ++n)
+			if (day == allowedDays[n])
+				flag = true;
+
+		if (!flag)
+		{
+			cout << "Illegal day of the week.";
+			++rejected;
+		}
+		else
+		{
+			dayOfTheWeek.push_back(day);
+			value.push_back(number);
+		}
+
+	}
+
+	cout << "\nNumber of rejected values: " << rejected << endl;
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
