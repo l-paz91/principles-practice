@@ -1,0 +1,52 @@
+//--------------------------------------------//
+// C5 - Exercise 6
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+double celToFar(double c)
+{
+	double f = ((c * (9.0f / 5.0f)) + 32);
+	return f;
+}
+
+double farToCel(double f)
+{
+	double c = ((f - 32)*(5.0f / 9.0f));
+	return c;
+}
+
+int main()
+try {
+	cout << "Choose an option:" << endl;
+	cout << "1. Celsius to Fahrenheit." << endl;
+	cout << "2. Fahrenheit to Celsius." << endl;
+
+	int selection(0);
+	cout << ">> "; cin >> selection;
+	double input(0);
+	switch(selection)
+	{
+	case 1:
+		cout << ">>"; cin >> input;
+		input = celToFar(input);
+		cout << input << endl;
+		break;
+	case 2:
+		cout << ">>"; cin >> input;
+		input = farToCel(input);
+		cout << input << endl;
+		break;
+	default:
+		error("Incorrect selection");
+		break;
+	}
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
