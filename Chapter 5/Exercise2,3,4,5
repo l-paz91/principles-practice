@@ -1,0 +1,172 @@
+//--------------------------------------------//
+// C5 - Exercise 2
+// Errors:
+// 1. return int. Should be return k
+// 2. no semi-colon in ctok after return
+// 3. main has no return value
+// 4. cin into undefined variable
+// 5. passing in string instead of double in ctok
+// 6. cout has a capital
+// 7. double returning an int which will truncate floating point
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+double ctok(double c)
+{
+	int k = c + 273.15;
+	return int
+}
+
+int main()
+{
+	double c = 0;
+	cin >> d;
+	double k = ctok("c");
+	Cout << k << '\n';
+}
+
+//--------------------------------------------//
+// C5 - Exercise 2
+// fixed
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+const double kelvin = 273.15;
+
+double ctok(double c)
+{
+	double k = c + kelvin;
+	return k;
+}
+
+int main()
+{
+	double c = 0;
+	cin >> c;
+	double k = ctok(c);
+	cout << k << '\n';
+
+	keep_window_open();
+	return 0;
+}
+
+//--------------------------------------------//
+// C5 - Exercise 3
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+const double kelvin = 273.15;
+
+double ctok(double c)
+{
+	double k = c + kelvin;
+	return k;
+}
+
+int main()
+try {
+	double c = 0;
+	cin >> c;
+	if (c < -273.15) error("Temperature cannot be lower than absolute zero (-273.15)");
+	double k = ctok(c);
+	cout << k << '\n';
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
+
+//--------------------------------------------//
+// C5 - Exercise 4
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+const double kelvin = 273.15;
+
+double ctok(double c)
+{
+	if (c < -273.15) error("Temperature cannot be lower than absolute zero (-273.15)");
+	double k = c + kelvin;
+	return k;
+}
+
+int main()
+try {
+	double c = 0;
+	cin >> c;
+
+	double k = ctok(c);
+	cout << k << '\n';
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
+
+//--------------------------------------------//
+// C5 - Exercise 5
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+const double kelvin = 273.15;
+
+double ctok(double c)
+{
+	if (c < -kelvin) error("Temperature cannot be lower than absolute zero (-273.15)");
+	double k = c + kelvin;
+	return k;
+}
+
+double ktoc(double k)
+{
+	if (k < -kelvin) error("Temperature cannot be lower than absolute zero (0)");
+	double c = k - kelvin;
+	return c;
+}
+
+int main()
+try {
+	cout << "Choose an option:" << endl;
+	cout << "1. Kelvin to Celsius." << endl;
+	cout << "2. Celsius to kelvin" << endl;
+
+	int selection(0);
+	cout << ">> "; cin >> selection;
+	double c(0), k(0);
+	cout << ">> "; cin >> c;
+
+	switch(selection)
+	{
+	case 1:
+		k = ktoc(c);
+		cout << k << '\n';
+		break;
+	case 2:
+		k = ctok(k);
+		cout << k << '\n';
+		break;
+	default:
+		error("Incorrect selection");
+		break;
+	}
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
