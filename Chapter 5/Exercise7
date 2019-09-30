@@ -1,0 +1,44 @@
+//--------------------------------------------//
+// C5 - Exercise 7
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+double solveQuadratic(double a, double b, double c, char operand)
+{
+	double bSquaredMinus4ac = (b*b) - (4 * a*c);
+	if (bSquaredMinus4ac < 0)
+		cerr << "Imaginary number. Equation failed.";
+
+	switch(operand)
+	{
+	case '+':
+		return (-(b)+sqrt(bSquaredMinus4ac)) / (2 * a);
+		break;
+	case '-':
+		return (-(b)-sqrt(bSquaredMinus4ac)) / (2 * a);
+		break;
+	default:
+		cerr << "Incorrect values passed to solveQuadratic.";
+		break;
+	}
+}
+
+int main()
+try {
+	double x1(0), x2(0);
+
+	x1 = solveQuadratic(5, 6, 1, '+');
+	x2 = solveQuadratic(5, 6, 1, '-');
+
+	cout << "X1: " << x1 << endl;
+	cout << "X2: " << x2 << endl;
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
