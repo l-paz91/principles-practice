@@ -1,0 +1,38 @@
+//--------------------------------------------//
+// C5 - Exercise 11
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+void printFibonacci_toN(int stop)
+{
+	vector<int> fibonacci{ 0, 1, 1 };
+	int nextFib(0);
+	for (int i = 3; i < stop; ++i)
+	{
+		nextFib = fibonacci[i - 1] + fibonacci[i - 2];
+		fibonacci.push_back(nextFib);
+	}
+
+	for (int i = 0; i < fibonacci.size(); ++i)
+		cout << fibonacci[i] << ", ";
+
+	cout << endl;
+
+}
+
+int main()
+try {
+
+	cout << "How many Fibonacci numbers do you want to print? >> ";
+	int value(0); cin >> value;
+	printFibonacci_toN(value);
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
