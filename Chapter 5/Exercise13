@@ -1,0 +1,102 @@
+//--------------------------------------------//
+// C5 - Exercise 13
+// the first time I did this I never managed to correctly populate the answers with non-repeating numbers by using randint().
+// https://lptcp.blogspot.com/2016/08/chapter-5-exercise-12-13-principles.html
+// this was because I kept changing the value based on the previous value, however this time I decided to add values from a vector,
+// then delete them once they had been added
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+vector<int> answer{ 1,2,3,4 };
+vector<int> guesses{ 0,0,0,0 };
+vector<char> compare(4);
+
+void resetGame()
+{
+	vector<int> choices{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+	cout << "Enter a number, any number >> ";
+	int seed(0);
+	cin >> seed;
+
+	seed_randint(seed);
+
+	//populate with random numbers
+	for (int i = 0; i < answer.size(); ++i)
+	{
+		int n = randint(choices.size() - 1);
+		answer[i] = choices[n];
+		//delete from choices so it can't be chosen again to prevent repeats
+		choices.erase(choices.begin()+n);
+	}
+	for (int i = 0; i < answer.size(); ++i)
+		cout << answer[i] << ", ";
+
+	cout << endl;
+}
+
+int main()
+try {
+	
+	resetGame();
+
+	cout << "Bulls & Cows" << endl;
+	cout << "Rules: You need to correctly guess the 4 digit number." << endl;
+	cout << "Bull - Getting a number right in the right place." << endl;
+	cout << "Cow - Getting a number right in the wrong place." << endl;
+
+	int guess(0);
+	char gameWon = false;
+
+	while (!gameWon)
+	{
+		cout << "\nGuess (0-9, no repeats) >> ";
+		for (int i = 0; i < guesses.size(); ++i)
+			cin >> guesses[i];
+
+		//loop through guesses
+		for (int i = 0; i < guesses.size(); ++i)
+		{
+			//loop through answers
+			for (int n = 0; n < answer.size(); ++n)
+			{
+				if (i == n)
+				{
+					if (guesses[i] == answer[n])
+						cout << "1 Bull,";
+				}
+				else
+				{
+					if (guesses[i] == answer[n])
+						cout << "1 Cow,";
+				}
+			}
+		}
+
+		//they guessed all the digits
+		if(guesses == answer)
+		{
+			cout << "\nCongrats, you guessed correctly!" << endl;
+			gameWon = true;
+			cout << "Would you like to play again? y/n >> ";
+			char yn; cin >> yn;
+			if (yn == 'y')
+			{
+				resetGame();
+				gameWon = false;
+			}
+		}
+		else
+			cout << "\nHmmm, not quite, try again.\n ";
+	
+	}
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
