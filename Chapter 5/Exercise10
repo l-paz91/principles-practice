@@ -1,0 +1,53 @@
+//--------------------------------------------//
+// C5 - Exercise 10
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+double sumVector(vector<double>& v)
+{
+	double sum(0);
+
+	for (int i = 0; i < v.size(); ++i)
+		sum += v[i];
+
+	return sum;
+}
+
+int main()
+try {
+
+	cout << "Please enter the number of values you want to sum >> ";
+	int numberToSum(0);
+	cin >> numberToSum;
+
+	cout << "Please enter some integers (press '|' to stop) >> ";
+	double value(0);
+	vector<double> values, differences;
+	while (cin >> value)
+		values.push_back(value);
+
+	for (int i = 1; i < values.size(); ++i)
+		differences.push_back(values[i] - values[i - 1]);
+
+	//to stop '|' character from being used in keep_window_open
+	cin.clear(); cin.ignore();
+
+	if (numberToSum > values.size())
+		cerr << "Not enough integers to sum" << endl;
+
+	double sum(0), diffSum(0);
+	sum = sumVector(values);
+	diffSum = sumVector(differences);
+
+	cout << "The sum of the first " << numberToSum << " number(s) is: " << sum << endl;
+	cout << "The sum of the differences is: " << diffSum << endl;
+
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "Runtime Error: " << e.what() << endl;
+	keep_window_open();
+	return 1;
+}
