@@ -10,7 +10,6 @@
 
 vector<int> answer{ 1,2,3,4 };
 vector<int> guesses{ 0,0,0,0 };
-vector<char> compare(4);
 
 void resetGame()
 {
