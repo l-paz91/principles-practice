@@ -1,0 +1,123 @@
+//--------------------------------------------//
+// C6 - Exercise 5,6
+// I couldn't do this excercise when I first read this book. It went way over my head.
+// I don't have a lot of time to spend on exercises as I did back then so this hacky attempt will have to do for the moment
+// This doesn't scale well mainly due to strings not being able to switch.
+//--------------------------------------------//
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+/*
+FullStop:
+	" . "
+	Noun Verb FullStop
+	The Noun Verb FullStop
+	Sentence Conjunction Sentence FullStop
+Sentence:
+	Noun Verb
+	The Noun Verb
+	Sentence Conjunction Sentence
+Conjunction:
+	"and"
+	"or"
+	"but"
+The:
+	"The" 
+Noun:
+	"birds"
+	"fish"
+	"C++"
+Verb:
+	"rules"
+	"fly"
+	"swim"
+*/
+
+// -----------------------------------------------------------------------------
+enum wordTypes
+{
+	WSPACE,
+	PERIOD,
+	THE,
+	NOUN,
+	VERB,
+	CONJ
+};
+
+//six types of sentences allowed in this exercise
+//very hacky way of doing this, I'm not that happy with it - it doesn't scale well
+vector<wordTypes> wt_sentence{ NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE};
+vector<wordTypes> wt_sentence2{ THE, WSPACE, NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE };
+vector<wordTypes> wt_sentence3{ NOUN, WSPACE, VERB, WSPACE, CONJ, WSPACE, NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE };
+vector<wordTypes> wt_sentence4{ THE, WSPACE, NOUN, WSPACE, VERB, WSPACE, CONJ, WSPACE, NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE };
+vector<wordTypes> wt_sentence5{ THE, WSPACE, NOUN, WSPACE, VERB, WSPACE, CONJ, WSPACE, THE, WSPACE, NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE };
+vector<wordTypes> wt_sentence6{ NOUN, WSPACE, VERB, WSPACE, CONJ, WSPACE, THE, WSPACE, NOUN, WSPACE, VERB, WSPACE, PERIOD, WSPACE };
+
+bool sentenceChecker(vector<string>& s)
+{
+	vector<wordTypes> mySentence;
+	//parse vector and create a vector of wordtypes from it
+	for (int i = 0; i < s.size(); ++i)
+	{
+		if (s[i] == "The" || s[i] == "the")
+			mySentence.push_back(THE);
+		else if (s[i] == "birds" || s[i] == "fish" || s[i] == "C++")
+			mySentence.push_back(NOUN);
+		else if (s[i] == " ")
+			mySentence.push_back(WSPACE);
+		else if (s[i] == "rules" || s[i] == "fly" || s[i] == "swim")
+			mySentence.push_back(VERB);
+		else if (s[i] == "and" || s[i] == "or" || s[i] == "but")
+			mySentence.push_back(CONJ);
+		else if (s[i] == ".")
+			mySentence.push_back(PERIOD);
+	}
+
+	if (mySentence == wt_sentence ||
+		mySentence == wt_sentence2 ||
+		mySentence == wt_sentence3 ||
+		mySentence == wt_sentence4 ||
+		mySentence == wt_sentence5 ||
+		mySentence == wt_sentence6)
+		return true;
+	else
+		return false;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	string words, tempWord;
+	vector<string> sentence;
+	cout << "Please enter a sentence according to grammar rules:" << endl;
+	
+	//read the entire line, whitespace included
+	getline(cin, words);
+	//parse line into a vector
+	for (int i = 0; i < words.size(); ++i)
+	{
+		if (words[i] != ' ')
+		{
+			tempWord += words[i];
+		}
+		else
+		{
+			sentence.push_back(tempWord);
+			sentence.push_back(" ");
+			tempWord = "";
+		}
+	}
+
+	if (sentenceChecker(sentence))
+		cout << "OK." << endl;
+	else
+		cout << "Not OK." << endl;
+	
+	keep_window_open();
+	return 0;
+}
+
+//------------------------------------------------------------------------------
