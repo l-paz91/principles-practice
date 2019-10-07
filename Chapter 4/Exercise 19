@@ -15,7 +15,7 @@ int main()
 	while (name != "NoName" && score != 0)
 	{
 		cout << "Name: "; cin >> name;
-		cout << "\nAge: "; cin >> score;
+		cout << "\nScore: "; cin >> score;
 
 		bool match = false;
 		for (int i = 0; i < names.size(); ++i)
