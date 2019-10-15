@@ -14,6 +14,7 @@
 	5. Modulo is included as a case but there is no code to handle it
 	6. Token is missing a 3rd constructor that allows a char and a string (only this will prevent compilation)
 	7. let doesn't work, needs += in while loop in default case
+	8. If ; is pressed consecutively, it doesn't recover. 1st prompt moved outside of while loop in calculate, second prompt put inside while print
 */
 
 // -----------------------------------------------------------------------------
@@ -60,9 +61,9 @@ const char name = 'a';
 const char squareR = 's';
 const char powCh = 'p';
 
-const string quitKey = "Q";
+const string quitKey = "exit";
 const string sqrtKey = "sqrt";
-const string letKey = "let";
+const string letKey = "#";
 const string powKey = "pow";
 
 // -----------------------------------------------------------------------------
@@ -375,14 +376,18 @@ const string result = "= ";
 
 void calculate()
 {
+	cout << prompt;
+
 	while (true) 
 	try 
 	{
-		cout << prompt;
 		Token t = ts.get();
 
-		while (t.kind == print) 
+		while (t.kind == print)
+		{
+			cout << prompt;
 			t = ts.get();
+		}
 
 		if (t.kind == quit)
 			return;
@@ -409,7 +414,8 @@ try
 	cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers." << endl;
 	cout << "Operators available: {}, (), +, -, /, *" << endl;
 	cout << "Pre-defined names: k = 1000 || sqrt() || pow(,)" << endl;
-	cout << "use ';' to print and 'Q' to quit" << endl;
+	cout << "Define your own names using " << letKey << " name = number;" << endl;
+	cout << "use ';' to print and 'Q' or 'exit' to quit" << endl;
 	cout << "//------------------------------------------------------------------------------//" << endl;
 
 	calculate();
