@@ -53,7 +53,7 @@ private:
 
 // -----------------------------------------------------------------------------
 
-const char let = 'L';
+const char let = '#';
 const char quit = 'Q';
 const char print = ';';
 const char number = '8';
@@ -63,7 +63,7 @@ const char powCh = 'p';
 
 const string quitKey = "exit";
 const string sqrtKey = "sqrt";
-const string letKey = "#";
+const string letKey = "let";
 const string powKey = "pow";
 
 // -----------------------------------------------------------------------------
@@ -77,8 +77,9 @@ Token Token_stream::get()
 	{
 	case '(': case ')':
 	case '+': case '-':
-	case '*': case '/':
-	case print: case '=': case ',':
+	case '*': case '/': 
+	case '=': case ',':
+	case let: case print: case quit:
 		return Token(ch);
 	case '.': 
 	case '0': case '1': case '2': case '3': case '4':
