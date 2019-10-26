@@ -1,0 +1,100 @@
+//-------------------------------//
+// Chapter 8 - Drill 2
+//-------------------------------//
+
+#include "std_lib_facilities.h"
+
+//-------------------------------------------------------------
+
+void swap_v(int a, int b)
+{
+	int temp;
+	temp = a, a = b;			// this confused me at first even though I use syntax like int a, b, c; all the time. See below
+	b = temp;
+
+	cout << "swap_v     x: " << a << "   y: " << b << endl;
+
+	/*
+		So basically, in C and C++, the comma is a binary operator that that evaluates the first sequence,
+		discards the results and then evaluates the next sequence. It is exactly the same as writing
+		temp = a;
+		a = b;
+		b = temp;
+
+		There is no mention of this anywhere in the chapter, and I don't believe it was mentioned previously??
+		still pretty neat to learn. I now understand why declaring varibles like int a, b, c works.
+		More info here: https://stackoverflow.com/questions/4352857/what-is-a-comma-separated-set-of-assignments
+	*/
+}
+
+//-------------------------------------------------------------
+
+void swap_r(int& a, int& b)
+{
+	int temp;
+	temp = a, a = b;			
+	b = temp;
+
+	cout << "swap_r     x: " << a << "   y: " << b << endl;
+}
+
+//-------------------------------------------------------------
+
+//this function will not compile because const
+//also, you cannot return more than 1 value and the values passed in
+//will always be const and therefore cannot be changed
+//void swap_cr(const int& a, const int& b)
+//{
+//	int temp;
+//	temp = a, a = b;
+//	b = temp;
+//
+//}
+
+//-------------------------------------------------------------
+int main()
+{
+	cout << "Originals. X = 7   Y = 9" << endl;
+	int x = 7;
+	int y = 9;
+
+	swap_v(x, y);		//does not swap because only local variables are swapped
+	cout << "           x: " << x << "   y: " << y << endl;
+	swap_r(x, y);		//swaps
+	cout << "           x: " << x << "   y: " << y << endl;
+	//swap_cr(x, y);	//does not compile
+	swap_v(7, 9);		//swaps but does not return anything
+	//swap_r(7, 9);		//does not compile because there is no address to pass in
+	//swap_cr(7, 9);	//does not compile
+
+	cout << "Originals. CX = 7   CY = 9" << endl;
+	const int cx = 7;
+	const int cy = 9;
+
+	swap_v(cx, cy);		//does not swap because only local variables are swapped
+	cout << "           x: " << cx << "   y: " << cy << endl;
+	//swap_r(cx, cy);	//cannot swap addresses of const values, I think you can with a non-const pointer though...
+	//swap_cr(cx, cy);	//does not compile
+	swap_v(7, 9);		//swaps but does not return anything
+	//swap_r(7, 9);		//does not compile because there is no address to pass in
+	//swap_cr(7, 9);	//does not compile
+
+	cout << "Originals. DX = 7.7   DY = 9.9" << endl;
+	double dx = 7.7;
+	double dy = 9.9;
+
+	swap_v(dx, dy);		//does not swap because only local variables are swapped - also narrow casts
+	cout << "           x: " << dx << "   y: " << dy << endl;
+	//swap_r(dx, dy);	//does not compile because the address is not an int value
+	//swap_cr(dx, dy);	//does not compile
+	swap_v(7.7, 9.9);	//swaps but does not return anything
+	//swap_r(7.7, 9.9); //does not compile because there is no address to pass in
+	//swap_cr(7.7, 9.9);//does not compile - also narrow casts
+
+	keep_window_open();
+
+	return 0;
+}
+
+//-------------------------------------------------------------
+//-------------------------------------------------------------
