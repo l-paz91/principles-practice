@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+//
+//	C8 - Exercise 8
+//
+// -----------------------------------------------------------------------------
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void printStringV(const vector<string>& v, const string& label)
+{
+	cout << label << endl;
+	//for every int in vector, print that int
+	for (string i : v)
+		cout << i << " ";
+}
+
+// -----------------------------------------------------------------------------
+
+void printNameAgePair(const vector<double>& vD, const vector<string>& vS, const string& label)
+{ 
+	cout << label << endl;
+	for (int i = 0; i < vD.size(); ++i)
+		cout << "Name: " << vS[i] << " Age: " << vD[i] << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+void sortNames(vector<double>& vD, vector<string>& vS)
+{
+	//create copies to refer to
+	vector<double> tempAges = vD;
+	vector<string> tempNames = vS;
+
+	sort(vS.begin(), vS.end());
+	//start with first sorted name, then check against unsorted to get correct index
+	for (int i = 0; i < vD.size(); ++i)
+	{
+		for (int n = 0; n < vD.size(); ++n)
+		{
+			if (vS[i] == tempNames[n])
+				vD[i] = tempAges[n];
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+
+{
+	vector<string> names;
+	string tempName;
+
+	cout << "Please enter names (ctrl+z+enter to stop) >> ";
+	while(cin >> tempName)
+		names.push_back(tempName);
+
+	cin.clear(); cin.ignore();
+
+	vector<double> ages(names.size());
+	for (int i = 0; i < names.size(); ++i)
+	{
+		cout << "How old is " << names[i] << "? >>";
+		cin >> ages[i];
+	}
+
+	printNameAgePair(ages, names, "Name/Age Pairs - Unsorted");
+
+	//sort names
+	sortNames(ages, names);
+	printNameAgePair(ages, names, "Name/Age Pairs - Sorted");
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
