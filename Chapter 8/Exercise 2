@@ -8,7 +8,7 @@
 
 // -----------------------------------------------------------------------------
 
-void print(const vector<int>& v, string label)
+void print(const vector<int>& v, const string& label)
 {
 	cout << label << endl;
 	//for every int in vector, print that int
