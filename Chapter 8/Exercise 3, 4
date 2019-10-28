@@ -2,6 +2,9 @@
 //
 //	C8 - Exercise 3
 //
+//	Exercise 4 - When told to find 100 numbers the number before everything
+//	goes weird is 1836311903.
+//
 // -----------------------------------------------------------------------------
 
 #include "std_lib_facilities.h"
