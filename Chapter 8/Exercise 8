@@ -8,16 +8,6 @@
 
 // -----------------------------------------------------------------------------
 
-void printStringV(const vector<string>& v, const string& label)
-{
-	cout << label << endl;
-	//for every int in vector, print that int
-	for (string i : v)
-		cout << i << " ";
-}
-
-// -----------------------------------------------------------------------------
-
 void printNameAgePair(const vector<double>& vD, const vector<string>& vS, const string& label)
 { 
 	cout << label << endl;
