@@ -1,0 +1,46 @@
+// -----------------------------------------------------------------------------
+//
+//	C8 - Exercise 10
+//	This exercise is slightly ambiguous. I think he means the largest item found
+//	in a vector? or does he mean the largest element? or the largest element 
+//	passed in via argument parameters in a function? I have no idea.
+//  also, what if the element is a string? or a char? I'd need to check for string
+//  sizes etc.
+// -----------------------------------------------------------------------------
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+double maxv(const vector<double>& v)
+{
+	if (v.size() == 1)
+		return v[0];
+
+	double curMax = v[0];
+	for (int i = 0; i < v.size(); ++i)
+	{
+		if (v[i] > curMax)
+			curMax = v[i];
+	}
+
+	return curMax;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+
+{
+	vector<double> numbers{1, 200, 1001, 4, 50, 506};
+	double maxElement = maxv(numbers);
+
+	cout << "Max: " << maxElement << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
