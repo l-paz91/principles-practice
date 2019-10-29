@@ -1,0 +1,55 @@
+// -----------------------------------------------------------------------------
+//
+//	C8 - Exercise 12
+//
+// -----------------------------------------------------------------------------
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void print_until_s(const vector<string>& v, string quit)
+{
+	for (string s : v)
+	{
+		if (s == quit)
+			return;
+		cout << s << endl;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void print_until_ss(const vector<string>& v, string quit, int stop)
+{
+	int quitFound(0);
+
+	for (string s : v)
+	{
+		if (s == quit)
+			++quitFound;
+		if (quitFound == stop)
+			return;
+		cout << s << endl;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+
+{
+	vector<string> words{ "this", "is", "the", "ultimate", "showdown", "of", "ultimate", "destiny",
+	"good", "guys", "bad", "guys", "and", "explosions", "as", "far", "as", "the", "eye", "can", "see" };
+
+	print_until_s(words, "ultimate");
+	cout << endl;
+	print_until_ss(words, "ultimate", 2);
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
