@@ -52,12 +52,14 @@ void Name_Pairs::read_names()
 
 void Name_Pairs::read_ages()
 {
-	double temp;
-	cout << "Their age: ";
-	cin >> temp;
-
 	if (cin)
+	{
+		double temp;
+		cout << "Their age: ";
+		cin >> temp;
+
 		ages.push_back(temp);
+	}
 }
 
 // -----------------------------------------------------------------------------
