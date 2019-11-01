@@ -1,0 +1,152 @@
+// -----------------------------------------------------------------------------
+//
+// C9 - Exercise 3
+// 
+// -----------------------------------------------------------------------------
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+class Name_Pairs
+{
+public:
+	Name_Pairs() {}			//default constructor
+	~Name_Pairs() {}		//destructor
+
+	vector<string> getNames() const { return names; }
+	vector<double> getAges() const { return ages; }
+
+	void read_names();		//reads a series of names
+	void read_ages();		//reads ages for each name
+	void sortByName();		//sorts by name and adjusts ages to match
+
+private:
+	vector<string> names;
+	vector<double> ages;
+};
+
+//helper functions//
+ostream& operator<<(ostream& os, const Name_Pairs& np)
+{
+	for (int i = 0; i < np.getNames().size(); ++i)
+		os << "Name: " << np.getNames()[i] << "	Age: " << np.getAges()[i] << endl;
+
+	return os << endl;
+}
+
+bool operator==(const Name_Pairs& a, const Name_Pairs& b)
+{
+	return a.getNames() == b.getNames() 
+		&& a.getAges() == b.getAges();
+}
+
+bool operator!=(const Name_Pairs& a, const Name_Pairs& b)
+{
+	return a.getNames() != b.getNames()
+		&& a.getAges() != b.getAges();
+}
+
+// -----------------------------------------------------------------------------
+
+void Name_Pairs::read_names()
+{
+	string temp;
+	cout << "Please enter a name: ";
+	cin >> temp;
+	bool match(false);
+
+	for (int i = 0; i < names.size(); ++i)
+	{
+		if (temp == names[i])
+		{
+			match = true;
+			cout << "That name has already been entered. Try again." << endl;
+			read_names();
+		}
+	}
+	
+	//only push back if cin is ok and there were no matches
+	if(cin && !match)
+		names.push_back(temp);
+}
+
+// -----------------------------------------------------------------------------
+
+void Name_Pairs::read_ages()
+{
+	if (cin)
+	{
+		double temp;
+		cout << "Their age: ";
+		cin >> temp;
+
+		ages.push_back(temp);
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void Name_Pairs::sortByName()
+{
+	vector<string> tempS = names;
+	vector<double> tempD = ages;
+
+	sort(tempS.begin(), tempS.end());
+	for (int i = 0; i < names.size(); ++i)
+	{
+		for (int n = 0; n < ages.size(); ++n)
+		{
+			if (tempS[i] == names[n])
+				tempD[i] = ages[n];
+		}
+	}
+
+	names = tempS;
+	ages = tempD;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Name_Pairs np;
+	Name_Pairs np2;
+
+	cout << "Please enter names and ages. Enter ctrl+z+enter to stop." << endl;
+
+	//cin will not be ok if ctrl+z is entered
+	while (cin)
+	{
+		np.read_names();
+		np.read_ages();
+	}
+
+	cin.clear(); cin.ignore();
+	cout << "Please enter names and ages. Enter ctrl+z+enter to stop." << endl;
+	//cin will not be ok if ctrl+z is entered
+	while (cin)
+	{
+		np2.read_names();
+		np2.read_ages();
+	}
+
+	cout << endl;
+
+	cout << np;
+	np.sortByName();
+	cout << np;
+
+	cout << np2;
+	np2.sortByName();
+	cout << np2;
+
+	cout << "Is Np == to np2? " << bool(np == np2) << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
