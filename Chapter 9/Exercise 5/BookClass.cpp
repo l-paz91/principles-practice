@@ -119,7 +119,11 @@ bool Books::checkIn(string isbn)
 
 	//is the book checked out?
 	if (!checkedOut(isbn))
+	{
+		cout << "Error: This book has not been checked out." << endl;
 		return false;
+	}
+
 
 	//allow book to be checked back in
 	for (uint32_t i = 0; i < m_books.size(); ++i)
@@ -147,21 +151,11 @@ bool Books::checkIn(string isbn)
 bool Books::checkedOut(string isbn)
 {
 	for (uint32_t i = 0; i < m_books.size(); ++i)
-	{
 		if (m_books[i].m_isbn == isbn)
-		{
 			if (m_books[i].m_checkedOut)
-			{
-				cout << "Error: " << m_books[i].m_title << " has been checked out." << endl;
-				return m_books[i].m_checkedOut;
-			}
-			else
-				return m_books[i].m_checkedOut;
-		}
-	}
+				return true;
 
-	cout << "Error: This book is not registered." << endl;
-	return true;
+	return false;
 }
 
 // -----------------------------------------------------------------------------
