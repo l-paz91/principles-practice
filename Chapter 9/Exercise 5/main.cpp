@@ -23,6 +23,9 @@ int main()
 	cout << "\n# Books Registered: " << booksPtr.getBooks().size() << endl;
 	cout << "# Books Checked Out: " << booksPtr.getCBooks().size() << endl;
 
+	booksPtr.checkIn("32-32-32-H");
+	cout << "# Books Checked Out: " << booksPtr.getCBooks().size() << endl;
+
 	char ch;
 	cin >> ch;
 	return 0;
