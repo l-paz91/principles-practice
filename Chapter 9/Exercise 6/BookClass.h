@@ -30,9 +30,9 @@ public:
 	uint32_t getCrDate() const { return m_crDate; }
 	bool isCheckedOut() const { return m_checkedOut; }
 
-	void setISBN(string& isbn);
-	void setTitle(string& title) { m_title = title; }
-	void setAuthor(string& author) { m_author = author; }
+	void setISBN(string isbn);
+	void setTitle(string title) { m_title = title; }
+	void setAuthor(string author) { m_author = author; }
 	void setCrDate(uint32_t crDate);
 	void setCheckedOut(bool checkedOut) { m_checkedOut = checkedOut; }
 
