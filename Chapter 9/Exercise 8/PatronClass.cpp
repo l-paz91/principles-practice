@@ -17,7 +17,8 @@ std::ostream& operator<<(ostream& os, const Patron& p)
 	return os << "\n-----------------------------------------------------------------------------"
 			  << "\nName: " << p.getName() << "\n"
 			  << "Card Number: " << p.getCardNum() << "\n"
-			  << "Owes Fees: " << boolalpha << p.owesFees()
+			  << "Owes Fees: " << boolalpha << p.owesFees() << "\n"
+			  << "Fees: £" << p.getFees()
 			  << "\n-----------------------------------------------------------------------------" << endl;
 }
 
