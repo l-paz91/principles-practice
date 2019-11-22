@@ -21,55 +21,45 @@ enum class Genre
 
 // -----------------------------------------------------------------------------
 
-struct Book
-{
-	Book() {}
-	Book(string isbn, string title, string author, int crDate, bool checkout, Genre genre)
-		: m_isbn(isbn), m_title(title), m_author(author), m_crDate(crDate), m_checkedOut(checkout), m_genre(genre) {}
-
-	string m_isbn, m_title, m_author;
-	int m_crDate;
-	bool m_checkedOut;
-	Genre m_genre;
-};
-
-// -----------------------------------------------------------------------------
-
-class Books
+class Book
 {
 public:
-	static Books& getInstance();
-	~Books() {}								//destructor
+	Book() {}
+	~Book() {}
 
-	vector<Book> getBooks() const { return m_books; }
-	vector<Book> getCBooks() const { return m_booksCheckedOut; }
-	Book getBook(string isbn) const;		//return a book
+	//no custom constructors because you cannot return out of a constructor, only throw errors and catch them
+	bool createBook(string isbn, string title, string author, int crDate, Genre genre, bool checkedO);
+	
+	//I hate this - you might as well not have private members
+	string getISBN() const { return m_isbn; }
+	string getTitle() const { return m_title; }
+	string getAuthor() const { return m_author; }
+	uint32_t getCrDate() const { return m_crDate; }
+	Genre getGenre() const { return m_genre; }
+	bool isCheckedOut() const { return m_checkedOut; }
 
-	bool add(string title, string author, string isbn, int crDate, Genre genre);
-	bool remove(string isbn);
-	bool checkOut(string isbn);
-	bool checkIn(string isbn);
+	void setISBN(string& isbn);
+	void setTitle(string& title) { m_title = title; }
+	void setAuthor(string& author) { m_author = author; }
+	void setCrDate(uint32_t crDate);
+	void setGenre(Genre genre) { m_genre = genre; }
+	void setCheckedOut(bool checkedOut) { m_checkedOut = checkedOut; }
 
 private:
-	Books() {}								//private constructor to prevent more than one class being created
-	Books(const Books&) {}					//private copy constructor to prevent copying by construction
-	Books& operator=(const Books&) {}		//private copy constructor to prevent copying by assignment
-
-	bool checkedOut(string isbn);
-	bool isRegistered(string isbn);
 	bool correctISBN(string isbn);
-	bool validYear(int year);
+	bool correctYear(uint32_t crDate);
 
-	vector<Book> m_books;
-	vector<Book> m_booksCheckedOut;
+	string m_isbn, m_title, m_author;
+	uint32_t m_crDate;
+	Genre m_genre;
+	bool m_checkedOut;
 };
 
 // -----------------------------------------------------------------------------
 
-bool operator==(const Book& book, string isbn);
-bool operator!=(const Book& book, string isbn);
-ostream& operator<<(ostream& os, const Book& book);
+bool operator==(const Book& b1, const Book& b2);
+bool operator!=(const Book& b1, const Book& b2);
+ostream& operator<<(ostream& os, const Book& b);
 ostream& operator<<(ostream& os, const Genre& genre);	//overkill for a uint_8 but w/e
 
 #endif // !_BOOKCLASS_H_
-
