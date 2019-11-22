@@ -10,186 +10,59 @@
 
 // -----------------------------------------------------------------------------
 
-Books& Books::getInstance()
-{
-	static Books Instance;
-	return Instance;
-}
-
-// -----------------------------------------------------------------------------
-
-Book Books::getBook(string isbn) const
-{
-	for (int i = 0; i < m_books.size(); ++i)
-	{
-		if (m_books[i] == isbn)
-			return m_books[i];
-	}
-}
-
-// -----------------------------------------------------------------------------
-
-//add a book to m_books
-bool Books::add(string title, string author, string isbn, int crDate)
+bool Book::createBook(string isbn, string title, string author, int crDate, bool checkedO)
 {
 	//check if ISBN is correct format
 	if (!correctISBN(isbn))
 		return false;
 
 	//check if copyright date is valid
-	if (!validYear(crDate))
+	if (!correctYear(crDate))
 		return false;
 
-	//check if book is already registered
-	if (isRegistered(isbn))
-		return false;
-
-	//allow book to be added
-	m_books.push_back(Book(isbn, title, author, crDate, false));
-
-	cout << "Book registered." << endl;
+	//allow book to be created
+	m_isbn = isbn;
+	m_title = title;
+	m_author = author;
+	m_crDate = crDate;
+	m_checkedOut = checkedO;
 
 	return true;
 }
 
 // -----------------------------------------------------------------------------
 
-//remove a book from m_books
-bool Books::remove(string isbn)
+void Book::setISBN(string& isbn)
 {
 	//check if ISBN is correct format
 	if (!correctISBN(isbn))
-		return false;
+		return;
 
-	//is the book registered?
-	if (!isRegistered(isbn))
-		return false;
-
-	//is the book checked out?
-	if (checkedOut(isbn))
-		return false;
-
-	//allow book to be deleted
-	for (uint32_t i = 0; i < m_books.size(); ++i)
-	{
-		if (m_books[i].m_isbn == isbn)
-		{
-			m_books.erase(m_books.begin() + i);
-			cout << "Book deleted from records." << endl;
-			return true;
-		}
-	}
-
-	cout << "Something weird happened in Books::remove" << endl;
-	return false;
+	m_isbn = isbn;
 }
 
 // -----------------------------------------------------------------------------
 
-bool Books::checkOut(string isbn)
+void Book::setCrDate(uint32_t crDate)
 {
-	//check if ISBN is correct format
-	if (!correctISBN(isbn))
-		return false;
+	//check if copyright date is valid
+	if (!correctYear(crDate))
+		return;
 
-	//is the book registered?
-	if (!isRegistered(isbn))
-		return false;
-
-	//is the book checked out?
-	if (checkedOut(isbn))
-		return false;
-
-	//allow book to be checked out
-	for (uint32_t i = 0; i < m_books.size(); ++i)
-	{
-		if (m_books[i].m_isbn == isbn)
-		{
-			m_books[i].m_checkedOut = true;
-			m_booksCheckedOut.push_back(m_books[i]);
-			cout << m_books[i].m_title << " successfully checked out." << endl;
-			return true;
-		}
-	}
-
-	cout << "Something weird happened in Books::checkout" << endl;
-	return false;
+	m_crDate = crDate;
 }
 
 // -----------------------------------------------------------------------------
 
-bool Books::checkIn(string isbn)
-{
-	//check if ISBN is correct format
-	if (!correctISBN(isbn))
-		return false;
-
-	//is the book registered?
-	if (!isRegistered(isbn))
-		return false;
-
-	//is the book checked out?
-	if (!checkedOut(isbn))
-	{
-		cout << "Error: This book has not been checked out." << endl;
-		return false;
-	}
-
-
-	//allow book to be checked back in
-	for (uint32_t i = 0; i < m_books.size(); ++i)
-	{
-		if (m_books[i].m_isbn == isbn)
-		{
-			m_books[i].m_checkedOut = false;
-			cout << m_books[i].m_title << " successfully returned." << endl;
-			//remove from checked out vector
-			for (uint32_t i = 0; i < m_booksCheckedOut.size(); ++i)
-			{
-				if (m_booksCheckedOut[i].m_isbn == m_books[i].m_isbn)
-					m_booksCheckedOut.erase(m_booksCheckedOut.begin() + i);
-			}
-			return true;
-		}
-	}
-
-	cout << "Something weird happened in Books::checkIn" << endl;
-	return false;
-}
-
-// -----------------------------------------------------------------------------
-
-bool Books::checkedOut(string isbn)
-{
-	for (uint32_t i = 0; i < m_books.size(); ++i)
-		if (m_books[i].m_isbn == isbn)
-			if (m_books[i].m_checkedOut)
-				return true;
-
-	return false;
-}
-
-// -----------------------------------------------------------------------------
-
-bool Books::isRegistered(string isbn)
-{
-	for (uint32_t i = 0; i < m_books.size(); ++i)
-		if (m_books[i].m_isbn == isbn)
-			return true;
-
-	cout << "That book is not registered." << endl;
-	return false;
-}
-
-// -----------------------------------------------------------------------------
-
-bool Books::correctISBN(string isbn)
+bool Book::correctISBN(string isbn)
 {
 	//isbn is the format numbers-numbers-numbers-digitorletter
 	//letters can be any number of numbers from x-x-x-9 to xx-xxxx-x-H
 	//we can parse this string by checking for '-'
 
 	string temp;
+	size_t check;
+
 	for (uint32_t i = 0; i < isbn.size(); ++i)
 	{
 		//look for '-'
@@ -197,7 +70,6 @@ bool Books::correctISBN(string isbn)
 			temp += isbn[i];
 		else
 		{
-			size_t check;
 			check = temp.find_first_not_of("0123456789");
 			if (check != string::npos)
 			{
@@ -211,7 +83,6 @@ bool Books::correctISBN(string isbn)
 		//if last digit
 		if (i == isbn.size() - 1)
 		{
-			size_t check;
 			check = temp.find_first_not_of("0123456789ABCDEFGHIJKLMNOPQRSTUVWXY");
 			if (check != string::npos)
 			{
@@ -227,7 +98,7 @@ bool Books::correctISBN(string isbn)
 
 // -----------------------------------------------------------------------------
 
-bool Books::validYear(int year)
+bool Book::correctYear(uint32_t crDate)
 {
 	typedef chrono::system_clock clock;
 	//get the current year, taken from https://stackoverflow.com/questions/8343676/how-to-get-current-date-and-time
@@ -235,11 +106,11 @@ bool Books::validYear(int year)
 	time_t currentTime = chrono::system_clock::to_time_t(clock::now());
 	struct tm *parts = localtime(&currentTime);	//returns a struct containing year, month and day
 
-	int currentYear = parts->tm_year + 1900;
+	uint32_t currentYear = parts->tm_year + 1900;
 
-	if (year > currentYear || year < 1800)
+	if (crDate > currentYear || crDate < 1800)
 	{
-		cout << "Ok future boy, correct year please." << endl;
+		cout << "The copyright year is not valid." << endl;
 		return false;
 	}
 
@@ -251,33 +122,30 @@ bool Books::validYear(int year)
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-bool operator==(const Book & book, string isbn)
+bool operator==(const Book& b1, const Book& b2)
 {
-	if (book.m_isbn == isbn)
-		return true;
-	else
-		return false;
+	return b1.getISBN() == b2.getISBN();
 }
 
 // -----------------------------------------------------------------------------
 
-bool operator!=(const Book & book, string isbn)
+bool operator!=(const Book& b1, const Book& b2)
 {
-	if (book.m_isbn != isbn)
-		return true;
-	else
-		return false;
+	return b1.getISBN() != b2.getISBN();
 }
 
 // -----------------------------------------------------------------------------
 
-ostream & operator<<(ostream & os, const Book& book)
+std::ostream& operator<<(ostream& os, const Book& b)
 {
-	return os << "Title: " << book.m_title << "\n"
-			  << "Author: " << book.m_author << "\n"
-			  << "Copyright Date: " << book.m_crDate << "\n"
-			  << "ISBN: " << book.m_isbn << "\n"
-		      << "Checked Out: " << boolalpha << book.m_checkedOut << endl;
+	return os << "\n-----------------------------------------------------------------------------"
+		      << "\nTitle: " << b.getTitle() << "\n"
+			  << "Author: " << b.getAuthor() << "\n"
+			  << "Copyright Date: " << b.getCrDate() << "\n"
+			  << "ISBN: " << b.getISBN() << "\n"
+			  << "Checked Out: " << boolalpha << b.isCheckedOut() 
+			  << "\n-----------------------------------------------------------------------------"
+		      << endl;
 }
 
 // -----------------------------------------------------------------------------
