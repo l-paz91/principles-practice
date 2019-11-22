@@ -14,53 +14,41 @@ using namespace std;
 
 // -----------------------------------------------------------------------------
 
-struct Book
+class Book
 {
+public:
 	Book() {}
-	Book(string isbn, string title, string author, int crDate, bool checkout)
-		: m_isbn(isbn), m_title(title), m_author(author), m_crDate(crDate), m_checkedOut(checkout) {}
+	~Book() {}
+
+	//no custom constructors because you cannot return out of a constructor, only throw errors and catch them
+	bool createBook(string isbn, string title, string author, int crDate, bool checkedO);
+	
+	//I hate this - you might as well not have private members
+	string getISBN() const { return m_isbn; }
+	string getTitle() const { return m_title; }
+	string getAuthor() const { return m_author; }
+	uint32_t getCrDate() const { return m_crDate; }
+	bool isCheckedOut() const { return m_checkedOut; }
+
+	void setISBN(string& isbn);
+	void setTitle(string& title) { m_title = title; }
+	void setAuthor(string& author) { m_author = author; }
+	void setCrDate(uint32_t crDate);
+	void setCheckedOut(bool checkedOut) { m_checkedOut = checkedOut; }
+
+private:
+	bool correctISBN(string isbn);
+	bool correctYear(uint32_t crDate);
 
 	string m_isbn, m_title, m_author;
-	int m_crDate;
+	uint32_t m_crDate;
 	bool m_checkedOut;
 };
 
 // -----------------------------------------------------------------------------
 
-class Books
-{
-public:
-	static Books& getInstance();
-	~Books() {}								//destructor
-
-	vector<Book> getBooks() const { return m_books; }
-	vector<Book> getCBooks() const { return m_booksCheckedOut; }
-	Book getBook(string isbn) const;		//return a book
-
-	bool add(string title, string author, string isbn, int crDate);
-	bool remove(string isbn);
-	bool checkOut(string isbn);
-	bool checkIn(string isbn);
-
-private:
-	Books() {}								//private constructor to prevent more than one class being created
-	Books(const Books&) {}					//private copy constructor to prevent copying by construction
-	Books& operator=(const Books&) {}		//private copy constructor to prevent copying by assignment
-
-	bool checkedOut(string isbn);
-	bool isRegistered(string isbn);
-	bool correctISBN(string isbn);
-	bool validYear(int year);
-
-	vector<Book> m_books;
-	vector<Book> m_booksCheckedOut;
-};
-
-// -----------------------------------------------------------------------------
-
-bool operator==(const Book& book, string isbn);
-bool operator!=(const Book& book, string isbn);
-ostream& operator<<(ostream& os, const Book& book);
+bool operator==(const Book& b1, const Book& b2);
+bool operator!=(const Book& b1, const Book& b2);
+ostream& operator<<(ostream& os, const Book& b);
 
 #endif // !_BOOKCLASS_H_
-
