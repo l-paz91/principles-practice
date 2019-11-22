@@ -33,7 +33,7 @@ bool Book::createBook(string isbn, string title, string author, int crDate, Genr
 
 // -----------------------------------------------------------------------------
 
-void Book::setISBN(string& isbn)
+void Book::setISBN(string isbn)
 {
 	//check if ISBN is correct format
 	if (!correctISBN(isbn))
