@@ -37,36 +37,65 @@ namespace Chrono
 
 	void Date::add_day(int n)
 	{
-		// to do:
+		m_d += n;
+
+		//what month are we?
+		switch (m_m)
+		{
+			//30 days
+			case Month::apr: case Month::jun: case Month::sep: case Month::nov:
+				if (m_d > 30)
+					m_d -= 30;
+				break;
+			//31 days
+			case Month::jan: case Month::mar: case Month::may: case Month::jul: case Month::aug: case Month::oct: case Month::dec:
+				if (m_d > 31)
+					m_d -= 31;
+				break;
+			//February
+			case Month::feb:
+				if (leapyear(m_y) &&  (m_d > 29))
+					m_d -= 29;
+				else if (!leapyear(m_y) && (m_d > 28))
+					m_d -= 28;
+				break;
+			default:
+				cout << "Something weird happened in add_day()" << endl;
+				break;
+		}
+
+		int nextM = int(m_m) + 1;
+		if (nextM > 12)
+		{
+			add_month(1);
+		}
+		else
+			m_m = Month(nextM);
 	}
 
 	// -----------------------------------------------------------------------------
 
 	void Date::add_month(int n)
 	{
-		//to do:
+		if (int nextM = int(m_m) + n > 12)
+		{
+			m_m = Month::jan;
+			add_year(1);
+		}
+		else
+			m_m = Month(nextM);
 	}
 
 	// -----------------------------------------------------------------------------
 
 	void Date::add_year(int n)
 	{
-		if (m_m == Month::feb && m_d == 29 && !leapyear(m_y + n))
-		{
-			m_m = Month::mar;
-			m_d = 1;
-		}
-
 		m_y += n;
-	}
-
-	// -----------------------------------------------------------------------------
-
-	//assumes that any day that is not a saturday or sunday is a workday
-	Day Date::next_workday(const Date& d)
-	{
-
-
+		if (m_y > 3000)
+		{
+			cout << "It is not the year 3000; busted" << endl;
+			m_y -= n;
+		}
 	}
 
 	// -----------------------------------------------------------------------------
@@ -120,6 +149,73 @@ namespace Chrono
 
 		//else not leap year
 		return false;
+	}
+
+	// -----------------------------------------------------------------------------
+
+	int daysSince1stJan(const Date& d)
+	{
+		int day = d.day();
+		int month = int(d.month());
+		int year = d.year();
+
+		int result = 0;
+		if (leapyear(year))
+		{
+			for (int i = 0; i < month - 1; ++i)
+				result += daysInMonthLeap[i];
+			result += day;
+		}
+		else
+		{
+			for (int i = 0; i < month - 1; ++i)
+				result += daysInMonth[i];
+			result += day;
+		}
+
+		return result; //-1 so todays date is not included in count
+	}
+
+	// -----------------------------------------------------------------------------
+
+	//assumes that any day that is not a saturday or sunday is a workday
+	Day next_workday(const Date& d)
+	{
+		//what day is it?
+		Date date = d;
+		Day nextWorkDay = Day::monday;
+
+		switch (day_of_the_week(d))
+		{
+		case Day::friday: case Day::saturday: case Day::sunday: 
+			nextWorkDay = Day::monday;
+			break;
+		default:
+			date.add_day(1);
+			nextWorkDay = day_of_the_week(date);
+			break;
+		}
+
+		return nextWorkDay;
+	}
+
+	// -----------------------------------------------------------------------------
+
+	int week_of_year(const Date& d)
+	{
+		int day = d.day();
+		int month = int(d.month());
+		int year = d.year();
+
+		int daysSince1st = daysSince1stJan(d);
+		Day currentDay = day_of_the_week(d);
+		Day dayOnJan1st = day_of_the_week(Date(d.year(), Month::jan, 1));
+
+		int weekNum = ((daysSince1st + 6) / 7);
+		if (int(currentDay) < int(dayOnJan1st))
+			++weekNum;
+
+		return weekNum;
 	}
 
 	// -----------------------------------------------------------------------------
@@ -186,6 +282,31 @@ namespace Chrono
 
 	// -----------------------------------------------------------------------------
 
+	ostream& operator<<(ostream& os, const Day& d)
+	{
+		switch (d)
+		{
+		case Day::monday:
+			return os << "Monday";
+		case Day::tuesday:
+			return os << "Tuesday";
+		case Day::wednesday:
+			return os << "Wednesday";
+		case Day::thursday:
+			return os << "Thursday";
+		case Day::friday:
+			return os << "Friday";
+		case Day::saturday:
+			return os << "Saturday";
+		case Day::sunday:
+			return os << "Sunday";
+		default:
+			return os << "Something weird happened in operator<<(Day).";
+		}
+	}
+
+	// -----------------------------------------------------------------------------
+
 	istream& operator>>(istream& is, Date& dd)
 	{
 		int y, m, d;
@@ -207,38 +328,20 @@ namespace Chrono
 
 	Day day_of_the_week(const Date& date)
 	{
-		//this algorithm was taken from https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week
+		//these algorithms were taken from https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week
 		int day = date.day();
 		int month = static_cast<int>(date.month());
 		int year = date.year();
 
-		int dayOfWeek = (day += month < 3 ? --year : year - 2, 23 * month / 9 + day + 4 + year / 4 - year / 100 + year / 400) % 7;
-		// eurgh, this is some ugly ass code
-		// basically, if day += month < 3, then subtract 1 year, else subtract 2 from year
-		// the ',' is a binary operator when used with if statements. The left-hand value is evaluated and then discarded and then the right-hand value
-		// is evaluated and returned. It is useful when you need to perform an operation that causes side effects (year - 2) but you don't need the return value
-		// in this case if day += month > 3 then we subtract 2 from year, then proceed to calculate the following expression with the new value of year, the
-		// result of that expression is then modulo-ed by 7. Alternatively, if day += month < 3 then the year is decreased by 1 then modulo-ed by 7.
-		// we then end up with a number between 0-6 with 0 == sunday, 1 == monday etc
+		//this one doesn't work correctly - it seems to be off by 1 day in certain cases
+		//int dayOfWeek = (day += month < 3 ? --year : year - 2, 23 * month / 9 + day + 4 + year / 4 - year / 100 + year / 400) % 7;
 
-		//here is a more readable version:
-		/*int value = 0;
-		if ((day += month) < 3)
-		{
-			--year;
-			value = year;
-		}
-		else
-		{
-			year -= 2;
-			value = 23 * month / 9 + day + 4 + year / 4 - year / 100 + year / 400;
-		}
+		//this one works correctly, however it is accurate only for dates > 1752...
+		static int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
+		year -= month < 3;
 
-		dayOfWeek = value % 7;
-		*/
+		return Day((year + year / 4 - year / 100 + year / 400 + t[month - 1] + day) % 7);
 
-		//this works because enums are just integers so we convert the integer to the corresponding enum int
-		return static_cast<Day>(dayOfWeek);		
 	}
 
 	// -----------------------------------------------------------------------------
