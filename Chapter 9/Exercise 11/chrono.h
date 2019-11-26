@@ -38,18 +38,21 @@ namespace Chrono
 		void add_month(int n);
 		void add_year(int n);
 
-		Day next_workday(const Date& d);
-		int week_of_year();
-
 	private:
 		int m_y;
 		Month m_m;
 		int m_d;
 	};
 
+	static vector<int> daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	static vector<int> daysInMonthLeap = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 	bool is_date(int y, Month m, int d);		//true for valid date
 	bool leapyear(int y);						//true if y is a leap year
+	int daysSince1stJan(const Date& d);
 
+	Day next_workday(const Date& d);
+	int week_of_year(const Date& d);
 	Day day_of_the_week(const Date& date);
 	Date next_Sunday(const Date& d);
 	Date next_weekday(const Date& d);
@@ -59,6 +62,7 @@ namespace Chrono
 
 	ostream& operator<<(ostream& os, const Date& d);
 	ostream& operator<<(ostream& os, const Month& m);
+	ostream& operator<<(ostream& os, const Day& d);
 	istream& operator>>(istream& is, Date& dd);
 
 }
