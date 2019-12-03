@@ -7,6 +7,32 @@
 
 // -----------------------------------------------------------------------------
 
+Rational::Rational(int num, int den)
+{
+	set(num, den);
+}
+
+// -----------------------------------------------------------------------------
+
+void Rational::set(int num, int den)
+{
+	if (num <= 0)
+	{
+		cout << "Numerator cannot be less than or equal to 0";
+		return;
+	}
+	else if (den <= 0)
+	{
+		cout << "Denominator cannot be less than or equal to 0";
+		return;
+	}
+
+	m_numerator = num;
+	m_denominator = den;
+}
+
+// -----------------------------------------------------------------------------
+
 void Rational::simplify()
 {
 	//to simplify a fraction, divide the top and bottom by the highest number 
