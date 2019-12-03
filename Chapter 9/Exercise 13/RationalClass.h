@@ -14,16 +14,16 @@ class Rational
 {
 public:
 	//explicit prevents type conversions, so if double is entered, the compiler won't implicitly cast to int "behind the scenes"
-	//this will be caught at compile time, so there is no need for error checking, uint32_t prevents minus numbers
-	explicit Rational(uint32_t num, uint32_t den) : m_numerator(num), m_denominator(den) {}
+	//this will be caught at compile time, so there is no need for error checking
+	explicit Rational(int num, int den);
 	Rational(const Rational& r) : m_numerator(r.getN()), m_denominator(r.getD()) {}
 	~Rational() {}
 
 	void operator=(const Rational& r1) { m_numerator = r1.getN(); m_denominator = r1.getD(); }
 
-	void set(uint32_t num, uint32_t den) { m_numerator = num; m_denominator = den; }
-	uint32_t getN() const { return m_numerator; }
-	uint32_t getD() const { return m_denominator; }
+	void set(int num, int den);
+	int getN() const { return m_numerator; }
+	int getD() const { return m_denominator; }
 	double rationalToDouble() { return double(m_numerator) / double(m_denominator); }
 	void simplify();
 
