@@ -51,12 +51,3 @@ void operator/(const Money& m1, const Money& m2)
 }
 
 // -----------------------------------------------------------------------------
-
-void operator*(const Money& m1, const Money& m2)
-{
-	double m1money(m1.getMoney()), m2money(m2.getMoney());
-
-	cout << "$" << m1money << " * " << m2money << " = $" << m1money * m2money << endl;
-}
-
-// -----------------------------------------------------------------------------
