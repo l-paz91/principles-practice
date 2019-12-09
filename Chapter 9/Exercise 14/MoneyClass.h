@@ -36,7 +36,6 @@ ostream& operator<<(ostream& os, const Money& m);
 void operator+(const Money& m1, const Money& m2);
 void operator-(const Money& m1, const Money& m2);
 void operator/(const Money& m1, const Money& m2);
-void operator*(const Money& m1, const Money& m2);
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
