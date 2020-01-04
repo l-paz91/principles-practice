@@ -1,9 +1,10 @@
 // -----------------------------------------------------------------------------
 //
-// C10 - Drill 5
+// C10 - Drill 5 + 6
 /*
 	Close the ofstream and then open an ifstream for mydata.txt. Read the data
-	from mydata.txt and store it in a new vector called processed_points.
+	from mydata.txt and store it in a new vector called processed_points. Print
+	the data elements from both vectors.
 
 	I've done this exercise 3 times, and all the previous times I changed it so
 	I didn't have to parse the weird file format. This time I challenged myself
@@ -101,7 +102,7 @@ int main()
 	outputPointsToFile("mydata.txt", v_originalPoints);
 	inputPointsToFile("mydata.txt", v_processedPoints);
 
-
+	//drill 6
 	cout << "[original Points]----------------------------------------" << endl;
 	for (uint32_t i = 0; i < v_originalPoints.size(); ++i)
 		cout << v_originalPoints[i].x << ", " << v_originalPoints[i].y << endl;
