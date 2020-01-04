@@ -57,6 +57,9 @@ void getPoints(int loop, vector<Point>& points)
 
 // -----------------------------------------------------------------------------
 
+//please be aware that ofstream << has only 6 digits of precision, so it will truncate
+//if a number like 1.23456789 is entered. I have decided to not increase the precision.
+//however the program will print that somethings wrong when comparing vectors.
 void outputPointsToFile(string filename, const vector<Point>& points)
 {
 	if (ofstream outFile{ filename })
