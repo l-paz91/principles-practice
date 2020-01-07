@@ -1,11 +1,26 @@
 // -----------------------------------------------------------------------------
 //
-// C10 - Exercise 1
+// C10 - Exercise 2
 //
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
 #include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+//check that the value being read in is a number
+bool isNumber(string value)
+{
+	size_t found = value.find_first_not_of("0123456789");
+	if (!found) //reads a little confusing but 0 indicates that an unwanted character was found
+	{
+		cout << value << " is not a number and will be skipped." << endl;
+		return false;
+	}
+
+	return true;
+}
 
 // -----------------------------------------------------------------------------
 
@@ -15,11 +30,12 @@ vector<int> readIn(string filename)
 	vector<int> integers;
 	if (ifstream inFile{ filename })
 	{
-		int temp;
+		string temp;
 		while (!inFile.eof())
 		{
 			inFile >> temp;
-			integers.push_back(temp);
+			if (isNumber(temp))
+				integers.push_back(stoi(temp));
 		}
 	}
 	else
