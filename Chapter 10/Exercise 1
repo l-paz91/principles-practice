@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+//
+// C10 - Exercise 1
+//
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+//read in numbers from file
+vector<int> readIn(string filename)
+{
+	vector<int> integers;
+	if (ifstream inFile{ filename })
+	{
+		int temp;
+		while (!inFile.eof())
+		{
+			inFile >> temp;
+			integers.push_back(temp);
+		}
+	}
+	else
+		cout << "Error opening file " << filename << endl;
+
+	return integers;
+}
+
+// -----------------------------------------------------------------------------
+
+//create a file with whitespace separated integers
+void createFile(string filename)
+{
+	if (ofstream outFile{ filename })
+	{
+		string temp;
+		cout << "Please enter a list of whitespace separated integers: \n>>";
+		getline(cin, temp);
+		outFile << temp;
+	}
+	else
+		cout << "Error opening file " << filename << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+//add numbers together
+int sumOfIntegers(const vector<int>& v)
+{
+	int sum = 0;
+	for (int i : v)
+		sum += i;
+	return sum;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	string filename = "integers.txt";
+	createFile(filename);
+
+	vector<int> v_integers = readIn(filename);
+	int sum = sumOfIntegers(v_integers);
+
+	cout << "Integers: ";
+	for (int i : v_integers)
+		 cout << i << " ";
+
+	cout << "\nSum: " << sum << endl;
+
+	char ch;
+	cin >> ch;
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
