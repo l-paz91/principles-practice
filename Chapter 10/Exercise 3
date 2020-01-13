@@ -110,8 +110,9 @@ bool compareByTemperature(const Reading& r, const Reading& r2)
 }
 
 //calculate mean and median temps
-void meanMedianTemps(vector<Reading>& v, double& mean, double& median)
+void meanMedianTemps(const vector<Reading>& readings, double& mean, double& median)
 {
+	vector<Reading> v = readings;
 	double sum = 0;
 	for (Reading r : v)
 		sum += r.temperature;
@@ -121,17 +122,17 @@ void meanMedianTemps(vector<Reading>& v, double& mean, double& median)
 	sort(v.begin(), v.end(), compareByTemperature);
 
 	//return middle value, if no middle value, return middle of middle pair
-	if (v.size() % 2 == 0)
+	if (v.size() == 1)
+		mean = median = v[0].temperature;
+	else
 	{
-		// it's even - harder way
-		int middle = (v.size() / 2) + 1;
-		median = v[middle].temperature + ((v[middle + 1].temperature - v[middle].temperature) / 2); 
-	}	
-	else		
-	{
-		//it's odd - easy way
-		int middle = (v.size() / 2) + 1;
-		median = v[middle].temperature;
+		int middle = (v.size() / 2) - 1;
+		if (v.size() % 2 == 0)
+			// it's even - harder way
+			median = v[middle].temperature + ((v[middle + 1].temperature - v[middle].temperature) / 2); 
+		else		
+			//it's odd - easy way
+			median = v[middle + 1].temperature;
 	}
 }
 
