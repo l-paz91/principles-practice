@@ -12,14 +12,26 @@
 //--INCLUDES--//
 #include "std_lib_facilities.h"
 
+vector<int> num = { 1,4,5,9,10,40,50,90,100,400,500,900,1000 };
+vector<string> sym = { "I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M" };
+
+int returnNumber(string s)
+{
+	for (int i = 0; i < sym.size(); ++i)
+	{
+		if (s == sym[i])
+			return num[i];
+	}
+
+	return -1;
+}
+
 // -----------------------------------------------------------------------------
 
-//converter from https://www.geeksforgeeks.org/converting-decimal-number-lying-between-1-to-3999-to-roman-numerals/
+//modified converter from https://www.geeksforgeeks.org/converting-decimal-number-lying-between-1-to-3999-to-roman-numerals/
 //this says it only works between 1 - 3999 however it does work up to 9999
 string getRoman(int number)
 {
-	int num[] = { 1,4,5,9,10,40,50,90,100,400,500,900,1000 };
-	string sym[] = { "I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M" };
 	int i = 12;
 	string romanI;
 	while (number > 0)
@@ -44,31 +56,56 @@ public:
 	Roman_int() {}
 	~Roman_int() {}
 
-	int as_int() const { return m_integer; }
+	int as_int();
 
 	friend ostream& operator<<(ostream& os, const Roman_int& ri);
 	friend istream& operator>>(istream& is, Roman_int& ri);
 
 private:
+	string m_numeral;
 	int m_integer;
 };
 
 // -----------------------------------------------------------------------------
 
+int Roman_int::as_int()
+{
+	int num = 0;
+	int temp = 0;
+	int integer = 0;
+	for (int i = 0; i < m_numeral.size(); ++i)
+	{
+		num = returnNumber(string(1, m_numeral[i]));	//really annoying way of converting char to string
+		integer += num;
+		if (i < m_numeral.size())
+		{
+			temp = returnNumber(string(1, m_numeral[i + 1]));
+			if (temp != -1)
+				if (temp > num)
+				{
+					integer += temp - num - 1;
+					++i;
+				}				
+		}
+		else
+			integer += num;
+	}
+
+	return integer;
+}
+
+// -----------------------------------------------------------------------------
+
 ostream& operator<<(ostream& os, const Roman_int& ri)
 {
-	string s = getRoman(ri.as_int());
-
-	os << s;
-
-	return os;
+	return os << ri.m_numeral;
 }
 
 // -----------------------------------------------------------------------------
 
 istream& operator>>(istream& is, Roman_int& ri)
 {
-	is >> ri.m_integer;
+	is >> ri.m_numeral;
 	return is;
 }
 
@@ -77,7 +114,7 @@ istream& operator>>(istream& is, Roman_int& ri)
 int main()
 {
 	Roman_int r;
-
+	
 	cin >> r;
 	cout << "Roman " << r << " equals " << r.as_int() << '\n';
 
