@@ -6,6 +6,8 @@
 	Provide Roman_int with an as_int() member that returns the int value, so that
 	if r is a Roman_int, we can write 
 	cout << "Roman" << r << " equals " << r.as_int() << '\n';
+	
+	this currently does not do checking to see if your Roman Numeral is correct.
 */
 // -----------------------------------------------------------------------------
 
