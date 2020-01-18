@@ -1,0 +1,91 @@
+// -----------------------------------------------------------------------------
+//
+// C10 - Exercise 6
+/*
+	Define a Roman_int class for holding Roman numerals (as ints) with a << and >>.
+	Provide Roman_int with an as_int() member that returns the int value, so that
+	if r is a Roman_int, we can write 
+	cout << "Roman" << r << " equals " << r.as_int() << '\n';
+*/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+//converter from https://www.geeksforgeeks.org/converting-decimal-number-lying-between-1-to-3999-to-roman-numerals/
+//this says it only works between 1 - 3999 however it does work up to 9999
+string getRoman(int number)
+{
+	int num[] = { 1,4,5,9,10,40,50,90,100,400,500,900,1000 };
+	string sym[] = { "I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M" };
+	int i = 12;
+	string romanI;
+	while (number > 0)
+	{
+		int div = number / num[i];
+		number = number % num[i];
+		while (div--)
+		{
+			romanI += sym[i];
+		}
+		i--;
+	}
+
+	return romanI;
+}
+
+// -----------------------------------------------------------------------------
+
+class Roman_int
+{
+public:
+	Roman_int() {}
+	~Roman_int() {}
+
+	int as_int() const { return m_integer; }
+
+	friend ostream& operator<<(ostream& os, const Roman_int& ri);
+	friend istream& operator>>(istream& is, Roman_int& ri);
+
+private:
+	int m_integer;
+};
+
+// -----------------------------------------------------------------------------
+
+ostream& operator<<(ostream& os, const Roman_int& ri)
+{
+	string s = getRoman(ri.as_int());
+
+	os << s;
+
+	return os;
+}
+
+// -----------------------------------------------------------------------------
+
+istream& operator>>(istream& is, Roman_int& ri)
+{
+	is >> ri.m_integer;
+	return is;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Roman_int r;
+
+	cin >> r;
+	cout << "Roman " << r << " equals " << r.as_int() << '\n';
+
+	cout << endl;
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
