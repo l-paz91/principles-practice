@@ -80,10 +80,11 @@ int Roman_int::as_int()
 	for (int i = 0; i < m_numeral.size(); ++i)
 	{
 		curNum = returnNumber(string(1, m_numeral[i]));	//really annoying way of converting char to string
-		if (i < m_numeral.size())
+		if (i < m_numeral.size() - 1)
 		{
 			nextNum = returnNumber(string(1, m_numeral[i + 1]));
 			if (nextNum != -1)
+			{
 				if (curNum < nextNum)
 				{
 					runningTotal += nextNum - curNum;
@@ -91,6 +92,7 @@ int Roman_int::as_int()
 				}
 				else
 					runningTotal += curNum;
+			}
 		}
 		else
 			runningTotal += curNum;
@@ -150,8 +152,8 @@ int main()
 {
 	Roman_int r;
 
-	cin >> r;
-	cout << "Roman " << r << " equals " << r.as_int() << '\n';
+	while(cin >> r)
+		cout << "Roman " << r << " equals " << r.as_int() << '\n';
 
 	cout << endl;
 	keep_window_open();
