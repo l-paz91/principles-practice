@@ -1,0 +1,50 @@
+// -----------------------------------------------------------------------------
+//
+// C11 - Drill 9
+/*
+	Write some code to print the number 1234567.89 three times, first using
+	defaultfloat, then fixed, then scientific forms. Which output form presents
+	the user with the most accurate representation? Explain why.
+*/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+
+int main()
+{
+	const float f = 1234567.89;	
+	cout << "Standard:\t" << f << endl;
+	cout << "DefaultFloat:\t" << defaultfloat << f << endl;
+	cout << "Fixed:\t\t" << fixed << f << endl;
+	cout << "Scientific:\t" << scientific << f << endl;
+	cout << endl;
+
+	const double d = 1234567.89;
+	cout << "Standard:\t" << d << endl;
+	cout << "DefaultFloat:\t" << defaultfloat << d << endl;
+	cout << "Fixed:\t\t" << fixed << d << endl;
+	cout << "Scientific:\t" << scientific << d << endl;
+	cout << endl;
+
+	cout << "Standard:\t" << 1234567.89 << endl;
+	cout << "DefaultFloat:\t" << defaultfloat << 1234567.89 << endl;
+	cout << "Fixed:\t\t" << fixed << 1234567.89 << endl;
+	cout << "Scientific:\t" << scientific << 1234567.89 << endl;
+	cout << endl;
+
+	/*
+		Fixed is the most accurate for double and cout due to it's amount of
+		precision after the decimal point. It is important to
+		note that float does not have the same degree of precision as the
+		others regardless.
+	*/
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
