@@ -39,7 +39,7 @@ int main()
 		{
 			for (char c : s2)
 			{
-				//what if word is end of sentence or apostrophe, ignore . && '
+				//what if word is end of sentence or apostrophe, allow . && '
 				if (isalpha(c) || c == '\'')			
 					s3 += c;			
 			}
