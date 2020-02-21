@@ -1,0 +1,34 @@
+// -----------------------------------------------------------------------------
+//
+// C11 - Exercise 1
+/*
+	Write a program that reads a text file and converts its input to all lower
+	case, producing a new file.
+*/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	ifstream readIn{ "inputFile.txt" };	//replace this with your own file
+	ofstream readOut{ "newFile.txt"};
+
+	char c;
+	while (readIn.get(c))
+	{
+		if (isalpha(c))
+			c = tolower(c);
+
+		readOut << c;
+	}
+
+	cout << endl;
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
