@@ -1,0 +1,55 @@
+// -----------------------------------------------------------------------------
+//
+// C11 - Exercise 11
+/*
+	Write a function vector<string> split(const string& s, const string& w) that
+	returns a vector of whitespace-separated substrings from the argument s, where
+	whitespace is defined as "ordinary whitespace" plus the characters in w.
+*/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+vector<string> split(const string& s, const string& w)
+{
+	vector<string> v;
+	stringstream ss(s);
+	string temp;
+	while (ss >> temp)
+	{
+		if (temp != w)
+		{
+			v.push_back(temp);
+			v.push_back(" ");
+		}
+	}
+
+	return v;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	vector<string> v;
+	string temp, extraSpaceWord;
+	cout << "Please enter a string to be considered as whitespace>>";
+	getline(cin, extraSpaceWord);
+	cout << "\n>>";
+	while (getline(cin, temp))
+	{
+		v = split(temp, extraSpaceWord);
+		for (string s : v)
+			cout << s;
+		cout << "\n>>";
+	}
+
+	cout << endl;
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
