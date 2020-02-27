@@ -32,7 +32,6 @@ bool sortCN(const countNum& a, const countNum& b) { return a.num < b.num; }
 
 void getCount(vector<countNum>& v)
 {
-	int count = 1;
 	for (int i = 0; i < v.size(); ++i)
 	{
 		for (int n = i+1; n < v.size(); ++n)
@@ -40,7 +39,7 @@ void getCount(vector<countNum>& v)
 			if (v[i].num == v[n].num)
 			{
 				v.erase(v.begin() + n);
-				v[i].count += count;
+				++v[i].count;
 				--i;
 			}
 			break;
