@@ -17,18 +17,11 @@
 //--INCLUDES--//
 #include "std_lib_facilities.h"
 
-/*
-	-read every number into vector
-	-sort vector
-	-when cout, print first, then if next == to current ++count
-	-if next != current, count = 0, continue to cout
-*/
-
 // -----------------------------------------------------------------------------
 
 struct countNum
 {
-	countNum() : num(0), count(0) {}
+	countNum() : num(0), count(1) {}
 	double num;
 	int count;
 };
@@ -39,17 +32,19 @@ bool sortCN(const countNum& a, const countNum& b) { return a.num < b.num; }
 
 void getCount(vector<countNum>& v)
 {
-	int count = 0;
+	int count = 1;
 	for (int i = 0; i < v.size(); ++i)
 	{
-		for (int n = i; n < v.size(); ++n)
+		for (int n = i+1; n < v.size(); ++n)
 		{
 			if (v[i].num == v[n].num)
-				++count;
+			{
+				v.erase(v.begin() + n);
+				v[i].count += count;
+				--i;
+			}
+			break;
 		}
-
-		v[i].count = count;
-		count = 0;
 	}
 }
 
@@ -69,7 +64,12 @@ int main()
 	getCount(v);
 
 	for (countNum cn : v)
-		cout << cn.num << " " << cn.count << endl;
+	{
+		cout << cn.num << " ";
+		if (cn.count != 1)
+			cout << cn.count;
+		cout << endl;
+	}
 
 	cout << endl;
 	keep_window_open();
