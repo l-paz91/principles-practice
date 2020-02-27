@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+//
+// C11 - Exercise 16
+/*
+	Write a program to read a file of whitespace-separated numbers and output
+	them in order (lowest value first), one value per line. Write a value only
+	once, and if it occurs more than once write the count of it's occurrences on
+	it's line. For example, 7 5 5 7 3 117 5 should give
+	3
+	5	3
+	7	2
+	117
+*/
+// NOT FINISHED - WIP
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+/*
+	-read every number into vector
+	-sort vector
+	-when cout, print first, then if next == to current ++count
+	-if next != current, count = 0, continue to cout
+*/
+
+// -----------------------------------------------------------------------------
+
+struct countNum
+{
+	countNum() : num(0), count(0) {}
+	double num;
+	int count;
+};
+
+bool sortCN(const countNum& a, const countNum& b) { return a.num < b.num; }
+
+// -----------------------------------------------------------------------------
+
+void getCount(vector<countNum>& v)
+{
+	int count = 0;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		for (int n = i; n < v.size(); ++n)
+		{
+			if (v[i].num == v[n].num)
+				++count;
+		}
+
+		v[i].count = count;
+		count = 0;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	vector<countNum> v;
+
+	ifstream readIn{ "numbers.txt" };
+	countNum temp;
+
+	while (readIn >> temp.num)
+		v.push_back(temp);
+
+	sort(v.begin(), v.end(), sortCN);
+	getCount(v);
+
+	for (countNum cn : v)
+		cout << cn.num << " " << cn.count << endl;
+
+	cout << endl;
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
