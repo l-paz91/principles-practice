@@ -45,7 +45,7 @@ Regardless of how annoying they are, the phrase "if at first you don't succeed, 
 till the warnings go away. 
 
 There are two more warnings on Graph.cpp warning about conversion from double to int...seeing as how Point only uses ints I'm 
-guessing floating point maths is not allowed anyway so I'm going to ignore these errors because I'm lazy.
+guessing floating point maths is not allowed anyway so I wrapped the u.first bit in a static_cast<int>(u.first*p2.x - p1.x)); etc.
 
 9. Only two errors left. Graph_lib::Menu::Menu(...) already has a body (of course it does). 
 Delete the one in the cpp file (they're the same...practically). And fixing that fixed the last error and it builds...YEAHHH.
