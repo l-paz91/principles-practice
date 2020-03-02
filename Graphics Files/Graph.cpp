@@ -61,8 +61,8 @@ namespace Graph_lib
 		bool parallel;
 		pair<double, double> u = line_intersect(p1, p2, p3, p4, parallel);
 		if (parallel || u.first < 0 || u.first > 1 || u.second < 0 || u.second > 1) return false;
-		intersection.x = p1.x + u.first*(p2.x - p1.x);
-		intersection.y = p1.y + u.first*(p2.y - p1.y);
+		intersection.x = p1.x + static_cast<int>(u.first*(p2.x - p1.x));
+		intersection.y = p1.y + static_cast<int>(u.first*(p2.y - p1.y));
 		return true;
 	}
 
