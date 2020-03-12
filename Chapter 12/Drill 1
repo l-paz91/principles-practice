@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Drill 1
+/*
+   Get an empty Simple_window with the size 600 by 400 and a label My Window compiled, 
+   linked, and run. Note that you have to link the FLTK library as described in 
+   Appendix D; #include Graph.h and Simple_window.h in your code; and include 
+   Graph.cpp and Window.cpp in your project.
+
+   Include files can be found at the link below.
+*/
+//	https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	using namespace Graph_lib;
+
+	Simple_window win{ Point{100,100}, 600, 400, "My Window" };
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
