@@ -1,0 +1,49 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 3
+/*
+   Draw your initials 150 pixels high. Use a thick line. Draw each initials in 
+   a different colour.
+
+   Include files can be found at the link below.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	using namespace Graph_lib;
+
+	Simple_window win{ Point{100,100}, 600, 400, "Chapter 12 - Exercise 3" };
+
+	Open_polyline l;
+	l.add(Point{ 200, 250 });
+	l.add(Point{ 100, 250 });
+	l.add(Point{ 100, 100 });
+	l.set_style(Line_style{Line_style::solid, 10});
+	l.set_color(Color::green);
+	win.attach(l);
+
+	Open_polyline j;
+	j.add(Point{ 325, 100 });
+	j.add(Point{ 475, 100 });
+	j.add(Point{ 400, 100 });
+	j.add(Point{ 400, 250 });
+	j.add(Point{ 300, 250 });
+	j.add(Point{ 300, 200 });
+	j.set_style(Line_style{ Line_style::solid, 10 });
+	j.set_color(Color::dark_cyan);
+	win.attach(j);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
