@@ -1,0 +1,44 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 1
+/*
+   Draw a rectangle as a Rectangle and as a Polygon. Make the lines of the Polygon 
+   red and the lines of the Rectangle blue.
+
+   Include files can be found at the link below.
+*/
+//	https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	using namespace Graph_lib;
+
+	Simple_window win{ Point{100,100}, 600, 400, "Chapter 12 - Exercise 1" };
+
+	//draw a 4 point polygon with red lines
+	Graph_lib::Polygon p;
+	p.add(Point{ 100, 350 });
+	p.add(Point{ 100, 300 });
+	p.add(Point{ 300, 300 });
+	p.add(Point{ 300, 350 });
+	p.set_color(Color::red);
+	win.attach(p);
+
+	//draw a rectangle with blue lines
+	Graph_lib::Rectangle r{ Point{100,100}, 100, 50 };
+	r.set_color(Color::blue);
+	win.attach(r);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
