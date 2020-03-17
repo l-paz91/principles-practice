@@ -1,0 +1,43 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 5
+/*
+   Draw a red 1/4-inch frame around a rectangle that is three-quarters the height
+   of your screen and two-thirds the width. 
+
+   Include files can be found at the link below.
+   Please note, I have commented out lines 176 & 177 in Graph.h from Exercise 4
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	typedef Graph_lib::Rectangle rect;
+
+	//my screen is 1920x1080 (no 4k for me yet)
+	//therefore my rectangle is 1280x810
+	//0.25 inches is equivalent to 24 pixels
+
+	//interestingly, this draws the window at 0,0
+	Simple_window win{ Point{100,100}, 1920, 1080, "Chapter 12 - Exercise 5" };
+
+	rect r(Point{ 100, 100 }, 1280, 810);
+	r.set_style(Line_style{ Line_style::solid, 24 });
+	r.set_color(Color::red);
+	win.attach(r);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
