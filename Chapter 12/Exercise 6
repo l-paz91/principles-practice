@@ -1,0 +1,54 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 6
+/*
+   What happens when you draw a Shape that doesn't fit inside its window? 
+   What happens when you a Window that doesn't fit on your screen? Write two 
+   programs that illustrate these two phenomena.
+
+   Include files can be found at the link below.
+   Please note, I have commented out lines 176 & 177 in Graph.h from Exercise 4
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+// -----------------------------------------------------------------------------
+
+void bigWindow()
+{
+	//draws at 0,0 (not including window label), then continues on (and overlaps
+	//onto other monitors)
+	Simple_window win{ Point{100,100}, 2000, 2000, "Chapter 12 - Exercise 6" };
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+
+void bigShape()
+{
+	//shape is cut off where it hits the window edges
+	Simple_window win{ Point{100,100}, 600, 400, "Chapter 12 - Exercise 6" };
+	rect r(Point{ 100, 100 }, 700, 600);
+	r.set_color(Color::dark_yellow);
+	win.attach(r);
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	//bigWindow();
+	bigShape();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
