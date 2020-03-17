@@ -1,0 +1,62 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 4
+/*
+   Draw a 3-by-3 tic-tac-toe board of alternating white and red squares.
+
+   Include files can be found at the link below.
+   Please note, I have commented out lines 176 & 177 in Graph.h going forward
+   Explanations on the blog post.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+
+// -----------------------------------------------------------------------------
+
+Graph_lib::Rectangle drawRectangle(Color fillColour, int topLeftX, int topLeftY )
+{
+	Graph_lib::Rectangle rect(Point{ topLeftX, topLeftY }, 100, 100);
+	rect.set_fill_color(fillColour);
+	rect.set_color(Color::black);
+	return rect;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 600, 400, "Chapter 12 - Exercise 4" };
+
+	//I know typedef hasn't been introduced yet but I'm sick of typing Graph_lib::Rectangle
+	//it basically allows you to give typenames a different name, so everytime I use rect
+	//it actually means Graph_lib::Rectangle
+	typedef Graph_lib::Rectangle rect;
+
+	//get all our rectangles
+	vector<rect> v_rects{
+		drawRectangle(Color::red, 100, 50),
+		drawRectangle(Color::white, 200, 50),
+		drawRectangle(Color::red, 300, 50),
+		drawRectangle(Color::white, 100, 150),
+		drawRectangle(Color::red, 200, 150),
+		drawRectangle(Color::white, 300, 150),
+		drawRectangle(Color::red, 100, 250),
+		drawRectangle(Color::white, 200, 250),
+		drawRectangle(Color::red, 300, 250) };
+
+	//attach to window and draw
+	for (int i = 0; i < v_rects.size(); ++i)
+		win.attach(v_rects[i]);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
