@@ -1,0 +1,148 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 10
+/*
+   Draw the file diagram from section 12.8.
+
+   I hate him for making me do this.
+
+   Include files can be found at the link below. Lines 166 & 167 have been
+   commented out in Graph.h to allow Shapes to be returned.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+// -----------------------------------------------------------------------------
+
+rect drawRect(int topLeftX, int topLeftY, int width, int height)
+{
+	rect r(Point{ topLeftX, topLeftY }, width, height);
+	r.set_fill_color(Color::yellow);
+	r.set_color(Color::black);
+	return r;
+}
+
+// -----------------------------------------------------------------------------
+
+Text drawText(int topLeftX, int topLeftY, string msg)
+{
+	Text t(Point{ topLeftX, topLeftY }, msg);
+	t.set_font_size(25);
+	t.set_color(Color::black);
+	return t;
+}
+
+// -----------------------------------------------------------------------------
+
+Lines drawLine(int startX, int startY, int endX, int endY)
+{
+	Lines l;
+	l.add(Point{ startX, startY }, Point{ endX, endY });
+	l.set_color(Color::black);
+	return l;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 1300, 1000, "Chapter 12 - Exercise 10" };
+
+	vector<rect> v_rects{
+		drawRect(200,850, 350, 150),	//chapter12.cpp
+		drawRect(550, 650, 350, 150),	//simplewindow
+		drawRect(950, 630, 150, 50),	//gui.cpp
+		drawRect(900, 450, 350, 150),	//gui.h
+		drawRect(450, 550, 170, 50),	//window.cpp
+		drawRect(100, 650, 150, 50),	//graph.cpp
+		drawRect(150, 350, 350, 150),	//graph.h
+		drawRect(650, 200, 350, 150),	//window.h
+		drawRect(150, 100, 190, 50),	//point.h
+		drawRect(630, 30, 180, 50),		//fltk headers	
+		drawRect(640, 40, 180, 50),
+		drawRect(650, 50, 180, 50 ),	
+		drawRect(1080, 130, 180, 50),	//fltk code
+		drawRect(1090, 140, 180, 50),
+		drawRect(1100, 150, 180, 50)
+	};
+
+	for (int i = 0; i < v_rects.size(); ++i)
+		win.attach(v_rects[i]);
+
+	vector<Text> v_text{
+		drawText(200, 845, "Chapter12.cpp:"),
+		drawText(210, 895, "#include \"Graph.h\""),
+		drawText(210, 945, "#include \"Simple_Window.h\""),
+		drawText(210, 995, "int main() {...}"),
+		//
+		drawText(550, 645, "Simple_window.h:"),
+		drawText(560, 695, "//window interface:"),
+		drawText(560, 745, "class Simple_window{...};"),
+		drawText(560, 795, "..."),
+		//
+		drawText(950, 625, "GUI.cpp:"),
+		drawText(960, 675, "GUI code"),
+		//
+		drawText(900, 445, "GUI.h:"),
+		drawText(910, 495, "//GUI interface"),
+		drawText(910, 545, "struct In_box{...};"),
+		drawText(910, 595, "..."),
+		//
+		drawText(450, 545, "window.cpp:"),
+		drawText(460, 595, "Window code"),
+		//
+		drawText(100, 645, "graph.cpp:"),
+		drawText(110, 695, "Graph code"),
+		//
+		drawText(150, 345, "Graph.h:"),
+		drawText(160, 395, "//graphing interface"),
+		drawText(160, 445, "struct Shape{...};"),
+		drawText(160, 495, "..."),
+		//
+		drawText(650, 195, "Window.h:"),
+		drawText(660, 245, "//window interface"),
+		drawText(660, 295, "class Window{...};"),
+		drawText(660, 345, "..."),
+		//
+		drawText(150, 95, "Point.h"),
+		drawText(160, 145, "struct Point{...};"),
+		//
+		drawText(660, 90, "FLTK headers"),
+		//
+		drawText(1110, 180, "FLTK code")
+	};
+
+	for (int i = 0; i < v_text.size(); ++i)
+		win.attach(v_text[i]);
+
+	vector<Lines> v_lines{
+		drawLine(400, 850, 300, 500),
+		drawLine(500, 850, 600, 800),
+		drawLine(250, 650, 300, 500),
+		drawLine(800, 650, 900, 600),
+		drawLine(1100, 630, 1000, 600),
+		drawLine(800, 650, 750, 350),
+		drawLine(600, 550, 750, 350),
+		drawLine(300, 350, 300, 150),
+		drawLine(400, 350, 700, 100),
+		drawLine(650, 250, 300, 150),
+		drawLine(750, 200, 750, 100),
+		drawLine(1080, 150, 750, 100)
+	};
+
+	for (int i = 0; i < v_lines.size(); ++i)
+		win.attach(v_lines[i]);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
