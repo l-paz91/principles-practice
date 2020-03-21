@@ -1,0 +1,58 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 7
+/*
+   Draw a two-dimensional house seen from the front, the way a child would: with 
+   a door, two windows, and a roof with a chimney. Feel free to add details; 
+   maybe have "smoke come out of the chimney.
+
+   Include files can be found at the link below.
+   Please note, I have changed a few files so PNG can be supported. Please see
+   the corresponding blog post for more details. These changes are not in the
+   files below.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 650, 600, "Chapter 12 - Exercise 7" };
+
+	//background
+	rect background(Point{ 0, 0 }, 650, 600);
+	background.set_fill_color(Color::cyan);
+	win.attach(background);
+
+	//chimney smoke
+	Image smoke{ Point{300, 70}, "smoke1.png" };
+	win.attach(smoke);
+
+	//house
+	Image house{ Point{150, 200}, "house1.png" };
+	win.attach(house);
+
+	//grass
+	Image grass{ Point{0, 540}, "grass1.png" };
+	win.attach(grass);
+
+	//clouds
+	Image cloud1{ Point{50, 50}, "cloud1.png" };
+	win.attach(cloud1);
+	Image cloud2{ Point{450, 250}, "cloud1.png" };
+	win.attach(cloud2);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
