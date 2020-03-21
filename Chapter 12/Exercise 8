@@ -1,0 +1,56 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 8
+/*
+   Draw the Olympic five rings. If you can't remember the colours, look them up.
+
+   Include files can be found at the link below.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Circle circle;
+typedef Graph_lib::Line_style ls;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 650, 600, "Chapter 12 - Exercise 8" };
+
+	circle blue{ Point{100, 100},50 };
+	blue.set_color(Color::blue);
+	blue.set_style(ls{ls::solid, 10});
+	win.attach(blue);
+
+	circle yellow{ Point{160, 150},50 };
+	yellow.set_color(Color::yellow);
+	yellow.set_style(ls{ ls::solid, 10 });
+	win.attach(yellow);
+
+	circle black{ Point{220, 100},50 };
+	black.set_color(Color::black);
+	black.set_style(ls{ ls::solid, 10 });
+	win.attach(black);
+
+	circle green{ Point{280, 150},50 };
+	green.set_color(Color::green);
+	green.set_style(ls{ ls::solid, 10 });
+	win.attach(green);
+
+	circle red{ Point{340, 100},50 };
+	red.set_color(Color::red);
+	red.set_style(ls{ ls::solid, 10 });
+	win.attach(red);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
