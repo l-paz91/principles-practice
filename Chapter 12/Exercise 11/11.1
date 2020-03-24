@@ -1,0 +1,72 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 11.1
+/*
+   Draw a series of regular polygons, one inside the other. The innermost should 
+   be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc. 
+   For the mathematically adept only: let all the points of each N-polygon touch 
+   sides of the (N+1)-polygon.Hint: The trigonometric functions are found in 
+   <cmath> (Section 24.8, Appendix B.9.2)
+
+   As a run up to doing the whole exercise. I broke this down into bitesize
+   pieces. This program, draws another line given the x/y points of the last
+   point, an angle and a length.
+*/
+// FLTK graphic files can be found here:
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+/*
+	regular polygon
+	- all sides are equal
+	- all angles equal
+	- all exterior angles of a polygon add up to 360
+	- exterior angle = 360 / n		(n is number of sides)
+	- interior angle = 180 - exterior angle
+	or
+	interior angle = (n - 2) x 180 / n
+*/
+
+// -----------------------------------------------------------------------------
+
+Lines drawLine(int startX, int startY, int endX, int endY)
+{
+	Lines l;
+	l.add(Point{ startX, startY }, Point{ endX, endY });
+	l.set_color(Color::black);
+	return l;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	const double PI = atan(1) * 4;
+
+	Simple_window win{ Point{100,100}, 1300, 1000, "Chapter 12 - Exercise 11.1" };
+  
+	//draw a line
+	Lines l1 = drawLine(100, 200, 400, 200);
+	win.attach(l1);
+
+	//draw another line 90 degrees out
+	double x2 = l1.point(1).x + cos(90 * PI / 180) * 300;
+	double y2 = l1.point(1).y + sin(90 * PI / 180) * 300;
+	Lines l2 = drawLine(l1.point(1).x, l1.point(1).y, x2, y2);
+	win.attach(l2);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
