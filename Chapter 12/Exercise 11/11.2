@@ -1,0 +1,69 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 11
+/*
+   Draw a series of regular polygons, one inside the other. The innermost should 
+   be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc. 
+   For the mathematically adept only: let all the points of each N-polygon touch 
+   sides of the (N+1)-polygon.Hint: The trigonometric functions are found in 
+   <cmath> (Section 24.8, Appendix B.9.2)
+  
+   This short program tests how to draw any n-sized polygon given a radius and 
+   number of sides.
+   
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+const double PI = atan(1) * 4;
+
+/*
+	regular polygon
+	- all sides are equal
+	- all angles equal
+	- all exterior angles of a polygon add up to 360
+	- exterior angle = 360 / n		(n is number of sides)
+	- interior angle = 180 - exterior angle
+	or
+	interior angle = (n - 2) x 180 / n
+*/
+
+// -----------------------------------------------------------------------------
+
+void drawPolygon(Simple_window& win, int numSides, int radius)
+{
+	Graph_lib::Polygon poly;
+	Point p;
+
+	for (int i = 0; i < numSides; ++i)
+	{
+		p.x = radius * cos(2 * PI * i / numSides) + 500;
+		p.y = radius * sin(2 * PI * i / numSides) + 500;
+		poly.add(p);
+	}
+
+	poly.set_color(Color::black);
+	win.attach(poly);
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 1000, 1000, "Chapter 12 - Exercise 11.2" };
+
+	drawPolygon(win, 4, 200);
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
