@@ -6,7 +6,10 @@
    be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc. 
    For the mathematically adept only: let all the points of each N-polygon touch 
    sides of the (N+1)-polygon.Hint: The trigonometric functions are found in 
-   <cmath> (Section 24.8, Appendix B.9.2)   
+   <cmath> (Section 24.8, Appendix B.9.2)
+   
+   I have commented out lines 176 & 177 in Graph.h so default copy constructors
+   are created for Shape instead. This allows Shapes to be returned in functions.  
 */
 // https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
 // -----------------------------------------------------------------------------
