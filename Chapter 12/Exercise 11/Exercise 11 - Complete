@@ -1,0 +1,60 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 11
+/*
+   Draw a series of regular polygons, one inside the other. The innermost should 
+   be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc. 
+   For the mathematically adept only: let all the points of each N-polygon touch 
+   sides of the (N+1)-polygon.Hint: The trigonometric functions are found in 
+   <cmath> (Section 24.8, Appendix B.9.2)   
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Polygon Poly;
+const double PI = atan(1) * 4;
+
+// -----------------------------------------------------------------------------
+
+Poly makePolygon(int numSides, int radius)
+{
+	Poly poly;
+	Point p;
+
+	for (int i = 0; i < numSides; ++i)
+	{
+		p.x = radius * cos(2 * PI * i / numSides) + 300;
+		p.y = radius * sin(2 * PI * i / numSides) + 300;
+		poly.add(p);
+	}
+
+	poly.set_color(Color::black);
+	return poly;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 600, 600, "Chapter 12 - Exercise 11.2" };
+	
+	vector<Poly> v_polys;
+	for (int i = 3; i < 30; ++i)
+		v_polys.push_back(makePolygon(i, 200));
+	
+	for (int i = 0; i < v_polys.size(); ++i)
+		win.attach(v_polys[i]);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
