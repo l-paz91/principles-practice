@@ -1,0 +1,95 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 13
+/*
+   Find a way to add color to the lines from the previous exercise. Make some 
+   lines one color and other lines another color or other colors.
+
+   To allow Shapes to be returned, comment out lines 176 & 177 in Graph.h
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Ellipse ellipse;
+const double PI = atan(1) * 4;
+const double TWO_PI = PI * 2;
+
+// -----------------------------------------------------------------------------
+
+double sgn(double value)
+{
+	// if > 0 return 1, else if < 0 return -1, else return 0
+	return (value > 0) ? 1 : ((value < 0) ? -1 : 0);
+}
+
+// -----------------------------------------------------------------------------
+
+Closed_polyline makeSuperEllipse(double a, double b, double n)
+{
+	const double na = 2 / n;
+	Closed_polyline se;
+	for (double angle = 0; angle < TWO_PI; angle += 0.1)
+	{
+		double x = pow(abs(cos(angle)), na) * a * sgn(cos(angle)) + 300;
+		double y = pow(abs(sin(angle)), na) * b * sgn(sin(angle)) + 300;
+
+		se.add(Point{ x,y });
+	}
+
+	se.set_color(Color::black);
+	return se;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 600, 600, "Chapter 12 - Exercise 13" };
+	
+	double a = 200;
+	double b = 100;
+	double n = 2;
+
+	//hacky way of doing this
+	Closed_polyline se = makeSuperEllipse(a, b, n);
+	Closed_polyline temp;
+	for (int i = 12; i < se.number_of_points(); i += 12)	//I chose 12 to get 5 points, around 60 are added in this example
+		temp.add(se.point(i));
+	
+	Closed_polyline star;
+	star.add(temp.point(3));
+	star.add(temp.point(1));
+	star.add(temp.point(4));
+	star.add(temp.point(2));
+	star.add(temp.point(0));
+	star.set_color(Color::black);
+
+	Lines l1, l2, l3, l4, l5;
+	l1.add(temp.point(3), temp.point(1));
+	l1.set_color(Color::blue);
+	l2.add(temp.point(1), temp.point(4));
+	l2.set_color(Color::magenta);
+	l3.add(temp.point(4), temp.point(2));
+	l3.set_color(Color::yellow);
+	l4.add(temp.point(2), temp.point(0));
+	l4.set_color(Color::red);
+	l5.add(temp.point(0), temp.point(3));
+	l5.set_color(Color::cyan);
+
+	win.attach(se);
+	win.attach(l1); win.attach(l2); win.attach(l3);
+	win.attach(l4); win.attach(l5);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
