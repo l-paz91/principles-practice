@@ -1,0 +1,65 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 12.1
+/*
+   Small program to draw superellipses
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Ellipse ellipse;
+const double PI = atan(1) * 4;
+const double TWO_PI = PI * 2;
+
+// -----------------------------------------------------------------------------
+
+double sgn(double value)
+{
+	// if > 0 return 1, else if < 0 return -1, else return 0
+	return (value > 0) ? 1 : ((value < 0) ? -1 : 0);
+}
+
+// -----------------------------------------------------------------------------
+
+Closed_polyline makeSuperEllipse(double a, double b, double n)
+{
+	const double na = 2 / n;
+	Closed_polyline se;
+	for (double angle = 0; angle < TWO_PI; angle += 0.1)
+	{
+		double x = pow(abs(cos(angle)), na) * a * sgn(cos(angle)) + 300;
+		double y = pow(abs(sin(angle)), na) * b * sgn(sin(angle)) + 300;
+
+		se.add(Point{ x,y });
+	}
+
+	se.set_color(Color::black);
+	return se;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 600, 600, "Chapter 12 - Exercise 12" };
+	
+	double a = 200;
+	double b = 100;
+	double n = 0.5;
+
+	Closed_polyline se = makeSuperEllipse(a, b, n);
+	win.attach(se);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
