@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 12 - Exercise 12
+/*
+   Look up superellipse on the web to get a better idea of what such shapes look 
+   like. Write a program that draws "starlike" patters by connecting points on a 
+   superellipse. Take a, b, m, n, and N as arguments. Select N points on the 
+   superellipse defined by a, b, m, and, n. Make the points equally spaced for 
+   some definition of 'equal'. Connect each of those points to one or more other 
+   points (if you like you can make the number of points to which to connect a 
+   point another argument or just use N-1, i.e., all the other points).
+
+   To allow Shapes to be returned, comment out lines 176 & 177 in Graph.h
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+#include <cmath>
+
+using namespace Graph_lib;
+typedef Graph_lib::Ellipse ellipse;
+const double PI = atan(1) * 4;
+const double TWO_PI = PI * 2;
+
+// -----------------------------------------------------------------------------
+
+double sgn(double value)
+{
+	// if > 0 return 1, else if < 0 return -1, else return 0
+	return (value > 0) ? 1 : ((value < 0) ? -1 : 0);
+}
+
+// -----------------------------------------------------------------------------
+
+Closed_polyline makeSuperEllipse(double a, double b, double n)
+{
+	const double na = 2 / n;
+	Closed_polyline se;
+	for (double angle = 0; angle < TWO_PI; angle += 0.1)
+	{
+		double x = pow(abs(cos(angle)), na) * a * sgn(cos(angle)) + 300;
+		double y = pow(abs(sin(angle)), na) * b * sgn(sin(angle)) + 300;
+
+		se.add(Point{ x,y });
+	}
+
+	se.set_color(Color::black);
+	return se;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 600, 600, "Chapter 12 - Exercise 12" };
+	
+	double a = 200;
+	double b = 100;
+	double n = 2;
+
+	//hacky way of doing this
+	Closed_polyline se = makeSuperEllipse(a, b, n);
+	Closed_polyline temp;
+	for (int i = 12; i < se.number_of_points(); i += 12)	//I chose 12 to get 5 points, around 60 are added in this example
+		temp.add(se.point(i));
+	
+	Closed_polyline star;
+	star.add(temp.point(3));
+	star.add(temp.point(1));
+	star.add(temp.point(4));
+	star.add(temp.point(2));
+	star.add(temp.point(0));
+	star.set_color(Color::black);
+
+	win.attach(se);
+	win.attach(star);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
