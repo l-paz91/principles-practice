@@ -33,8 +33,8 @@ Poly makePolygon(int numSides, int radius)
 
 	for (int i = 0; i < numSides; ++i)
 	{
-		p.x = radius * cos(2 * PI * i / numSides) + 300;
-		p.y = radius * sin(2 * PI * i / numSides) + 300;
+		p.x = radius * cos(2 * PI * i / numSides) + 300;	//300, 300 is the centre point of the polygon
+		p.y = radius * sin(2 * PI * i / numSides) + 300;	//the default is 0,0 (which doesn't work well in a 2D space
 		poly.add(p);
 	}
 
