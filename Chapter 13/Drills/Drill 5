@@ -1,0 +1,90 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 13 - Drill 5
+/*
+   Add a 100-by-100 image. Have it move around from square to square when you click 
+   the "Next" button. Just put wait_for_button() in a loop with some code that picks 
+   a new square for your image.
+   
+   I added a new function to Image that sets the points of the Image instead of using
+   move().
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+// -----------------------------------------------------------------------------
+
+//create and return a rectangle. Has default values for fill and line colour
+rect makeRect(double x, double y, Color fillColour = Color::invisible, Color lineColour = Color::black)
+{
+	rect r(Point{ x, y }, 100, 100);
+	r.set_fill_color(fillColour);
+	r.set_color(lineColour);
+	return r;
+}
+
+// -----------------------------------------------------------------------------
+
+//creates a random number between 0 - 7 (this method produces more 'reliability' in the randomness)
+double RNG()
+{
+	std::random_device rd;	//random number from hardware
+	std::mt19937 eng(rd());	//give a seed to the rng (uses the mersenne twister generator)
+	std::uniform_int_distribution<> range(0, 7);	//define the range
+
+	return range(eng) * 100;	//generate a number
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,0}, 800, 1000, "Chapter 13" };
+
+	//create a grid
+	const double spaceSize = 100;
+	const double gridSize = 800;
+	Lines grid;
+	for (double i = spaceSize; i < gridSize; i += spaceSize)
+	{
+		grid.add(Point{ i, 0 }, { Point(i, gridSize) });
+		grid.add(Point{ 0, i }, { Point(gridSize, i) });
+	}
+	grid.set_color(Color::black);
+
+	//red rectangles
+	vector<rect> v_rects;
+	for (double i = 0; i < 800; i += 100)
+		v_rects.push_back(makeRect(i, i, Color::red, Color::invisible));
+	for (int i = 0; i < v_rects.size(); ++i)
+		win.attach(v_rects[i]);
+
+	//3 images
+	Image i1{ Point{0, 300}, "doge.jpg" }; win.attach(i1);
+	Image i2{ Point{300, 0}, "doge.jpg" }; win.attach(i2);
+	Image i3{ Point{600, 300}, "doge.jpg" }; win.attach(i3);
+
+	//image that jumps around
+	double rngX = RNG();
+	double rngY = RNG();
+	Image i4{ Point{rngX, rngY}, "doge2.jpg" }; win.attach(i4);
+
+	win.attach(grid);
+	while (win.wait_for_button())
+	{
+		rngX = RNG();
+		rngY = RNG();
+		i4.changePoint(rngX, rngY);
+	}
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
