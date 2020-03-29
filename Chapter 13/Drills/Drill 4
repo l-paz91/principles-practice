@@ -1,0 +1,66 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 13 - Drill 4
+/*
+   Find a 200-by-200-pixel image (jpeg or gif) and place three copies of it on 
+   the grid (each image covering four squares). If you can't find an image that 
+   is exactly 200 by 200, use set_mask() to pick a 200-by-200 section of a larger 
+   image. Don't obscure the red squares.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle rect;
+
+// -----------------------------------------------------------------------------
+
+//create and return a rectangle. Has default values for fill and line colour
+rect makeRect(double x, double y, Color fillColour = Color::invisible, Color lineColour = Color::black)
+{
+	rect r(Point{ x, y }, 100, 100);
+	r.set_fill_color(fillColour);
+	r.set_color(lineColour);
+	return r;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,0}, 800, 1000, "Chapter 13" };
+
+	//create a grid
+	const double spaceSize = 100;
+	const double gridSize = 800;
+	Lines grid;
+	for (double i = spaceSize; i < gridSize; i += spaceSize)
+	{
+		grid.add(Point{ i, 0 }, { Point(i, gridSize) });
+		grid.add(Point{ 0, i }, { Point(gridSize, i) });
+	}
+	grid.set_color(Color::black);
+
+	//red rectangles
+	vector<rect> v_rects;
+	for (double i = 0; i < 800; i += 100)
+		v_rects.push_back(makeRect(i, i, Color::red, Color::invisible));
+	for (int i = 0; i < v_rects.size(); ++i)
+		win.attach(v_rects[i]);
+
+	//3 images
+	Image i1{ Point{0, 300}, "doge.jpg" }; win.attach(i1);
+	Image i2{ Point{300, 0}, "doge.jpg" }; win.attach(i2);
+	Image i3{ Point{600, 300}, "doge.jpg" }; win.attach(i3);
+
+	win.attach(grid);
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
