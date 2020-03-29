@@ -2,14 +2,14 @@
 //
 // Chapter 12 - Exercise 11
 /*
-   Draw a series of regular polygons, one inside the other. The innermost should 
-   be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc. 
-   For the mathematically adept only: let all the points of each N-polygon touch 
-   sides of the (N+1)-polygon.Hint: The trigonometric functions are found in 
+   Draw a series of regular polygons, one inside the other. The innermost should
+   be an equliateral triangle, enclosed by a square, enclosed by a pentagon, etc.
+   For the mathematically adept only: let all the points of each N-polygon touch
+   sides of the (N+1)-polygon.Hint: The trigonometric functions are found in
    <cmath> (Section 24.8, Appendix B.9.2)
-   
+
    I have commented out lines 176 & 177 in Graph.h so default copy constructors
-   are created for Shape instead. This allows Shapes to be returned in functions.  
+   are created for Shape instead. This allows Shapes to be returned in functions.
 */
 // https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
 // -----------------------------------------------------------------------------
@@ -44,15 +44,32 @@ Poly makePolygon(int numSides, int radius)
 
 // -----------------------------------------------------------------------------
 
+int findApothem(int radius, int numSides)
+{
+	return radius * cos(3.14159 / numSides);
+}
+
+// -----------------------------------------------------------------------------
+
 int main()
 {
 	Simple_window win{ Point{100,100}, 600, 600, "Chapter 12 - Exercise 11.2" };
-	
+
 	vector<Poly> v_polys;
-	for (int i = 3; i < 30; ++i)
-		v_polys.push_back(makePolygon(i, 200));
-	
-	for (int i = 0; i < v_polys.size(); ++i)
+	int radius = 200;
+
+	//first polygon
+	v_polys.push_back(makePolygon(30, radius));
+	int apothem = findApothem(radius, 30);
+	radius = apothem;
+	for (int i = 29; i >= 3; --i)
+	{
+		v_polys.push_back(makePolygon(i, radius));
+		apothem = findApothem(radius, i);
+		radius = apothem;
+	}
+
+	for (int i = v_polys.size() - 1; i >= 0; --i)
 		win.attach(v_polys[i]);
 
 	win.wait_for_button();
