@@ -290,11 +290,19 @@ namespace Graph_lib
 			, h{ hh }
 			, round{ roundAmount }
 		{
+			if ((w - roundAmount < 0) || (h - roundAmount < 0))
+				error("roundness cannot exceed given height/width");
 			add(Point{ p.x, p.y});
 		}
 
 		void draw_lines() const;
-		void change_roundAmount(int roundAmount) { round = roundAmount; }
+		void change_roundAmount(int roundAmount) 
+		{ 
+			if ((w - roundAmount < 0) || (h - roundAmount < 0))
+				error("roundness cannot exceed given height/width");
+			else
+				round = roundAmount; 
+		}
 
 	private:
 		int w, h;
