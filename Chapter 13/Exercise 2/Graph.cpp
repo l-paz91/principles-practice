@@ -455,31 +455,55 @@ namespace Graph_lib
 
 	void Box::draw_lines() const
 	{
+		int radius = round >> 1;	//shift bits right by 1, same as dividing by 2 (costs 1 cycle vs 40+ for division)
+		int lineW = w - round;
+		int lineH = h - round;
+
+		Point arc1(point(0).x, point(0).y);
+		Point arc2(point(0).x + lineW, point(0).y);
+		Point arc3(point(0).x + lineW, point(0).y + lineH);
+		Point arc4(point(0).x, point(0).y + lineH);
+
+		Line l1(Point{ arc1.x + radius, arc1.y }, Point{ arc2.x + radius, arc2.y });
+		Line l2(Point{ arc2.x + round, arc2.y + radius }, Point{ arc2.x + round, arc3.y + radius });
+		Line l3(Point{ arc2.x + radius, arc3.y + round }, Point{ arc4.x + radius, arc4.y + round });
+		Line l4(Point{ arc4.x, arc4.y + radius }, Point(arc4.x, arc1.y + radius));
+
+		if (fill_color().visibility())
+		{	// fill
+			fl_color(fill_color().as_int());
+			fl_pie(arc1.x, arc1.y, round, round, 90, 180);
+			fl_pie(arc2.x, arc2.y, round, round, 0, 90);
+			fl_pie(arc3.x, arc3.y, round, round, 270, 360);
+			fl_pie(arc4.x, arc4.y, round, round, 180, 270);
+
+			fl_rectf(arc1.x, arc1.x + radius, radius, lineH);
+			fl_rectf(arc1.x + radius, arc1.y, lineW, h);
+			fl_rectf(arc2.x + radius, arc2.y + radius, radius, lineH);
+			fl_color(color().as_int());	// reset color
+		}
+
 		if (color().visibility())
 		{
-			int radius = round >> 1;	//shift bits right by 1, same as dividing by 2 (costs 1 cycle vs 40+ for division)
-
 			//top left-hand corner (arc)
-			fl_arc(point(0).x, point(0).y, round, round, 90, 180);
+			fl_arc(arc1.x, arc1.y, round, round, 90, 180);
 			//top horizontal line
-			fl_line(point(0).x + radius, point(0).y, point(0).x + w, point(0).y);
+			fl_line(l1.point(0).x, l1.point(0).y, l1.point(1).x, l1.point(1).y);
 
 			//top right-hand corner (arc)
-			fl_arc(point(0).x + w - radius, point(0).y, round, round, 0, 90);
+			fl_arc(arc2.x, arc2.y, round, round, 0, 90);
 			//right-hand vertical line
-			fl_line(point(0).x + w + radius, point(0).y + radius,
-				point(0).x + w + radius, point(0).y + h);
+			fl_line(l2.point(0).x, l2.point(0).y, l2.point(1).x, l2.point(1).y);
 
 			//bottom right-hand corner (arc)
-			fl_arc(point(0).x + w - radius, point(0).y + h - radius, round, round, 270, 360);
-			//bottom horizontal line
-			fl_line(point(0).x + w, point(0).y + h + radius,
-				point(0).x + radius, point(0).y + h + radius);
+			fl_arc(arc3.x, arc3.y, round, round, 270, 360);
+			//bottom vertical line
+			fl_line(l3.point(0).x, l3.point(0).y, l3.point(1).x, l3.point(1).y);
 
 			//bottom left-hand corner (arc)
-			fl_arc(point(0).x, point(0).y + h - radius, round, round, 180, 270);
+			fl_arc(arc4.x, arc4.y, round, round, 180, 270);
 			//left-hand vertical line
-			fl_line(point(0).x, point(0).y + h, point(0).x, point(0).y + radius);
+			fl_line(l4.point(0).x, l4.point(0).y, l4.point(1).x, l4.point(1).y);
 		}
 	}
 
