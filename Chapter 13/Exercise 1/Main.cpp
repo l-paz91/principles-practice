@@ -21,8 +21,9 @@ int main()
 {
 	Simple_window win{ Point{100,100}, 600, 600, "Chapter 13 - Exercise 1" };
 
-	Graph_lib::Arc arc(Point{ 100, 100 }, 50, 50, 100, 180);
+	Graph_lib::Arc arc(Point{ 200, 200 }, 100, 100, 90, 180);
 	arc.set_color(Color::black);
+	arc.set_fill_color(Color::cyan);
 	win.attach(arc);
 	win.wait_for_button();
 
