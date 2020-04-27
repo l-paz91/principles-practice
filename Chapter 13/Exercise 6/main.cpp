@@ -42,7 +42,8 @@ int main()
 		v_tbs[i].setColours(Color::black, Color::green, Color::black);
 		win.attach(v_tbs[i]);
 	}
-		
+	
+	//I haven't defined NESW etc for Box so doing it this way instead
 	vector<Graph_lib::Arrow> v_arrows{
 		Arrow{v_tbs[3].getTopCenter(), v_tbs[0].getBottomCenter(), 10},
 		Arrow{v_tbs[6].getTopCenter(), v_tbs[5].getBottomCenter(), 10},
