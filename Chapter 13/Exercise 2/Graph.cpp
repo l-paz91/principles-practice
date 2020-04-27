@@ -477,7 +477,7 @@ namespace Graph_lib
 			fl_pie(arc3.x, arc3.y, round, round, 270, 360);
 			fl_pie(arc4.x, arc4.y, round, round, 180, 270);
 
-			fl_rectf(arc1.x, arc1.x + radius, radius, lineH);
+			fl_rectf(arc1.x, arc1.y + radius, radius, lineH);
 			fl_rectf(arc1.x + radius, arc1.y, lineW, h);
 			fl_rectf(arc2.x + radius, arc2.y + radius, radius, lineH);
 			fl_color(color().as_int());	// reset color
