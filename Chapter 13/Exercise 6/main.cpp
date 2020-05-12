@@ -5,6 +5,10 @@
 	Write a program that draws a class diagram like the one in Section 12.6. It 
 	will simplify matters if you start by defining a Box class that is a 
 	rectangle with a text label.
+	
+	Edit 12/05/2020 - Please see the blog post for how to determine box width
+	based on message length
+	https://lptcp.blogspot.com/2020/04/chapter-13-exercise-6-principles.html
 */
 // https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
 // -----------------------------------------------------------------------------
