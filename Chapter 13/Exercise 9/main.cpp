@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 //
-// Chapter 13 - Exercise 8
+// Chapter 13 - Exercise 9
 /*
 	Tile a part of the window with Regular_hexagons (use at least eight hexagons).
 */
