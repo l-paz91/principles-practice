@@ -1,0 +1,57 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 13 - Exercise 11
+/*
+	Draw a 300-by-200-pixel ellipse. Draw a 400-pixel-long x axis and a 300-pixel-long 
+	y axis through the center of the ellipse. Mark the foci. Mark a point on the ellipse 
+	that is not on one of the axes. Draw the two lines from the foci to the point.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Axis A;
+typedef Graph_lib::Ellipse E;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 800, 800, "Exercise 11" };
+
+	A aX(Axis::x, Point{ 200, 400 }, 400, 40, "X Axis");
+	aX.set_color(Color::black);
+	win.attach(aX);
+
+	A aY(Axis::y, Point{ 400, 550 }, 300, 30, "Y Axis");
+	aY.set_color(Color::black);
+	win.attach(aY);
+
+	E e(Point(400, 400), 150, 50);
+	e.set_color(Color::red);
+	win.attach(e);
+
+	Mark m('x');
+	m.add(e.getPointOnEllipse(45));
+	m.add(e.focus1());
+	m.add(e.focus2());
+	m.set_color(Color::black);
+	win.attach(m);
+
+	Line l1(m.point(0), m.point(1));
+	l1.set_color(Color::yellow);
+	win.attach(l1);
+	Line l2(m.point(0), m.point(2));
+	l2.set_color(Color::yellow);
+	win.attach(l2);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
