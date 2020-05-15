@@ -1,0 +1,47 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 13 - Exercise 13
+/*
+	Draw the colour matrix from section 13.10, but without lines around each 
+	colour.
+  
+  I remember having to change setLineVisibility(), so grab a newer version of
+  graphics.h and graphics.cpp from a recent exercise.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+typedef Graph_lib::Rectangle R;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Simple_window win{ Point{100,100}, 800, 800, "Exercise 13" };
+
+	vector<R> vr;
+
+	for (int i = 0; i < 16; ++i)
+	{
+		for (int j = 0; j < 16; ++j)
+		{
+			vr.push_back(R{ Point{double(i) * 20, double(j) * 20}, 20, 20 });
+			vr[vr.size() - 1].set_fill_color(Color{ i * 16 + j });
+			vr[vr.size() - 1].setLineVisibility(false);
+		}
+	}
+
+	for (int i = 0; i < vr.size(); ++i)
+		win.attach(vr[i]);
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
