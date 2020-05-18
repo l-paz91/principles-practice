@@ -334,6 +334,7 @@ namespace Graph_lib
 
 	struct RightTriangle : Polygon
 	{
+		// p2 must be right-angle point (otherwise it may error)
 		RightTriangle(Point p1, Point p2, Point p3)
 		{
 			Polygon::add(p1);
