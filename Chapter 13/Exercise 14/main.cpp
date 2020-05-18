@@ -5,7 +5,7 @@
 	Define a right triangle class. Make an octagonal shape out of eight right 
 	triangles of different colours.
 */
-// 
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
 // -----------------------------------------------------------------------------
 
 //--INCLUDES--//
