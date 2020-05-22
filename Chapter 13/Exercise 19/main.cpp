@@ -23,15 +23,15 @@ int main()
 {
 	Simple_window win{ Point{100,100}, 800, 800, "Exercise 19" };
 	
-	S s(Point(200, 300), 200, 100, 5);
+	S s(Point(200, 300), 200, 100, 100, 5);
 	s.set_fill_color(Color::cyan);
 	win.attach(s);
 
-	S s1(Point(100, 100), 60, 30, 10);
+	S s1(Point(100, 100), 60, 30, 0, 4);
 	s1.set_fill_color(Color::yellow);
 	win.attach(s1);
 
-	S s2(Point(400, 120), 120, 20, 17);
+	S s2(Point(400, 120), 120, 20, 0, 17);
 	s2.set_fill_color(Color::red);
 	win.attach(s2);
 
