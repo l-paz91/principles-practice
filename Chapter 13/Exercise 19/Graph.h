@@ -409,12 +409,7 @@ namespace Graph_lib
 	};
 
 	// -----------------------------------------------------------------------------
-
-	// a regular star polygon is denoted by {p/q}, where
-	//	p (number of vertices) and
-	//  q (the density)
-	// are relatively prime (they share no factors) and
-	//	q >= 2
+	
 	struct Star : Closed_polyline
 	{
 		Star(Point center, double outerRadius, double innerRadius, int numOfPoints = 5);
