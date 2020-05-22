@@ -412,7 +412,7 @@ namespace Graph_lib
 	
 	struct Star : Closed_polyline
 	{
-		Star(Point center, double outerRadius, double innerRadius, int numOfPoints = 5);
+		Star(Point center, double outerRadius, double innerRadius, double startAngle = 0, int numOfPoints = 5);
 
 		Point getPointOnStar(int angle, double radius);
 		void add(Point p) { Closed_polyline::add(p); }
