@@ -799,15 +799,15 @@ namespace Graph_lib
 
 	// -----------------------------------------------------------------------------
 
-	Star::Star(Point center, double outerRadius, double innerRadius, int numOfPoints)
+	Star::Star(Point center, double outerRadius, double innerRadius, double startAngle, int numOfPoints)
 		: m_center(center)
 	{
-		if (numOfPoints < 5)
-			error("Cannot have less than 5 points on a star");
+		if (numOfPoints < 4)
+			error("Cannot have less than 4 points on a star");
 
 		int doubleNumPoints = numOfPoints * 2;
 		double angle = 360.0f / doubleNumPoints;
-		double rotation = 0;
+		double rotation = startAngle;
 		bool flipflop = true;
 
 		for (int i = 0; i < doubleNumPoints; ++i)
