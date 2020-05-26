@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 14 - Drill 2
+/*
+	Derive a class D1 from B1 and override vf(). Make a D1 object and call vf() 
+	and f() for it.
+*/
+// http://stroustrup.com/Programming/PPP2code/std_lib_facilities.h
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include"std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+class B1
+{
+public:
+	virtual void vf() { cout << "B1::vf" << endl; }
+	void f() { cout << "B1::f" << endl; }
+};
+
+// -----------------------------------------------------------------------------
+
+class D1 : public B1
+{
+public:
+	void vf() override {}
+};
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	B1 b1;
+	b1.vf();
+	b1.f();
+
+	D1 d1;
+	d1.vf();
+	d1.f();
+
+	keep_window_open();
+	return 0;
+}
