@@ -1,0 +1,49 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 14 - Drill 3
+/*
+	Define a reference to B1 (a B1&) and intialise that to the D1 object you just
+	defined. Call vf() and f() for that reference.
+*/
+// http://stroustrup.com/Programming/PPP2code/std_lib_facilities.h
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include"std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+class B1
+{
+public:
+	virtual void vf() { cout << "B1::vf" << endl; }
+	void f() { cout << "B1::f" << endl; }
+};
+
+// -----------------------------------------------------------------------------
+
+class D1 : public B1
+{
+public:
+	void vf() override { cout << "D1::vf" << endl; }
+};
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	B1 b1;
+	b1.vf();
+	b1.f();
+
+	D1 d1;
+	d1.vf();
+	d1.f();
+
+	B1& b1Ref = d1;
+	b1Ref.vf();
+	b1Ref.f();
+
+	keep_window_open();
+	return 0;
+}
