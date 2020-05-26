@@ -4,6 +4,20 @@
 #include "Graph.h"
 #include "Window.h"
 #include <map>
+
+// -----------------------------------------------------------------------------
+
+double getpi()
+{
+	double pi;
+	__asm
+	{
+		fldpi
+		fstp pi
+	}
+	return pi;
+}
+
 //------------------------------------------------------------------------------
 
 namespace Graph_lib 
