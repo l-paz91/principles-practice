@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 14 - Drill 7
+/*
+	Define a class B2 with a pure virtual function pvf(). Define a class D21 with 
+	a string data member and a function that overrides pvf(); D21::pvf() should 
+	output the value of the string. Define a class D22 that is just like D21 except 
+	that its data member is an int. Define a function f() that takes a B2& argument 
+	and calls pvf() for its argument. Call f() with a D21 and a D22.
+*/
+// http://stroustrup.com/Programming/PPP2code/std_lib_facilities.h
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include"std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+class B2
+{
+public:
+	virtual void pvf() = 0;
+};
+
+// -----------------------------------------------------------------------------
+
+class D21 : public B2
+{
+public:
+	void pvf() override { cout << s << endl; }
+	string s;
+};
+
+// -----------------------------------------------------------------------------
+
+class D22 : public B2
+{
+public:
+	void pvf() override { cout << i << endl; }
+	void f(B2& b2Ref) { b2Ref.pvf(); }
+	int i;
+};
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	D21 d21;
+	d21.s = "This is a string.";
+	
+	D22 d22;
+	d22.i = 10;
+
+	d22.f(d21);
+	d22.f(d22);
+
+	keep_window_open();
+	return 0;
+}
