@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 14 - Drill 6
+/*
+	Define a class D2 derived from D1 and override pvf() in D2. Make an object 
+	of class D2 and invoke f(), vf(), and pvf() for it.
+*/
+// http://stroustrup.com/Programming/PPP2code/std_lib_facilities.h
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include"std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+class B1
+{
+public:
+	virtual void vf() { cout << "B1::vf" << endl; }
+	virtual void pvf() = 0;
+};
+
+// -----------------------------------------------------------------------------
+
+class D1 : public B1
+{
+public:
+	void vf()  override { cout << "D1::vf" << endl; }
+	void pvf() override { cout << "D1::pvf" << endl; }
+	void f()		    { cout << "D1::f" << endl; }
+};
+
+// -----------------------------------------------------------------------------
+
+class D2 : public D1
+{
+public:
+	void pvf() override { cout << "D2::pvf" << endl; }
+};
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	D1 d1;
+	d1.vf();
+	d1.pvf();
+	d1.f();
+	cout << endl;
+
+	D2 d2;
+	d2.vf();
+	d2.pvf();
+	d2.f();
+	cout << endl;
+
+	keep_window_open();
+	return 0;
+}
