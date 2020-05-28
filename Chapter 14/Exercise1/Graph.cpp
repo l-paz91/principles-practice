@@ -412,7 +412,7 @@ namespace Graph_lib
 		//eyes
 		if (fill_color().visibility())
 		{
-			const int eyeR = 20;	//double the radius actually needed
+			const int eyeR = (radius() / 10) * 2;	//eyes are 20% the size of the radius
 
 			fl_color(Color::black);
 			fl_pie(point(0).x + halfR, point(0).y + halfR, eyeR, eyeR, 0, 360);
@@ -423,7 +423,7 @@ namespace Graph_lib
 		//mouth
 		if (color().visibility())
 		{
-			const int mouthR = 100;
+			const int mouthR = radius();
 			fl_color(Color::black);
 			fl_arc(point(0).x + halfR, point(0).y + halfR, mouthR, mouthR, 180, 360);
 		}
@@ -458,7 +458,7 @@ namespace Graph_lib
 		//eyes
 		if (fill_color().visibility())
 		{
-			const int eyeR = 20;	//double the radius actually needed
+			const int eyeR = (radius()/10) * 2;	//eyes are 20% the size of the radius
 
 			fl_color(Color::black);
 			fl_pie(point(0).x + halfR, point(0).y + halfR, eyeR, eyeR, 0, 360);
@@ -469,7 +469,7 @@ namespace Graph_lib
 		//mouth
 		if (color().visibility())
 		{
-			const int mouthR = 100;
+			const int mouthR = radius();
 			fl_color(Color::black);
 			fl_arc(point(0).x + halfR, point(0).y + radius(), mouthR, mouthR, 0, 180);
 		}
