@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 // https://lptcp.blogspot.com/
-// Chapter 14 - Exercise 8
+// Chapter 14 - Exercise 9
 /*
 	Define a Group to be a container of Shapes with suitable operations applied 
 	to the various members of the Group. Hint: Vector_ref. Use a Group to define 
@@ -19,7 +19,7 @@ typedef Graph_lib::Group G;
 
 int main()
 {
-	Simple_window win{ Point{100,100}, 800, 800, "Exercise 8" };
+	Simple_window win{ Point{100,100}, 800, 800, "Exercise 9" };
 
 	G board;
 	win.attach(board);
