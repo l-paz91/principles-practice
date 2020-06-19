@@ -1,0 +1,111 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 14 - Exercise 15
+/*
+	Most class hierarchies have nothing to do with graphics. Define a class Iterator 
+	with a pure virtual function next() that returns a double* (see Chapter 17). 
+	Now derive Vector_iterator and List_iterator from Iterator so that next() for 
+	a Vector_iterator yields a pointer to the next element of a vector<double> 
+	and List_iterator does the same for a list<double>. You initialise a Vector_iterator 
+	with a vector<double> and the first call of next() yields a pointer to its 
+	first element, if any. If there is no next element, return 0. Test this by 
+	using a function void print(Iterator&) to print the elements of a vector<double> 
+	and a list<double>.
+*/
+// http://stroustrup.com/Programming/PPP2code/std_lib_facilities.h
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include"std_lib_facilities.h"
+#include<iterator>
+
+// -----------------------------------------------------------------------------
+
+class My_Iterator
+{
+public:
+	virtual double* next() = 0;
+};
+
+// -----------------------------------------------------------------------------
+
+class Vector_Iterator : public My_Iterator
+{
+public:
+	Vector_Iterator(vector<double>& v)
+		: v_double(v)
+	{}
+
+	double* next() override
+	{
+		static int i = 0;		//static means this value persists, even when outside of scope
+		if (i < v_double.size())
+			return &v_double[i++];	//postfix ++ returns the current i value, then increments; so we don't go out of scope
+		else
+			return 0;
+	}
+
+private:
+	vector<double> v_double;
+};
+
+// -----------------------------------------------------------------------------
+
+class List_Iterator : public My_Iterator
+{
+public:
+	List_Iterator(list<double>& l)
+		: l_double(l)
+	{}
+
+	double* next() override
+	{		
+		static int i = 0;
+		if (i < l_double.size())
+		{
+			//create an iterator pointing to the first element
+			list<double>::iterator it = l_double.begin();
+			advance(it, i);
+			++i;
+			return &*it;	//return pointer to a pointer
+		}
+		else
+			return 0;
+	}
+
+private:
+	list<double> l_double;
+};
+
+// -----------------------------------------------------------------------------
+
+void printIt(My_Iterator& i)
+{
+	while (double* d = i.next())
+	{
+		if(d != 0)
+			cout << *d << endl;
+		else
+		{
+			cout << "End of container." << endl;
+			return;
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	vector<double> d{ 1,2,3,4,5 };
+	list<double> l{ 6,7,8,9,10 };
+
+	Vector_Iterator vi(d);
+	List_Iterator li(l);
+
+	printIt(vi);
+	printIt(li);
+
+	keep_window_open();
+	return 0;
+}
