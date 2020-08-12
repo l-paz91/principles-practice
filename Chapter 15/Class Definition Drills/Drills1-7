@@ -1,0 +1,105 @@
+// -----------------------------------------------------------------------------
+//
+// Chapter 15 - Drill 3 - Class Definitions
+/*
+	1. Define a struct Person containing a string name and an int age.
+	2. Define a variable of type Person , initialise it with "Goofy" and 63, and 
+	write it to the screen (cout).
+	3. Define an input (>>) and an output (<<) operator for Person; read in a Person 
+	from the keyboard (cin) and write it out to the screen (cout).
+	4. Give Person a constructor initialising name and age.
+	5. Make the representation of Person private, and provide const member functions
+	name() and age() to read the name and age.
+	6. Modify >> and << to work with the redefined Person.
+	7. Modify the constructor to check that age is [0:150] and that name doesn't
+	contain any of the characters ; : " ' [] * & ^ % $ # @ ! . Use error()  in case 
+	of error. Test.
+*/
+// 
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct Person
+{
+public:
+	Person() {}
+	Person(string s, int n) { init(s, n); }
+
+	void init(string s, int n)
+	{
+		checkName(s);
+		checkAge(n);
+
+		m_name = s;
+		m_age = n;
+	}
+
+	string getName() const { return m_name; }
+	int getAge() const { return m_age; }
+
+private:
+	void checkAge(int n);
+	void checkName(string s);
+
+	string m_name;
+	int m_age;
+};
+
+void Person::checkAge(int n)
+{
+
+	unsigned int difference = 150 - n;
+	if (difference > 150)
+		error("Age needs to be in range 0 - 150");
+}
+
+void Person::checkName(string s)
+{
+	size_t result = s.find_first_of(";:[]*&^%$#@!");
+	if (result == string::npos)
+		return;
+
+	error("Names cannot contain the following: ;:\"\'[]*&^%$#@!");
+}
+
+ostream& operator<<(ostream& o, const Person& p) 
+{ 
+	o << p.getName() << ": " << p.getAge() << endl; 
+	return o; 
+}
+
+istream& operator>>(istream& i, Person& p)
+{
+	string s;
+	int a;
+	cout << "Name: "; getline(i, s); 
+	cout << "Age: "; i >> a; 
+
+	p.init(s, a);
+
+	return i;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	
+	Person p1{ "Goofy", 63 };
+	cout << p1 << endl;
+
+	Person p2;
+	cin >> p2;
+	cout << p2 << endl;
+
+	_getch();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
