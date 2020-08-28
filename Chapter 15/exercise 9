@@ -1,0 +1,52 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 15 - Exercise 9
+/*
+	Find another data set of heights (an inch is 2.54cm) and graph them with your 
+	program from the previous exercise. For example, search the web for "height distribution" 
+	or "height of people in the United States" and ignore a lot of rubbish or 
+	ask your friends for their heights. Ideally, you don't have to change anything 
+	for the new data set. Calculating the scaling from the data is a key idea. 
+	Reading in labels from input also helps minimise changes when you want to reuse code.
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	const int xmax = 800;
+	const int ymax = 600;
+
+	Simple_window win{ Point{100,100}, xmax, ymax, "Exercise 9" };
+
+	// -----------------------------------------------------------------------------
+	
+	//vector<CustomGraph::xyValues> values{
+	//	CustomGraph::xyValues{175, 9},
+	//	CustomGraph::xyValues{180, 23},
+	//	CustomGraph::xyValues{56, 4},
+	//	CustomGraph::xyValues{124, 14},
+	//	CustomGraph::xyValues{144, 17}
+	//};
+	
+	ScatterGraph sg{ &win, "weightData.txt" };
+	sg.changeLabels("Weight kg", "Height cm", Color::red, Color::red);
+	sg.addChartTitle("Weights by Height");
+	win.attach(sg);
+
+	// -----------------------------------------------------------------------------
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
