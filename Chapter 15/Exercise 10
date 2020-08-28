@@ -1,0 +1,55 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 15 - Exercise 10
+/*
+	What kind of data is unsuitable for a line graph or a bar graph? Find an example 
+	and find a way of displaying it (e.g., as a collection of labelled points).
+*/
+// https://github.com/l-paz91/principles-practice/tree/master/Graphics%20Files
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Simple_window.h"
+#include "Graph.h"
+
+using namespace Graph_lib;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	const int xmax = 800;
+	const int ymax = 600;
+
+	Simple_window win{ Point{100,100}, xmax, ymax, "Exercise 10" };
+
+	// -----------------------------------------------------------------------------
+	
+	vector<CustomGraph::xyValues> values{
+		CustomGraph::xyValues{14.2, 215},
+		CustomGraph::xyValues{16.4, 325},
+		CustomGraph::xyValues{11.9, 185},
+		CustomGraph::xyValues{15.2, 332},
+		CustomGraph::xyValues{18.5, 406},
+		CustomGraph::xyValues{22.1, 522},
+		CustomGraph::xyValues{19.4, 412},
+		CustomGraph::xyValues{25.1, 614},
+		CustomGraph::xyValues{23.4, 544},
+		CustomGraph::xyValues{18.1, 421},
+		CustomGraph::xyValues{22.6, 445},
+		CustomGraph::xyValues{17.2, 408}
+	};
+	
+	ScatterGraph sg{ &win, values };
+	sg.changeLabels("Temperature c", "Sales $", Color::red, Color::red);
+	sg.addChartTitle("Icecream Sales vs Temperature");
+	win.attach(sg);
+
+	// -----------------------------------------------------------------------------
+
+	win.wait_for_button();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
