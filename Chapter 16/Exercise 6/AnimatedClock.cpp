@@ -92,10 +92,12 @@ namespace Graph_lib
 		switch (tt)
 		{
 		case seconds: case minutes:
-			return (time * 6) - 90;
+			return (time * 6) - 90;	// 360/60 == 6, our minutes/seconds are therefore every 6 degrees
 		case hours:
-			return(time * 30) - 90;
+			return (time * 30) - 90; // 360/12 == 30, our hours are every 30 degrees
 		}
+		
+		// we minus 90 because FLTK draws 0/360 at what we would see as 90 degrees.
 	}
 
 	// -----------------------------------------------------------------------------
