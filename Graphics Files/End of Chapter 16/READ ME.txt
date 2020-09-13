@@ -1,0 +1,6 @@
+These are the graphics files as of the end of Chapter 16. They have been altered quite a bit from the originals at the start of Chapter 12
+and as such should not really be used at the start of Chapter 12.
+
+Check these files if you are having problems following along with my code in the specific exercises.
+
+Maybe one day I will use github properly, but it is not this day. I'm sorry.
