@@ -957,6 +957,8 @@ namespace Graph_lib
 		void set_mask(Point xy, int ww, int hh) { w = ww; h = hh; cx = int(xy.x); cy = int(xy.y); }
 		void move(double dx, double dy) { Shape::move(int(dx), int(dy)); p->draw(int(point(0).x), int(point(0).y)); }
 		void changePoint(double x, double y) { Shape::set_point(0, Point{ x, y }); }
+		double getWidth() { return p->w(); }
+		double getHeight() { return p->h(); }
 	private:
 		int w, h, cx, cy; // define "masking box" within image relative to position (cx,cy)
 		Fl_Image* p;
