@@ -14,7 +14,7 @@ namespace Graph_lib
 	// -----------------------------------------------------------------------------
 
 	// AnimPlaneWindow is a simple window with three buttons; Stop, Start and quit
-	// stop and start control a 1 second timer
+	// stop and start control a timer
 
 	struct AnimPlaneWindow : public Window
 	{
