@@ -22,6 +22,16 @@ namespace Graph_lib
 		if (!isdigit(p[0])) return -999999;
 		return atoi(p);
 	}
+	
+	// -----------------------------------------------------------------------------
+
+	float In_box::get_float()
+	{
+		Fl_Input& pi = reference_to<Fl_Input>(pw);
+		const char* p = pi.value();
+		if (!isdigit(p[0])) return -999999;
+		return atof(p);
+	}
 
 	//------------------------------------------------------------------------------
 
