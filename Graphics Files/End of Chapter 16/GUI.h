@@ -79,6 +79,7 @@ namespace Graph_lib
 		In_box(Point xy, int w, int h, const string& s)
 			:Widget(xy, w, h, s, 0) { }
 		int get_int();
+		float get_float();
 		string get_string();
 
 		void attach(Window& win);
