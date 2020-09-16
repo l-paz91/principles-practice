@@ -13,14 +13,6 @@
 namespace Graph_lib
 {
 	// -----------------------------------------------------------------------------
-
-	struct Rates
-	{
-		double gbp2usd, gbp2eur, gbp2cad, gbp2aud;
-
-	};
-
-
 	// CurrencyWindow is a simple window that converts 5 types of currencies
 
 	struct CurrencyWindow : public Window
@@ -38,10 +30,6 @@ namespace Graph_lib
 		void calculateConversion(MoneyType to);
 		string getRate(int lineNum);
 		void setRate(char cur, int num);
-
-		// callbacks
-		static void cb_nextB(Address, Address addr);
-		static void cb_quitB(Address, Address addr);
 
 		// objects
 		FakeBkg m_fakeBackground;
