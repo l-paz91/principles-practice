@@ -411,16 +411,13 @@ namespace Graph_lib
 	string calculate(string input)
 	{
 		//put the input "into" cin
-		//streambuf* backup;
 		istringstream oss(input);
-		//backup = cin.rdbuf();
 		cin.rdbuf(oss.rdbuf());
 
 		//now do normal calculator stuff as we have "characters in the buffer"
-		//Token t = ts.get();
 		string answer = to_string(statement());
 		
-		//clean up token stream
+		//clean up token stream for next statement
 		ts.ignore();
 
 		return answer;
