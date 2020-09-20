@@ -17,10 +17,13 @@ namespace Graph_lib
 	int In_box::get_int()
 	{
 		Fl_Input& pi = reference_to<Fl_Input>(pw);
-		//	return atoi(pi.value());
 		const char* p = pi.value();
-		if (!isdigit(p[0])) return -999999;
-		return atoi(p);
+		if (!isdigit(p[0]) && p[0] != '-') // allow negative sign
+			return -999999;
+
+		//if it's a negative number, make sure it correctly coverts it
+		int p2 = atoi(p);
+		return p2;
 	}
 	
 	// -----------------------------------------------------------------------------
