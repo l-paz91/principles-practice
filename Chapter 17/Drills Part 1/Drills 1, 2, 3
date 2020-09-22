@@ -1,0 +1,36 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 17 - Part 1 Drills 1, 2, 3
+/*
+	1. Allocate an array of ten ints on the free store using new.
+	2. Print the values of the ten ints to cout.
+	3. Deallocate the array (using delete[]).
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// drill 1
+	int* tenInts = new int[10];
+	
+	// drill 2 - filled with garbage
+	for (int i = 0; i < 10; ++i)
+		cout << "Int " << i << ": " << tenInts[i] << "	Addr: " << &tenInts[i] << endl;
+
+	// drill 3
+	delete[] tenInts;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
