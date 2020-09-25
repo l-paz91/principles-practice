@@ -1,0 +1,43 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 17 - Exercise 4
+/*
+	Write a function, char* strdup(const char*), that copies a C-style string 
+	into memory it allocates on the free store. Do not use any standard library 
+	functions.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+char* my_strdup(const char* c)
+{
+	int length = 0;
+	while (c[length] != 0)
+		++length;
+
+	char* newC = new char[length+1];	// +1 for terminating 0
+	for (int i = 0; i <= length; ++i)
+		newC[i] = c[i];
+
+	return newC;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	char hello[] = "hello, world";
+	char* helloPtr = my_strdup(hello);
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
