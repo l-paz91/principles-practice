@@ -1,0 +1,53 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 17 - Exercise 3
+/*
+	3. Write a function, void to_lower(char* s), that replaces all uppercase 
+	characters in the C-style string s with their lowercase equivalents. For 
+	example, Hello, World! becomes hello, world!. Do not use any standard library 
+	functions. A C-style string is a zero-terminated array of characters. So if you 
+	find a char with the value 0 you are at the end.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void to_lower(char* s)
+{
+	for (; *s != '\0'; ++s)	// start at address 1 and increment by addresses until null is reached
+		*s |= (1 << 5);		// set bit number 5 of character to 1, this will flip upper to lower
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	char hello[] = "HeLlO, WoRlD!";
+	to_lower(hello);
+
+	cout << hello << endl;
+
+  // examples of bit flipping
+  
+	// flips to capital, does nothing if it's already capital
+	char e = 'e';
+	char c = e &= ~(1 << 5); 
+
+	// will keep lowercase. Change 1 to 0 to flip it
+	char c2 = e |= (1 << 5);
+
+	// will not change punctuation
+	char p = ',';
+	char c3 = p |= (1 << 5);
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
