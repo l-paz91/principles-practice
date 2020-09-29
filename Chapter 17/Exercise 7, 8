@@ -1,10 +1,12 @@
 // -----------------------------------------------------------------------------
 // https://lptcp.blogspot.com/
-// Chapter 17 - Exercise 7
+// Chapter 17 - Exercise 7, 8
 /*
-	Write a program that reads characters from cin into an array that you allocate 
-	on the free store. Read individual characters until an exclamation mark (!) 
-	is entered. Do not use a std::string. Do not worry about memory exhaustion.
+	7. Write a program that reads characters from cin into an array that you allocate 
+	   on the free store. Read individual characters until an exclamation mark (!) 
+	   is entered. Do not use a std::string. Do not worry about memory exhaustion.
+	8. Do exercise 7 again, but this time read into a std::string rather than to 
+	   memory you put on the free store (string knows how to use the free store for you).
 */
 // https://github.com/l-paz91/principles-practice/
 // -----------------------------------------------------------------------------
@@ -16,13 +18,21 @@
 
 int main()
 {
+	// 7
 	char* cstr = new char[256];
 	cout << ">> ";
 	cin.get(cstr, 256, '!');
 	cout << endl << cstr << endl;
 
-  
-	keep_window_open(); // i added cin.ignore() after cin.clear() in this function
+	cin.clear(); cin.ignore(256, '\n');
+
+	// 8
+	string str;
+	cout << ">> ";
+	getline(cin, str, '!');
+	cout << endl << str << endl;
+
+	keep_window_open();
 	return 0;
 }
 
