@@ -1,0 +1,83 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 17 - Exercise 9
+/*
+	Which way does the stack grow: up (toward higher addresses) or down ( towards 
+	lower addresses)? Which way does the free store initially grow (that is, 
+	before you use delete)? Write a program to determine the answers.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	//stack
+	int nn1 = 1;
+	int nn2 = 1;
+	int nn3 = 1;
+	int nn4 = 1;
+	int nn5 = 1;
+	cout << "Addresses: " << &nn1 << ", " << &nn2 << ", " << &nn3 << ", " << &nn4 << ", " << &nn5 << endl;
+	if ((&nn5 - &nn1) > 0)
+		cout << "stack grows upwards" << endl;
+	else
+		cout << "stack grows downwards" << endl;
+
+	double dd1 = 1;
+	double dd2 = 1;
+	double dd3 = 1;
+	double dd4 = 1;
+	double dd5 = 1;
+	cout << "Addresses: " << &dd1 << ", " << &dd2 << ", " << &dd3 << ", " << &dd4 << ", " << &dd5 << endl;
+	if ((&dd5 - &dd1) > 0)
+		cout << "stack grows upwards" << endl;
+	else
+		cout << "stack grows downwards" << endl;
+
+
+	// free store
+	int* n1 = new int(10);
+	int* n2 = new int(12);
+	int* n3 = new int(20);
+	int* n4 = new int(55);
+	int* n5 = new int(4);
+	cout << "Addresses: " << n1 << ", " << n2 << ", " << n3 << ", " << n4 << ", " << n5 << endl;
+	if ((n5 - n1) > 0)
+		cout << "stack grows upwards" << endl;
+	else
+		cout << "stack grows downwards" << endl;
+
+	double* d1 = new double(10);
+	double* d2 = new double(10);
+	double* d3 = new double(10);
+	double* d4 = new double(10);
+	double* d5 = new double(10);
+	cout << "Addresses: " << d1 << ", " << d2 << ", " << d3 << ", " << d4 << ", " << d5 << endl;
+	if ((d5 - d1) > 0)
+		cout << "stack grows upwards" << endl;
+	else
+		cout << "stack grows downwards" << endl;
+
+	char* c1 = new char('a');
+	char* c2 = new char('a');
+	char* c3 = new char('a');
+	char* c4 = new char('a');
+	char* c5 = new char('a');
+	cout << "Addresses: " << (void*)&c1 << ", " << (void*)&c2 << ", " << (void*)&c3 << ", " << (void*)&c4 << ", " << (void*)&c5 << endl;
+	if ((c5 - c1) > 0)
+		cout << "stack grows upwards" << endl;
+	else
+		cout << "stack grows downwards" << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
