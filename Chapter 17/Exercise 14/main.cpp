@@ -33,17 +33,6 @@ void print_all(SingleLink* p)
 
 int main()
 {
-	//SingleLink* godsList = new SingleLink{ God("Thor", "Norse", "", "Mjolnir") };
-	//godsList->insert(new SingleLink{ God("Hera", "Greek", "Peacock Chariot", "Cattle?") });
-	//godsList->insert(new SingleLink{ God("Ra", "Egyptian", "Chariot", "The Sun") });
-	//godsList->insert(new SingleLink{ God("Odin", "Norse", "Sleipner", "Spear and Gungnir") });
-	//godsList->insert(new SingleLink{ God("Zeus", "Greek", "", "Thunderbolt") });
-	//godsList->insert(new SingleLink{ God("Osiris", "Egyptian", "", "Crook and Flail") });
-	//godsList->insert(new SingleLink{ God("Freia", "Norse", "Cat Chariot", "Brisingamen?") });
-	//godsList->insert(new SingleLink{ God("Poseidon", "Greek", "Horse", "Trident") });
-	//godsList->insert(new SingleLink{ God("Horus", "Egyptian", "", "Falcon") });
-	//print_all(godsList);
-
 	SingleLink* norse_gods = new SingleLink{ God("Thor") };
 	norse_gods->insert(new SingleLink{ God("Odin") });
 	norse_gods->insert(new SingleLink{ God("Zeus") });
