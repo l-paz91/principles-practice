@@ -30,19 +30,19 @@ int arrayLength(const char* c)
 
 int my_strcmp(const char* s1, const char* s2)
 {
-	if (*s1 < *s2)
-		return -1;	// s1 is alphabetically before s2
+	char* s1Start = const_cast<char*>(s1);
+	char* s2Start = const_cast<char*>(s2);
 
-	if (*s1 > *s2)
-		return 1;	// s1 is alphabetically after s2
-
-	int s1length = arrayLength(s1);
+	int s1Length = arrayLength(s1);
 	int s2Length = arrayLength(s2);
 
-	if (s1length == s2Length)
+	int shortestLength = (s1Length > s2Length) ? s2Length : s1Length;
+
+	// are they equal?
+	if (s1Length == s2Length)
 	{
 		int i = 0;
-		for (; i < s1length; ++i)
+		for (; i < s1Length; ++i)
 		{
 			if (*s1 == *s2)
 			{
@@ -53,11 +53,24 @@ int my_strcmp(const char* s1, const char* s2)
 				break;
 		}
 
-		if (i == s1length)
+		if (i == s1Length)
 			return 0;	// s1 is equal to s2
 	}
+	s1 = s1Start;
+	s2 = s2Start;
+	
+	for (int i = 0; i < shortestLength; ++i)
+	{
+		if (*s1 < *s2 || *s1 == *s2)
+		{
+			++s1;
+			++s2;
+		}
+		else
+			return 1; // s1 is alphabetically after s2
+	}
 
-	return 2;	// none of the above happened
+	return -1;	// is s1 alphabetically before s2
 }
 
 // -----------------------------------------------------------------------------
@@ -65,8 +78,8 @@ int my_strcmp(const char* s1, const char* s2)
 // drill4
 int main()
 {
-	const char* c1 = "hello";
-	const char* c2 = "zebra";
+	const char* c1 = "chili";
+	const char* c2 = "chilly";
 	int n = my_strcmp(c1, c2);
 	cout << n << endl;
 
