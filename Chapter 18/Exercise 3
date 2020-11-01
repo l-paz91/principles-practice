@@ -1,0 +1,89 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 18 - Exercise 3
+/*
+	Write a function, int strcmp(const char* s1, const char* s2), that compares 
+	C-style strings. Let it return a negative number if s1 is lexicographically 
+	before s2, zero if s1 equals s2, and a positive number if s1 is lexicographically 
+	after s2. Do not use any standard library functions. Do not use subscripting; 
+	use the dereference operator * instead.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+int arrayLength(const char* c)
+{
+	char* temp = const_cast<char*>(c);
+	int size = 0;
+	for (; *temp != 0; ++temp)
+		++size;
+	
+	return size+1;
+}
+
+// -----------------------------------------------------------------------------
+
+int my_strcmp(const char* s1, const char* s2)
+{
+	if (*s1 < *s2)
+		return -1;	// s1 is alphabetically before s2
+
+	if (*s1 > *s2)
+		return 1;	// s1 is alphabetically after s2
+
+	int s1length = arrayLength(s1);
+	int s2Length = arrayLength(s2);
+
+	if (s1length == s2Length)
+	{
+		int i = 0;
+		for (; i < s1length; ++i)
+		{
+			if (*s1 == *s2)
+			{
+				++s1;
+				++s2;
+			}
+			else
+				break;
+		}
+
+		if (i == s1length)
+			return 0;	// s1 is equal to s2
+	}
+
+	return 2;	// none of the above happened
+}
+
+// -----------------------------------------------------------------------------
+
+// drill4
+int main()
+{
+	const char* c1 = "hello";
+	const char* c2 = "zebra";
+	int n = my_strcmp(c1, c2);
+	cout << n << endl;
+
+	const char* c3 = "final";
+	const char* c4 = "final";
+	int n2 = my_strcmp(c3, c4);
+	cout << n2 << endl;
+
+	const char* c5 = "zebra";
+	const char* c6 = "blueberries";
+	int n3 = my_strcmp(c5, c6);
+	cout << n3 << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
