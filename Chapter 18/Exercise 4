@@ -1,0 +1,143 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 18 - Exercise 4
+/*
+	Consider what happens if you give strdup(), findx(), and strcmp() an argument 
+	that is not a C-style string. Try it! First figure out how to get a char* that 
+	doesn't point to a zero-terminated array of characters and then use it (never 
+	do this in real - non-experimental - code; it can create havoc). 
+
+	Try it with free-store allocated and stack-allocated "fake C-style strings." 
+	If the results look reasonable, turn off debug mode. Redesign and re-implement 
+	those three functions so that they take another argument giving the maximum 
+	number of elements allowed in argument strings. Then test that with correct 
+	C-style strings and "bad" strings.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+char* my_strdup(const char* c, int cSize)
+{
+	char* arrayCopy = new char[cSize];
+
+	// copy the values
+	char* start = arrayCopy;
+
+	for (int i = 0; i < cSize; ++i)
+	{
+		*arrayCopy = *c;
+		++arrayCopy;
+		++c;
+		if (i == cSize - 1)
+		{
+			if (*c != 0)
+				*arrayCopy = 0;
+		}
+	}
+
+	return start;
+}
+
+// -----------------------------------------------------------------------------
+
+int my_strcmp(const char* s1, int s1Size, const char* s2, int s2Size)
+{
+	char* temp1 = my_strdup(s1, s1Size);
+	char* temp2 = my_strdup(s2, s2Size);
+
+	char* s1Start = temp1;
+	char* s2Start = temp2;
+
+	int shortestLength = (s1Size > s2Size) ? s2Size : s1Size;
+
+	// are they equal?
+	if (s1Size == s2Size)
+	{
+		int i = 0;
+		for (; i < s1Size; ++i)
+		{
+			if (*temp1 == *temp2)
+			{
+				++temp1;
+				++temp2;
+			}
+			else
+				break;
+		}
+
+		if (i == s1Size)
+			return 0;	// 0 means s1 is equal to s2
+	}
+	temp1 = s1Start;
+	temp2 = s2Start;
+	
+	bool isBefore = false;
+	for (int i = 0; i < shortestLength; ++i)
+	{
+		if (*temp1 < *temp2 || *temp1 == *temp2)
+		{
+			isBefore = true;
+			++temp1;
+			++temp2;
+		}
+		else
+			return (isBefore) ? -1 : 1; // 1 means s1 is alphabetically after s2 
+	}
+
+	return -1;	// -1 means s1 is alphabetically before s2
+}
+
+// -----------------------------------------------------------------------------
+
+char* findx(const char* inString, int inSize, const char* findThis)
+{
+	// get a 0 terminated string instead (but don't modify the original)
+	char* temp = my_strdup(inString, inSize);
+
+	for (; *temp != inSize; ++temp)
+	{
+		if (*temp == *findThis)
+			return temp;
+	}
+
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+
+// drill4
+int main()
+{
+	char chars[] = { 'w','i','n','d','o','w','s' };
+	char* c = chars;
+
+	char* c2 = my_strdup(c, 7);
+	cout << "Fake C-String Strdup: " << c2 << endl;
+	char c22[] = "zebra";
+	char* c222 = my_strdup(c22, 6);
+	cout << "Real C-String Strdup: " << c222 << endl;
+
+
+	char* c3 = findx(c, 7, "dows");
+	cout << "Fake FindX: " << c3 << endl;
+	char* c33 = findx(c22, 6, "bra");
+	cout << "Real FindX: " << c33 << endl;
+
+
+	int cmp = my_strcmp(c, 7, c3, 5);
+	cout << "Fake Strdup: " << cmp << endl;	// should return 1: windows is alphabetically after dows
+	cmp = my_strcmp(c33, 4, c22, 6);
+	cout << "Real Strdup: " << cmp << endl;	// windows is alphabetically after dows
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
