@@ -59,15 +59,17 @@ int my_strcmp(const char* s1, const char* s2)
 	s1 = s1Start;
 	s2 = s2Start;
 	
+	bool isBefore = false;
 	for (int i = 0; i < shortestLength; ++i)
 	{
 		if (*s1 < *s2 || *s1 == *s2)
 		{
+			isBefore = true;
 			++s1;
 			++s2;
 		}
 		else
-			return 1; // s1 is alphabetically after s2
+			return (isBefore) ? -1 : 1; // 1 means s1 is alphabetically after s2 
 	}
 
 	return -1;	// is s1 alphabetically before s2
