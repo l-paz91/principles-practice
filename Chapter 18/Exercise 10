@@ -55,8 +55,8 @@ istream& read_word2(istream& is, char* buffer, int max)
 	if (is.fail())
 	{
 		cout << "The max string size is " << max << ". You have entered too many characters and the sentence has been cut off." << endl;
-		cin.clear();				// clear the error flag set in is.failbit
-		cin.ignore(INT_MAX, '\n');	// ignore INT_MAX amount of characters (2147483647) and skip to the next line
+		is.clear();				// clear the error flag set in is.failbit
+		is.ignore(INT_MAX, '\n');	// ignore INT_MAX amount of characters (2147483647) and skip to the next line
 	}
 							
 	return is;
