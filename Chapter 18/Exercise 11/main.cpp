@@ -36,6 +36,14 @@ int main()
 	sList.insert(12);
 	sList.print();
 
+	for (int i = 0; i < 100; ++i)
+	{
+		sList.insert(i + i + 1);
+	}
+
+	cout << endl;
+	sList.print();
+
 	keep_window_open();
 	return 0;
 }
