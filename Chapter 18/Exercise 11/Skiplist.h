@@ -6,7 +6,7 @@
 //----INCLUDES----//
 #include "std_lib_facilities.h"
 
-const int gMaxLevel = 15;
+const int gMaxLevel = 15; // number of levels allowed in the skiplist (not all these will be used)
 
 // -----------------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ struct Node
 struct Skiplist
 {
 	Skiplist(int pValue);
+	~Skiplist() { delete[] mHead.mNext; delete[] mTail.mNext; }
 
 	void print();
 	void insert(int pValue);	// inserts in numerical order
@@ -39,11 +40,11 @@ struct Skiplist
 
 	Node mHead;				
 	Node mTail;		
-	const int mMaxLevel;	// number of levels allowed in the skiplist (not all these will be used)
-	int mLevel;				    // number of elements in array that mHead is pointing at
-	int mSize;				    // number of elements in the skiplist
+	int mLevel;		// number of elements in array that mHead is pointing at
+	int mSize;		// number of elements in the skiplist
 
 };
+
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
