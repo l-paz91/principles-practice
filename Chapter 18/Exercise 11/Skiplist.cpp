@@ -1,14 +1,13 @@
 // -----------------------------------------------------------------------------
 
 //----INCLUDES----//
-#include "Skiplist.h"
+#include "Skiplist2.h"
 
 // -----------------------------------------------------------------------------
 
 Skiplist::Skiplist(int pValue)
 	: mHead(gMaxLevel, -1)
 	, mTail(1, INT_MAX)
-	, mMaxLevel(gMaxLevel)
 	, mLevel(1)
 	, mSize(2)
 {
@@ -29,14 +28,14 @@ void Skiplist::print()
 	Node left = mHead;
 	for (int i = mLevel - 1; i >= 0; --i)
 	{
-		cout << "Level " << i << ": ";
+		cout << "Level " << i << ": H ";
 		while(left.mNext[i].mValue < INT_MAX)
 		{
 			cout << " --> " << left.mNext[i].mValue;
 			left = left.mNext[i];
 		}
 		left = mHead;
-		cout << endl;
+		cout << " --> T" << endl;
 	}
 }
 
@@ -44,7 +43,7 @@ void Skiplist::print()
 
 void Skiplist::insert(int pValue)
 {
-	Node* update = new Node[mMaxLevel];
+	Node* update = new Node[gMaxLevel];
 	Node left = mHead;
 
 	for (int i = mLevel-1; i >= 0; --i)
@@ -83,7 +82,7 @@ void Skiplist::insert(int pValue)
 
 void Skiplist::remove(int pValue)
 {
-	Node* update = new Node[mMaxLevel];
+	Node* update = new Node[gMaxLevel];
 	Node left = mHead;
 
 	for (int i = mLevel - 1; i >= 0; --i)
@@ -141,8 +140,6 @@ int Skiplist::randomLevel()
 {
 	int level = 1;
 
-	// randNumber needs to be between 0 and 1
-	// maxLevel is log2(numberOfElements)
 	while ((randint(0, 10) < 5) && (level < log2(mSize)))
 		++level;
 
@@ -152,3 +149,5 @@ int Skiplist::randomLevel()
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
+
+
