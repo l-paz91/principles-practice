@@ -1,9 +1,10 @@
 // -----------------------------------------------------------------------------
 // https://lptcp.blogspot.com/
-// Chapter 18 - Drill 12
+// Chapter 19 - Drill 14
 /*
-	Define a function template<typename T> read_val(T& v) that reads from cin 
-	into v.
+	Bonus: Define input and output operators (>> and  <<) for vector<T>s. For 
+	both input and output use a { val, val, val } format. That will allow 
+	read_val() to also handle the S<vector<int>> variable.
 */
 // https://github.com/l-paz91/principles-practice/
 // -----------------------------------------------------------------------------
