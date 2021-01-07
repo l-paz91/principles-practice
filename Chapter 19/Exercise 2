@@ -1,0 +1,64 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 19 - Exercise 2
+/*
+	Write a template function that takes a vector<T> vt  and a vector<U> vu as 
+	arguments and returns the sum of all vt[i]*vu[i]s.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include<type_traits>
+
+typedef uint32_t uint32;
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2> 
+typename common_type<T1, T2>::type f2(vector<T1>& vt, vector<T2>& vu)
+{
+	uint32 s = (vt.size() <= vu.size()) ? vt.size() : vu.size();
+	typename common_type<T1, T2>::type sum = 0;
+
+	for (uint32 i = 0; i < s; ++i)
+		sum += vt[i] * vu[i];
+
+	return sum;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	vector<int> v1{ 10, 1, 24, 50, 98, 4, 345, 10 };
+	vector<int> v2(8, 10);
+
+	vector<double> v3{ 10.1, 100.1, 73.5, 9.765, 8, 9001, 86.5, 78.3, 9.2, 11 };
+	vector<double> v4(9, 10.5);
+
+	vector<char> v5{ 'a', 'b', 'c', 'd', 'e', 'f', 'g' };
+	vector<char> v6{ 11, 'z' };
+
+	// will not compile as strings cannot be multiplied together
+	//vector<string> v7{ "apple", "banana", "cantaloupe", "dingleberry" };
+	//vector<string> v8{ 10, "-smoothie" };
+
+	cout << "Sum: " << f2(v1, v4);
+	cout << endl;
+
+	cout << "Sum: " << f2(v3, v6);
+	cout << endl;
+
+	cout << "Sum: " << f2(v5, v2);
+	cout << endl;
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
