@@ -1,0 +1,134 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 19 - Exercise 3
+/*
+	Write a template class Pair that can hold a pair of values of any type. Use 
+	this to implement a simple symbol table like the one we used in the calculator
+	(section 7.8).
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include<type_traits>
+
+typedef uint32_t uint32;
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+struct Pair
+{
+	Pair() {}
+	Pair(T1 t1, T2 t2) : member1(t1), member2(t2) {}
+
+	T1 member1;
+	T2 member2;
+};
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+struct Symbol_Table
+{
+	typedef Pair<T1, T2> pair;
+
+	const vector<pair>& getPairs() const { return mPair; }
+	void addPair(T1 type1, T2 type2) { mPair.push_back(pair(type1, type2)); }
+	bool findPair(T1 type1, T2 type2, pair& outPair) const;
+	void removePair(T1 type1, T2 type2);
+	void reassignPair(T1 type1, T2 type2, T1 new1, T2 new2);
+	void printPairs(string label1, string label2);
+
+private:
+	vector<pair> mPair;
+};
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+bool Symbol_Table<T1, T2>::findPair(T1 type1, T2 type2, pair& outPair) const
+{
+	for (uint32 i = 0; i < mPair.size(); ++i)
+	{
+		if (mPair[i].member1 == type1 && mPair[i].member2 == type2)
+		{
+			outPair = mPair[i];
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+void Symbol_Table<T1, T2>::removePair(T1 type1, T2 type2)
+{
+	for (uint32 i = 0; i < mPair.size(); ++i)
+	{
+		if (mPair[i].member1 == type1 && mPair[i].member2 == type2)
+		{
+			mPair.erase(mPair.begin() + i);
+			return;
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+void Symbol_Table<T1, T2>::reassignPair(T1 type1, T2 type2, T1 new1, T2 new2)
+{
+	for (uint32 i = 0; i < mPair.size(); ++i)
+	{
+		if (mPair[i].member1 == type1 && mPair[i].member2 == type2)
+		{
+			mPair[i].member1 = new1;
+			mPair[i].member2 = new2;
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T1, typename T2>
+void Symbol_Table<T1, T2>::printPairs(string label1, string label2)
+{
+	for (uint32 i = 0; i < mPair.size(); ++i)
+	{
+		cout << label1 << mPair[i].member1 << "	" << label2 << mPair[i].member2 << endl;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	Symbol_Table<string, int> nameAge;
+	nameAge.addPair("Zidane", 18);
+	nameAge.addPair("Garnet", 18);
+	nameAge.addPair("Vivi", 8);
+	nameAge.addPair("Freya", 20);
+	nameAge.printPairs("Name: ", "Age: ");
+
+	Pair<string, int> p;
+	if(nameAge.findPair("Vivi", 8, p))
+		cout << "Name: " << p.member1 << "	Age: " << p.member2 << endl;
+
+	nameAge.removePair("Freya", 20);
+	nameAge.printPairs("Name: ", "Age: ");
+
+	nameAge.reassignPair("Garnet", 18, "Beatrix", 20);
+	nameAge.printPairs("Name: ", "Age: ");
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
