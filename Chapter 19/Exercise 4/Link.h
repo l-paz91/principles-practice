@@ -110,7 +110,7 @@ void Link<T>::addAsSuccesor(Link<T>* n)
 template<typename T>
 void Link<T>::addOrdered(Link<T>* n)
 {
-	Link* temp = this->getFirst();
+	Link<T>* temp = this->getFirst();
 	while (temp)
 	{
 		if (n < temp)
