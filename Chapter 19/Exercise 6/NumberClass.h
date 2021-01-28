@@ -7,6 +7,9 @@
 #include "std_lib_facilities.h"
 #include <type_traits>
 
+// note - char/int operations don't mesh well together. Neither do char/double and char/float
+// the opposite way is fine though, so int/char etc.,
+
 // -----------------------------------------------------------------------------
 
 template<typename T>
