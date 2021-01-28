@@ -30,11 +30,11 @@ public:
 	template<typename U> T operator/(U u) { return mNumber /= u; }
 	template<typename U> T operator%(U u) { return mNumber %= u; }
 
-	Number operator+(Number i) { mNumber += i.get(); return *this; }
-	Number operator-(Number i) { mNumber -= i.get(); return *this; }
-	Number operator*(Number i) { mNumber *= i.get(); return *this; }
-	Number operator/(Number i) { mNumber /= i.get(); return *this; }
-	Number operator%(Number i) { mNumber %= i.get(); return *this; }
+	template<typename U> Number operator+(Number<U> i) { mNumber += i.get(); return *this; }
+	template<typename U> Number operator-(Number<U> i) { mNumber -= i.get(); return *this; }
+	template<typename U> Number operator*(Number<U> i) { mNumber *= i.get(); return *this; }
+	template<typename U> Number operator/(Number<U> i) { mNumber /= i.get(); return *this; }
+	template<typename U> Number operator%(Number<U> i) { mNumber %= i.get(); return *this; }
 
 	template<typename U> T operator+=(U u) { return mNumber += u; }
 	template<typename U> T operator-=(U u) { return mNumber -= u; }
@@ -42,11 +42,11 @@ public:
 	template<typename U> T operator/=(U u) { return mNumber /= u; }
 	template<typename U> T operator%=(U u) { return mNumber %= u; }
 
-	Number operator+=(Number i) { mNumber += i.get(); return *this; }
-	Number operator-=(Number i) { mNumber -= i.get(); return *this; }
-	Number operator*=(Number i) { mNumber *= i.get(); return *this; }
-	Number operator/=(Number i) { mNumber /= i.get(); return *this; }
-	Number operator%=(Number i) { mNumber %= i.get(); return *this; }
+	template<typename U> Number operator+=(Number<U> i) { mNumber += i.get(); return *this; }
+	template<typename U> Number operator-=(Number<U> i) { mNumber -= i.get(); return *this; }
+	template<typename U> Number operator*=(Number<U> i) { mNumber *= i.get(); return *this; }
+	template<typename U> Number operator/=(Number<U> i) { mNumber /= i.get(); return *this; }
+	template<typename U> Number operator%=(Number<U> i) { mNumber %= i.get(); return *this; }
 
 	T operator=(T t) { return mNumber = t; }
 	Number operator=(Number n) { mNumber = n.get(); return *this; }
