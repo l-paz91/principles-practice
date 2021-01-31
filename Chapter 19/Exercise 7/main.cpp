@@ -3,9 +3,9 @@
 // Chapter 19 - Exercise 7
 /*
 	Try your solution to exercise 2 with some Numbers. 
-
-	Note - there are some caveats with this one. Please see the blog post for more
-	details.
+	
+	Will produce some nasty looking template warnings but it's basically telling
+	you about data loss.
 */
 // https://github.com/l-paz91/principles-practice/
 // -----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ int main()
 	vector<Number<char>> v5{ 'a', 'b', 'c', 'd', 'e', 'f', 'g' };
 	vector<Number<char>> v6{ 11, 'z' };
 
-	cout << "Sum: " << f2(v1, v4);  // this is annoyingly 1 less
+	cout << "Sum: " << f2(v1, v4);
 	cout << endl;
 
 	cout << "Sum: " << f2(v3, v6);
