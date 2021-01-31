@@ -9,6 +9,7 @@
 
 // note - char/int operations don't mesh well together. Neither do char/double and char/float
 // the opposite way is fine though, so int/char etc.,
+// edit - I fixed the above in the next exercise
 
 // -----------------------------------------------------------------------------
 
@@ -39,17 +40,17 @@ public:
 	template<typename U> Number operator/(Number<U> i) { mNumber /= i.get(); return *this; }
 	template<typename U> Number operator%(Number<U> i) { mNumber %= i.get(); return *this; }
 
-	template<typename U> T operator+=(U u) { return mNumber += u; }
-	template<typename U> T operator-=(U u) { return mNumber -= u; }
-	template<typename U> T operator*=(U u) { return mNumber *= u; }
-	template<typename U> T operator/=(U u) { return mNumber /= u; }
-	template<typename U> T operator%=(U u) { return mNumber %= u; }
+	template<typename U> T& operator+=(U u) { return mNumber += u; }
+	template<typename U> T& operator-=(U u) { return mNumber -= u; }
+	template<typename U> T& operator*=(U u) { return mNumber *= u; }
+	template<typename U> T& operator/=(U u) { return mNumber /= u; }
+	template<typename U> T& operator%=(U u) { return mNumber %= u; }
 
-	template<typename U> Number operator+=(Number<U> i) { mNumber += i.get(); return *this; }
-	template<typename U> Number operator-=(Number<U> i) { mNumber -= i.get(); return *this; }
-	template<typename U> Number operator*=(Number<U> i) { mNumber *= i.get(); return *this; }
-	template<typename U> Number operator/=(Number<U> i) { mNumber /= i.get(); return *this; }
-	template<typename U> Number operator%=(Number<U> i) { mNumber %= i.get(); return *this; }
+	template<typename U> Number& operator+=(Number<U> i) { mNumber += i.get(); return *this; }
+	template<typename U> Number& operator-=(Number<U> i) { mNumber -= i.get(); return *this; }
+	template<typename U> Number& operator*=(Number<U> i) { mNumber *= i.get(); return *this; }
+	template<typename U> Number& operator/=(Number<U> i) { mNumber /= i.get(); return *this; }
+	template<typename U> Number& operator%=(Number<U> i) { mNumber %= i.get(); return *this; }
 
 	T operator=(T t) { return mNumber = t; }
 	Number operator=(Number n) { mNumber = n.get(); return *this; }
@@ -68,7 +69,7 @@ public:
 	}
 
 	// ---- methods
-	const T get() const { return mNumber; }
+	const T& get() const { return mNumber; }
 
 private:
 	T mNumber;
