@@ -21,35 +21,36 @@ public:
 	Number() {}
 	Number(const T& t) : mNumber(t) {}
 	Number(const Number& n) { mNumber = n.get(); }
-	template<typename U> Number(const U& u) : mNumber(u) {}
+	template<typename U> Number(const Number<U>& u) { mNumber = u.get(); }
 
 	// ---- operators
-	template<typename U> T operator+(U u) { return mNumber += u; }
-	template<typename U> T operator-(U u) { return mNumber -= u; }
-	template<typename U> T operator*(U u) { return mNumber *= u; }
-	template<typename U> T operator/(U u) { return mNumber /= u; }
-	template<typename U> T operator%(U u) { return mNumber %= u; }
+	template<typename U> typename common_type<T, U>::type operator+(U u) { return mNumber + u; }
+	template<typename U> typename common_type<T, U>::type operator-(U u) { return mNumber - u; }
+	template<typename U> typename common_type<T, U>::type operator*(U u) { return mNumber * u; }
+	template<typename U> typename common_type<T, U>::type operator/(U u) { return mNumber / u; }
+	template<typename U> typename common_type<T, U>::type operator%(U u) { return mNumber % u; }
 
-	template<typename U> Number operator+(Number<U> i) { mNumber += i.get(); return *this; }
-	template<typename U> Number operator-(Number<U> i) { mNumber -= i.get(); return *this; }
-	template<typename U> Number operator*(Number<U> i) { mNumber *= i.get(); return *this; }
-	template<typename U> Number operator/(Number<U> i) { mNumber /= i.get(); return *this; }
-	template<typename U> Number operator%(Number<U> i) { mNumber %= i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type operator+(Number<U> i) { return mNumber + i.get(); }
+	template<typename U> typename common_type<T, U>::type operator-(Number<U> i) { return mNumber - i.get(); }
+	template<typename U> typename common_type<T, U>::type operator*(Number<U> i) { return mNumber * i.get(); }
+	template<typename U> typename common_type<T, U>::type operator/(Number<U> i) { return mNumber / i.get(); }
+	template<typename U> typename common_type<T, U>::type operator%(Number<U> i) { return mNumber % i.get(); }
 
-	template<typename U> T operator+=(U u) { return mNumber += u; }
-	template<typename U> T operator-=(U u) { return mNumber -= u; }
-	template<typename U> T operator*=(U u) { return mNumber *= u; }
-	template<typename U> T operator/=(U u) { return mNumber /= u; }
-	template<typename U> T operator%=(U u) { return mNumber %= u; }
+	template<typename U> typename common_type<T, U>::type& operator+=(U u) { return mNumber += u; }
+	template<typename U> typename common_type<T, U>::type& operator-=(U u) { return mNumber -= u; }
+	template<typename U> typename common_type<T, U>::type& operator*=(U u) { return mNumber *= u; }
+	template<typename U> typename common_type<T, U>::type& operator/=(U u) { return mNumber /= u; }
+	template<typename U> typename common_type<T, U>::type& operator%=(U u) { return mNumber %= u; }
 
-	template<typename U> Number operator+=(Number<U> i) { mNumber += i.get(); return *this; }
-	template<typename U> Number operator-=(Number<U> i) { mNumber -= i.get(); return *this; }
-	template<typename U> Number operator*=(Number<U> i) { mNumber *= i.get(); return *this; }
-	template<typename U> Number operator/=(Number<U> i) { mNumber /= i.get(); return *this; }
-	template<typename U> Number operator%=(Number<U> i) { mNumber %= i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type& operator+=(Number<U> i) { mNumber += i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type& operator-=(Number<U> i) { mNumber -= i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type& operator*=(Number<U> i) { mNumber *= i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type& operator/=(Number<U> i) { mNumber /= i.get(); return *this; }
+	template<typename U> typename common_type<T, U>::type& operator%=(Number<U> i) { mNumber %= i.get(); return *this; }
 
-	T operator=(T t) { return mNumber = t; }
-	Number operator=(Number n) { mNumber = n.get(); return *this; }
+	T& operator=(T t) { return mNumber = t; }
+	template<typename U> Number& operator=(Number<U> u) { mNumber = u.get(); return *this; }
+						 Number& operator=(Number n)    { mNumber = n.get(); return *this; }
 
 	friend ostream& operator<<(ostream& os, const Number& n)
 	{
@@ -65,13 +66,13 @@ public:
 	}
 
 	// ---- methods
-	const T get() const { return mNumber; }
+	const T& get() const { return mNumber; }
 
-private:
+//private:
 	T mNumber;
 };
 
-// ---- common types
+// ---- common types (will need to add more if doing different combos)
 template<> 
 struct common_type < Number<int>, Number<double> >
 {
@@ -86,6 +87,12 @@ struct common_type < Number<double>, Number<char> >
 
 template<>
 struct common_type < Number<int>, Number<char> >
+{
+	using type = Number<int>;
+};
+
+template<>
+struct common_type < Number<char>, Number<int> >
 {
 	using type = Number<int>;
 };
