@@ -12,39 +12,34 @@
 
 // -----------------------------------------------------------------------------
 
-//check that the value being read in is a number
-bool isNumber(string value)
-{
-	size_t found = value.find_first_not_of("0123456789");
-	if (found != string::npos)
-		return false;
-
-	return true;
-}
-
-// -----------------------------------------------------------------------------
-
 int main()
 {
-	ifstream readIn{ "inputFile.txt" };	//replace this with your own file
-	vector<string> v_words;
-	double number = 0;
+    vector<int> v;
+    int sum=0;
+    ifstream ist1{"vecin.txt"};
+    
+    char ch;
+    while(ist1>>ch)
+    {
+        if(isdigit(ch))
+        {
+            ist1.putback(ch);
+            int val;
+            ist1>>val;
+            v.push_back(val);
+        }
+        else
+        {
+            while(ist1.get(ch))
+            {
+                if(ch==' ') break;
+            }
+        }
+        
+    }
+    for(int i=0;i<v.size();i++) sum+=v[i];
 
-	string temp;
-	while (readIn >> temp)
-		v_words.push_back(temp);
-
-	sort(v_words);
-
-	for (string s : v_words)
-	{
-		if (isNumber(s))
-			number += stoi(s);
-		else
-			break;
-	}
-
-	cout << "Sum of whitespace separated integers: " << number;
+	cout << "Sum of whitespace separated integers: " << sum;
 
 	cout << endl;
 	keep_window_open();
