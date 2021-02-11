@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 19 - Exercise 10
+/*
+	Implement a simple unique_ptr supporting only a constructor, destructor, ->, *, 
+	and release(). In particular, don't try to implement an assignment or copy 
+	constructor.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include "MyVector.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+class UniquePointer
+{
+public:
+	// ---- constructors
+	UniquePointer(T* pPtr)
+		: mObject(pPtr)
+	{
+		cout << "UniquePointer - Default Constructor called" << endl;
+	}
+	
+	~UniquePointer() 
+	{
+		// assumes that member was allocated using new
+		cout << "UniquePointer - Destructor called" << endl;
+		delete mObject;
+	}
+
+	// ---- operators
+	T operator*() const { return *mObject; }	// return contents found at mObject
+	T* operator->() const { return mObject; }	// return a pointer to mObject
+
+	// ---- methods
+	T* release()
+	{
+		// returns a pointer to the managed object and releases the ownership
+		T* temp = mObject;
+		mObject = nullptr;
+		return &temp;
+	}
+
+private:
+	T* mObject;
+};
+
+// -----------------------------------------------------------------------------
+
+void ptrTest()
+{
+	UniquePointer<string> s(new string("hello unique pointer world"));
+	cout << *s << endl;
+		
+	s->append(", appending");
+	cout << *s << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	ptrTest();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();		// maps malloc and free, checks for memory leaks
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
