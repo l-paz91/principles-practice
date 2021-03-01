@@ -32,43 +32,6 @@
 // -----------------------------------------------------------------------------
 
 template<typename T>
-class UniquePointer
-{
-public:
-	// ---- constructors
-	UniquePointer(T* pPtr)
-		: mObject(pPtr)
-	{
-		cout << "UniquePointer - Default Constructor called" << endl;
-	}
-	
-	~UniquePointer() 
-	{
-		// assumes that member was allocated using new
-		cout << "UniquePointer - Destructor called" << endl;
-		delete mObject;
-	}
-
-	// ---- operators
-	T operator*() const { return *mObject; }	// return contents found at mObject
-	T* operator->() const { return mObject; }	// return a pointer to mObject
-
-	// ---- methods
-	T* release()
-	{
-		// returns a pointer to the managed object and releases the ownership
-		T* temp = mObject;
-		mObject = nullptr;
-		return &temp;
-	}
-
-private:
-	T* mObject;
-};
-
-// -----------------------------------------------------------------------------
-
-template<typename T>
 class SharedPointer
 {
 public:
