@@ -1,0 +1,204 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 19 - Exercise 11
+/*
+	Design and implement a counted_ptr<T> that is a type that holds a pointer to 
+	an object of type T and a pointer to a "use count" (an int) shared by all 
+	counted pointers to the same object of type T. The use count should hold the 
+	number of counted pointers pointing to a given T. 
+
+	Let the counted_ptr's constructor allocate a T object and use a count on the 
+	free store. Let counted_ptr's constructor take an argument to be used as the 
+	initial value of the T elements. When the las counted_ptr for a T is destroyed, 
+	counted_ptr's destructor should delete the T.
+
+	Give the counted_ptr operations that allow us to use it as a pointer. This is 
+	an example of a "smart pointer" used to ensure that an object doesn't get 
+	destroyed until after its last user has stopped using it. Write a set of test 
+	cases for counted_ptr using it as an argument in calls, container elements, etc.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include "MyVector.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+class UniquePointer
+{
+public:
+	// ---- constructors
+	UniquePointer(T* pPtr)
+		: mObject(pPtr)
+	{
+		cout << "UniquePointer - Default Constructor called" << endl;
+	}
+	
+	~UniquePointer() 
+	{
+		// assumes that member was allocated using new
+		cout << "UniquePointer - Destructor called" << endl;
+		delete mObject;
+	}
+
+	// ---- operators
+	T operator*() const { return *mObject; }	// return contents found at mObject
+	T* operator->() const { return mObject; }	// return a pointer to mObject
+
+	// ---- methods
+	T* release()
+	{
+		// returns a pointer to the managed object and releases the ownership
+		T* temp = mObject;
+		mObject = nullptr;
+		return &temp;
+	}
+
+private:
+	T* mObject;
+};
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+class SharedPointer
+{
+public:
+	// -----------------------------------------------------------------------------
+	// ---- constructors
+
+	// default
+	SharedPointer(const T& pObject)
+	{
+		// allocate a T object
+		mObject = new T(pObject);
+		mUseCount = new int(1);
+
+		cout << "//New shared pointer. mUseCount == " << *mUseCount << endl;
+	}
+
+	// destructor
+	~SharedPointer()
+	{
+		cout << "//Destructor entered. mUseCount == " << *mUseCount << endl;
+		--*mUseCount;	//decrement the contents of mUseCount
+		if (*mUseCount == 0)
+		{
+			cout << "//mUseCount == 0. Destroying object." << endl;
+			delete mObject;
+			delete mUseCount;
+		}
+		cout << "//Destructor end. mUseCount == " << *mUseCount << endl;
+	}
+
+	// copy constructor
+	SharedPointer(SharedPointer& pSharedPtr)
+	{
+		mObject = pSharedPtr.get();
+		mUseCount = pSharedPtr.count();
+		++*mUseCount;
+
+		cout << "//Copy constructor. mUseCount == " << *mUseCount << endl;
+	}
+
+	// -----------------------------------------------------------------------------
+	// ---- operators
+
+	T& operator*() const { return *mObject; }	// return contents found at mObject
+	T* operator->() const { return mObject; }	// return a pointer to mObject
+
+	// copy assignment
+	SharedPointer& operator=(SharedPointer& pSharedPtr)
+	{
+		// self-assignment, no work needed
+		if (this == &pSharedPtr)
+			return *this;
+
+		// are they pointing at the same location
+		if (mObject == pSharedPtr.get())
+			return *this;
+
+		mObject = pSharedPtr.get();
+		mUseCount = pSharedPtr.count();
+		++*mUseCount;
+
+		cout << "//Copy assignement. mUseCount == " << *mUseCount << endl;
+
+		return *this;
+	}
+
+	friend ostream& operator<<(ostream& os, const SharedPointer& pSP)
+	{
+		return os << *pSP.mObject;
+	}
+
+	// -----------------------------------------------------------------------------
+	// ---- methods
+	T* get() { return mObject; }
+	int* count() { return mUseCount; }
+
+private:
+	// ---- members
+	T* mObject;
+	int* mUseCount;
+};
+
+// -----------------------------------------------------------------------------
+
+void ptrTest1()
+{
+	SharedPointer<int> data(500);
+	cout << "data: " << data << endl;
+	SharedPointer<int> ptr1 = data;
+	cout << "ptr1: " << ptr1 << endl;
+	*data = 400;
+	cout << "data: " << data << endl;
+	cout << "ptr1: " << ptr1 << endl;
+	SharedPointer<int> ptr2(ptr1);
+	cout << "ptr2: " << ptr2 << endl;
+	ptr2 = data;
+}
+
+void ptrTest2()
+{
+	SharedPointer<vector<int>> vecData(vector<int>(10, 10));
+	for (int i : *vecData.get())
+	{
+		cout << i << endl;
+	}
+
+	SharedPointer<vector<int>> ptr1 = vecData;
+	(*ptr1.get())[5] = 100;
+	for (int i : *ptr1.get())
+	{
+		cout << i << endl;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	cout << "--------------------------------------------" << endl;
+	ptrTest1();
+	cout << "--------------------------------------------" << endl;
+	cout << "--------------------------------------------" << endl;
+	ptrTest2();
+	cout << "--------------------------------------------" << endl;
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();		// maps malloc and free, checks for memory leaks
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
