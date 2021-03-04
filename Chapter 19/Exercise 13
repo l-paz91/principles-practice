@@ -1,0 +1,134 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// Chapter 19 - Exercise 13
+/*
+	Write a Tracer class where its constructor prints a string and its destructor 
+	prints a string. Give the strings as constructor arguments. Use it to see 
+	where RAII management objects will do their job (i.e., experiments with Tracers 
+	as local objects, member objects, global objects, objects allocated by new, 
+	etc.). Then add a copy constructor and a copy assignment so that you can use 
+	Tracer objects to see when copying is done.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include "MyVector.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+// -----------------------------------------------------------------------------
+
+class Tracer
+{
+public:
+	// ---- constructors
+	Tracer(const string& pClassName)
+		: mMsg(pClassName)
+	{
+		cout << mMsg << " default constructed with:" << mMsg << endl;
+	}
+
+	~Tracer()
+	{
+		cout << " Destructor for: " << mMsg << endl;
+	}
+
+	// copy
+	Tracer(const Tracer& pTracer)
+	{
+		mMsg = pTracer.mMsg;
+		cout << mMsg << " copy constructed from: " << pTracer.mMsg << endl;
+	}
+
+	// ---- operators
+
+	// copy
+	Tracer& operator=(const Tracer& pTracer)
+	{
+		// self assignment, no work needed
+		if (this == &pTracer)
+		{
+			cout << "Self assignment. No copy needed." << endl;
+			return *this;
+		}
+
+		cout << mMsg << " copy assigned from: " << pTracer.mMsg << endl;
+		mMsg = pTracer.mMsg;
+		return *this;
+	}
+
+	// ---- methods
+
+	// ---- members
+	string mMsg;
+};
+
+// -----------------------------------------------------------------------------
+
+struct TestObject
+{
+	TestObject(const string& pMsg)
+		: mTracer(pMsg)
+	{
+
+	}
+
+	Tracer mTracer;
+};
+
+// -----------------------------------------------------------------------------
+
+Tracer gTracer("GlobalTracer");
+
+void f(const Tracer& pTracer)
+{
+	cout << "Line: " << __LINE__ << " --- ";
+	Tracer* tracerPtr = new Tracer("AllocatedTracer");
+
+	cout << "Line: " << __LINE__ << " --- ";
+	*tracerPtr = pTracer;
+
+	cout << "Line: " << __LINE__ << " --- ";
+	delete tracerPtr;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// local object
+	cout << "Line: " << __LINE__ << " --- ";
+	Tracer tracer("LocalTracer");
+	
+	// member object
+	cout << "Line: " << __LINE__ << " --- ";
+	TestObject testObject("TestObject");
+
+	cout << "Line: " << __LINE__ << " --- ";
+	tracer = testObject.mTracer;
+
+	cout << "Line: " << __LINE__ << " --- ";
+	Tracer tracer2(tracer);
+
+	// global object
+	cout << "Line: " << __LINE__ << " --- ";
+	testObject.mTracer = gTracer;
+
+	// object allocated by new
+	cout << "Line: " << __LINE__ << " --- ";
+	Tracer tracer3("LocalTracer3");
+
+	f(tracer3);
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();		// maps malloc and free, checks for memory leaks
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
