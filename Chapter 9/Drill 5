@@ -5,7 +5,9 @@
 // Your check for a valid date may be very simple. Feel free to ignore leap years
 // Don't accept a month that isn't [1,12] or day that isn't [1, 31]. test each
 // with at least one invalid date.
-// 
+//
+// Note - this code does not check for invalid days in February and will allow
+// Feb 30 and Feb 31.
 // -----------------------------------------------------------------------------
 
 #include "std_lib_facilities.h"
@@ -44,7 +46,7 @@ Date::Date(int yy, Month mm, int dd)
 	int yearMin(1900), yearMax(3000);
 	if (yy > yearMax || yy < yearMin)
 		cout << "Invalid year.";
-	if (int(mm) > 12 || int(mm) < 1)		// you get a c cast
+	if (int(mm) > 12 || int(mm) < 1)
 		cout << "Invalid month.";
 	if (dd > 31 || dd < 1)
 		cout << "Invalid day." << endl;
@@ -60,16 +62,16 @@ void Date::add_day(int n)
 {
 	//wrap days and months + increase year if necessary
 	//you should see what I wrote the first time around...talk about nightmare code
-	if (d += n > 31)
+	if ((d += n) > 31)
 	{
 		d = 1;
-		int nextM = int(m) + 1;				// and you get a c cast
+		int nextM = int(m) + 1;
 		if (nextM > 12)
 		{
 			add_month(1);
 		}
 		else
-			m = Month(nextM);				//and you get a c cast
+			m = Month(nextM);
 	}
 }
 
@@ -77,13 +79,14 @@ void Date::add_day(int n)
 
 void Date::add_month(int n)
 {
-	if (int nextM = int(m) + n > 12)		// and you get a c cast
+	int nextM = 0;
+	if ((nextM = int(m) + n) > 12)
 	{
 		m = Month::jan;
 		add_year(1);
 	}
 	else
-		m = Month(nextM);					//and you get a c cast
+		m = Month(nextM);
 }
 
 // -----------------------------------------------------------------------------
@@ -103,7 +106,7 @@ void Date::add_year(int n)
 ostream& operator<<(ostream& os, const Date& d)
 {
 	return os << "(" << d.year()
-		<< "," << int(d.month())	// you all get c casts!
+		<< "," << int(d.month())
 		<< "," << d.day() << ")";
 }
 
@@ -111,17 +114,18 @@ ostream& operator<<(ostream& os, const Date& d)
 
 int main()
 {
-	//c casting...c casting everywhere!
-
-	Date today( 1978, Month::dec, 31 );
-	Date tomorrow( today );
+	Date today(1978, Month::jan, 30);
+	Date tomorrow(today);
 
 	tomorrow.add_day(1);
-	tomorrow.add_month(13);
+	cout << tomorrow << endl;
+	tomorrow.add_month(1);
+	cout << tomorrow << endl;
 	tomorrow.add_year(5);
+	cout << tomorrow << endl;
 
 
-	cout << today << endl;
+	cout << "\n" << today << endl;
 	cout << tomorrow << endl;
 
 	//invalid date
