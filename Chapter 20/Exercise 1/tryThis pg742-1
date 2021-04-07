@@ -66,8 +66,8 @@ void helloComparison(const T s)
 	// copy argument into another variable of the same type
 	T sCopy = s;
 	cout << "Copy: ";
-	temp = s.begin();
-	for (uint32 i = 0; i < s.size(); ++i)
+	temp = sCopy.begin();
+	for (uint32 i = 0; i < sCopy.size(); ++i)
 		cout << *temp++;
 	cout << "\n";
 
