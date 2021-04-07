@@ -1,0 +1,164 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 1
+
+	If you haven't already, do all the 'Try This' exercises in the chapter.
+
+	p742 - 1
+	For each array of char, vector<char>, list<char>, and string, define one with
+	the value "Hello", pass it to a function as an argument, write out the number of
+	characters in the string passed, try to compare it to "Hello" in that function
+	(to see if you really did pass "Hello"), and compare the argument to "Howdy" to see
+	which would come first in a dictionary. Copy the argument into another variable of
+	the same type.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include <type_traits>
+
+typedef uint32_t uint32;
+
+// -----------------------------------------------------------------------------
+
+void comparison(string s)
+{
+	// write out num of chars passed in string
+	for (uint32 i = 0; i < s.size(); ++i)
+		cout << s[i] << ", ";
+	cout << "\nNum of chars passed: " << s.size() << endl;
+
+	// copy argument into another variable of the same type
+	string sCopy = s;
+	cout << "Copy: " << sCopy << endl;
+
+	// compare it to "Hello"
+	if (s == "Hello")
+		cout << "it's equal!" << endl;
+	else
+		cout << "It's not equal. " << endl;
+
+	// compare it to "Howdy" to see which would come first in a dictionary
+	if (s < "Howdy")
+		cout << s << " comes before Howdy." << endl;
+	else if(s > "Howdy")
+		cout << s << " comes after Howdy." << endl;
+	else if(s == "Howdy")
+		cout << s << " they're the same." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void helloComparison(const T s)
+{
+	// write out num of chars passed in
+	auto temp = s.begin();
+	for (uint32 i = 0; i < s.size(); ++i)
+		cout << *temp++ << ", ";
+	cout << "\nNum of chars passed: " << s.size() << endl;
+
+	// copy argument into another variable of the same type
+	T sCopy = s;
+	cout << "Copy: ";
+	temp = s.begin();
+	for (uint32 i = 0; i < s.size(); ++i)
+		cout << *temp++;
+	cout << "\n";
+
+	// compare it to "Hello"
+	temp = s.begin();
+	string hello = "Hello";
+	if (s.size() != hello.size())
+		cout << "not the same size." << endl;
+	bool flag = true;
+	for (uint32 i = 0; i < s.size(); ++i)
+	{
+		if (*temp++ != hello[i])
+		{
+			cout << "Not equal to hello" << endl;
+			flag = false;
+			break;
+		}
+	}
+	if(flag)
+		cout << "it's equal to Hello!" << endl;
+
+	// compare it to "Howdy" to see which would come first in a dictionary
+	temp = s.begin();
+	string howdy = "Howdy";
+	for (uint32 i = 0; i < s.size(); ++i)
+	{
+		if (*temp < howdy[i])
+		{
+			cout << "It comes before Howdy." << endl;
+			break;
+		}
+		if (*temp > howdy[i])
+		{
+			cout << "It comes after Howdy." << endl;
+			break;
+		}
+		++temp;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	cout << "--------------------------------------------------------" << endl;
+	cout << "char" << endl;
+	char c[6] = "Hello";
+	comparison(c);
+	
+	cout << "--------------------------------------------------------" << endl;
+	cout << "vector<char>" << endl;
+	vector<char> v{ 'H', 'e', 'l', 'l', 'o' };
+	helloComparison(v);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "list<char>" << endl;
+	list<char> l{ 'H', 'e', 'l', 'l', 'o' };
+	helloComparison(l);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "string" << endl;
+	string s = "Hello";
+	comparison(s);
+
+	cout <<"\n\n";
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "char" << endl;
+	char c2[6] = "Howdy";
+	comparison(c2);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "vector<char>" << endl;
+	vector<char> v2{ 'H', 'o', 'w', 'd', 'y' };
+	helloComparison(v2);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "list<char>" << endl;
+	list<char> l2{ 'H', 'o', 'w', 'd', 'y' };
+	helloComparison(l2);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "string" << endl;
+	string s2 = "Howdy";
+	comparison(s2);
+
+	cout << "\n\n";
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
