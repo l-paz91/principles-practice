@@ -1,0 +1,49 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 1
+
+	If you haven't already, do all the 'Try This' exercises in the chapter.
+
+	p714 - If you were able to change Jill's code, how would you redesign its
+	interface to get rid of the ugliness.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+vector<double>* get_from_jill()
+{
+	vector<double>* data = new vector<double>(10);
+	return data;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	vector<double>& jillData = *get_from_jill();  // changed this from vector<double>* to reference
+	double h = -1;
+	double* jillHigh;
+	for (int i = 0; i < jillData.size(); ++i)
+	{
+		if (h < jillData[i])
+		{
+			jillHigh = &jillData[i]; // ugliness be gone!
+			h = jillData[i];
+		}
+	}
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
