@@ -1,0 +1,141 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 1
+
+	If you haven't already, do all the 'Try This' exercises in the chapter.
+
+	p742 - 2
+	Do the previous Try This for an array of int, vector<int> and list<int> each
+	with the value {1,2,3,4,5}.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include <type_traits>
+
+typedef uint32_t uint32;
+
+// -----------------------------------------------------------------------------
+
+void comparison(int* n, int size)
+{
+	// write out num of ints passed in
+	int* temp = n;
+	for (int i = 0; i < size; ++i)
+	{
+		cout << *temp++ << ", ";
+	}
+	cout << "\nNum of chars passed: " << size << endl;
+
+	// copy argument into another variable of the same type
+	int* nCopy = n;
+	temp = nCopy;
+	cout << "Copy: ";
+	for (int i = 0; i < size; ++i)
+	{
+		cout << *temp++ << ", ";
+	}
+
+	// compare it to "1,2,3,4,5"
+	temp = n;
+	bool flag = true;
+	for (int i = 1; i <= size; ++i)
+	{
+		if (*temp++ != i)
+		{
+			cout << "not equal to 1,2,3,4,5" << endl;
+			flag = false;
+			break;
+		}
+	}
+	if (flag)
+		cout << "It's equal to 1,2,3,4,5" << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void intComparison(T n)
+{
+	// write out num of ints passed in
+	auto temp = n.begin();
+	for (uint32 i = 0; i < n.size(); ++i)
+		cout << *temp++ << ", ";
+	cout << "\nNum of ints passed: " << n.size() << endl;
+
+	// copy argument into another variable of the same type
+	T nCopy = n;
+	cout << "Copy: ";
+	temp = nCopy.begin();
+	for (uint32 i = 0; i < nCopy.size(); ++i)
+		cout << *temp++ << ", ";
+	cout << "\n";
+
+	// compare it to "1,2,3,4,5"
+	vector<int> nums{ 1,2,3,4,5 };
+	temp = n.begin();
+	if (n.size() != nums.size())
+		cout << "not the same size." << endl;
+	bool flag = true;
+	for (uint32 i = 0; i < n.size(); ++i)
+	{
+		if (*temp++ != nums[i])
+		{
+			cout << "Not equal to 1,2,3,4,5" << endl;
+			flag = false;
+			break;
+		}
+	}
+	if (flag)
+		cout << "it's equal to 1,2,3,4,5!" << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	cout << "--------------------------------------------------------" << endl;
+	cout << "int[]" << endl;
+	int i[5] = { 1,2,3,4,5 };
+	comparison(i, 5);
+	
+	cout << "--------------------------------------------------------" << endl;
+	cout << "vector<int>" << endl;
+	vector<int> v = { 1,2,3,4,5 };
+	intComparison(v);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "list<int>" << endl;
+	list<int> l = { 1,2,3,4,5 };
+	intComparison(l);
+
+	cout <<"\n\n";
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "int[]" << endl;
+	int i2[5] = { 6,7,8,9,10 };
+	comparison(i2, 5);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "vector<int>" << endl;
+	vector<int> v2 = { 6,7,8,9,10 };
+	intComparison(v2);
+
+	cout << "--------------------------------------------------------" << endl;
+	cout << "list<int>" << endl;
+	list<int> l2 = { 6,7,8,9,10 };
+	intComparison(l2);
+
+	cout << "\n\n";
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
