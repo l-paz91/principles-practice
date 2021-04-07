@@ -1,0 +1,48 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 1
+
+	If you haven't already, do all the 'Try This' exercises in the chapter.
+
+	p739 - Rewrite advance() so that it will "go backward" when you give it a 
+	negative argument.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+template<typename Iter>
+void myAdvance(Iter& p, int n)
+{
+	while (0 < n)
+	{
+		++p;
+		--n;
+	}
+	while (0 > n)
+	{
+		--p;
+		++n;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	
+
+	keep_window_open();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
