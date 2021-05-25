@@ -79,12 +79,9 @@ double* highString(double* pFirst, double* pLast)
 	double* first = pFirst;
 	double* high = pFirst;
 
-	while (first != pLast)
-	{
+	for (; first != pLast; ++first)
 		if (*first > *high)
 			*high = *first;
-		++first;
-	}
 
 	return high;
 }
