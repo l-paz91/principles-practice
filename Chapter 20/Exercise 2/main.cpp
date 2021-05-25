@@ -52,7 +52,7 @@ vector<double>* getFromJill()
 double* high(double* first, double* last)
 {
 	double h = -1;
-	double* high = new double;
+	double* high;
 	*high = 0;
 
 	for (double* p = first; p != last; ++p)
