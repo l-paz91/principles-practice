@@ -79,6 +79,10 @@ int main()
 
 	cout << "Jill's max: " << *jillHigh << endl;
 	cout << "Jack's max: " << *jackHigh << endl;
+	
+	// delete
+	delete[] jackData;
+	delete &jillData;
 
 	keep_window_open();
 	return 0;
