@@ -1,0 +1,157 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 3
+
+	Look at the palindrome examples (section 18.7); redo the Jack-and-Jill example
+	from section 20.1.2 using that variety of techniques.
+  
+  Data for Jack and Jill can be found in C20 - Exercise 2
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+// -----------------------------------------------------------------------------
+
+double* getFromJack(int* count)
+{
+	double* data = new double[10];
+	ifstream readIn{ "jackData.txt" };
+	if (!readIn)
+		error("Error opening jackData.txt");
+
+	for (; *count < 10; ++(*count))
+		readIn >> data[*count];
+
+	return data;
+}
+
+// -----------------------------------------------------------------------------
+
+vector<double>* getFromJill()
+{
+	vector<double>* data = new vector<double>(10);
+	ifstream readIn{ "jillData.txt" };
+	if (!readIn)
+		error("Error opening jillData.txt");
+
+	int i = 0;
+	while (!readIn.eof())
+		readIn >> (*data)[i++];
+
+	return data;
+}
+
+// -----------------------------------------------------------------------------
+
+// original
+double* high(double* first, double* last)
+{
+	double h = -1;
+	double* high = first;
+
+	for (double* p = first; p != last; ++p)
+	{
+		if (h < *p)
+		{
+			high = p;
+			h = *p;
+		}
+	}
+	return high;
+}
+
+// -----------------------------------------------------------------------------
+
+// using the string technique (without actually using a string)
+double* highString(double* pFirst, double* pLast)
+{
+	double* first = pFirst;
+	double* high = pFirst;
+
+	while (first != pLast)
+	{
+		if (*first > *high)
+			*high = *first;
+		++first;
+	}
+
+	return high;
+}
+
+// -----------------------------------------------------------------------------
+
+// using the array technique
+double* highArray(double d[], int n)
+{
+	double* high = d;
+
+	for (int i = 0; i < n; ++i)
+	{
+		if (d[i] > *high)
+			*high = d[i];
+	}
+
+	return high;
+}
+
+// -----------------------------------------------------------------------------
+
+void calculateAndPrint()
+{
+	int jackCount = 0;
+	double* jackData = getFromJack(&jackCount);
+	vector<double>& jillData = *getFromJill();
+
+	double* jackHigh = high(jackData, jackData + jackCount);
+	double* jillHigh = high(&jillData[0], &jillData[0] + jillData.size());
+
+	cout << "Jill's max: " << *jillHigh << endl;
+	cout << "Jack's max: " << *jackHigh << endl;
+
+	cout << "\n// -----------------------------------------------------------------------------" << endl;
+
+	double* jackHighStr = highString(jackData, jackData + jackCount);
+	double* jillHighStr = highString(&jillData[0], &jillData[0] + jillData.size());
+	cout << "'String' Technique:\n";
+	cout << "Jill's max: " << *jillHighStr << endl;
+	cout << "Jack's max: " << *jackHighStr << endl;
+
+	cout << "\n// -----------------------------------------------------------------------------" << endl;
+
+	double* jackHighArr = highArray(jackData, jackCount);
+	double* jillHighArr = highArray(&jillData[0], jillData.size());
+	cout << "Array Technique:\n";
+	cout << "Jill's max: " << *jillHighStr << endl;
+	cout << "Jack's max: " << *jackHighStr << endl;
+
+	// delete
+	delete[] jackData;
+	delete &jillData;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	calculateAndPrint();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
