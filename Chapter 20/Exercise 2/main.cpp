@@ -6,7 +6,7 @@
 
 	Get the Jack-and-Jill example from section 20.1.2 to work. Use input from a 
 	couple of small files to test it.
-
+	Note- hardcoded for 10 data pieces. I might change this later on.
 */
 // https://github.com/l-paz91/principles-practice/
 // -----------------------------------------------------------------------------
