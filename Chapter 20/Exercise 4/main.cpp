@@ -1,0 +1,151 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 4
+
+	Find and fix the errors in the Jack-and-Jill example from section 20.3.1 by 
+	using STL techniques throughout.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+const int gDataSize = 10;
+
+// -----------------------------------------------------------------------------
+
+bool isFileEmpty(ifstream& pFile)
+{
+	return pFile.peek() == ifstream::traits_type::eof();
+}
+
+// -----------------------------------------------------------------------------
+
+double* getFromJack(int* count)
+{
+	ifstream readIn{ "jackData.txt" };
+	if (!readIn)
+		error("Error opening jackData.txt");
+
+	if (!isFileEmpty(readIn))
+	{
+		double* data = new double[gDataSize];
+		for (; *count < gDataSize; ++(*count))
+			readIn >> data[*count];
+
+		return data;
+	}
+
+	return nullptr;
+}
+
+// -----------------------------------------------------------------------------
+
+vector<double>* getFromJill()
+{
+	ifstream readIn{ "jillData.txt" };
+	if (!readIn)
+		error("Error opening jillData.txt");
+
+	if (!isFileEmpty(readIn))
+	{
+		vector<double>* data = new vector<double>;
+		for (double d = 0; !readIn.eof(); readIn >> d)
+			(*data).push_back(d);
+
+		return data;
+	}
+
+	return nullptr;
+}
+
+// -----------------------------------------------------------------------------
+
+// original
+double* high(double* first, double* last)
+{
+	double h = -1;
+	double* high = first;
+
+	for (double* p = first; p != last; ++p)
+	{
+		if (h < *p)
+		{
+			high = p;
+			h = *p;
+		}
+	}
+	return high;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename Iterator>
+Iterator highIterator(Iterator pFirst, Iterator pLast)
+{
+	// return an iterator to the element in [first:last) that has the highest value
+	Iterator high = pFirst;
+	for (Iterator p = pFirst; p != pLast; ++p)
+		if (*high < *p)
+			high = p;
+	return high;
+}
+
+// -----------------------------------------------------------------------------
+
+void calculateAndPrint()
+{
+	int jackCount = 0;
+	if (double* jackData = getFromJack(&jackCount))
+	{
+		double* jackHigh = high(jackData, jackData + jackCount);
+		cout << "Jack's max original: " << *jackHigh << endl;
+
+		double* jackHighIt = highIterator(jackData, jackData + jackCount);
+		cout << "Jack's max iterator: " << *jackHighIt << endl;
+
+		delete[] jackData;
+	}
+	else
+		cout << "Jack had no data to get." << endl;
+
+	if (vector<double>* jillData = getFromJill())
+	{
+		vector<double>& temp = *jillData;
+		double* jillHigh = high(&temp[0], &temp[0] + temp.size());
+		cout << "Jill's max original: " << *jillHigh << endl;
+
+		double* jillHighIt = highIterator(&temp[0], &temp[0] + temp.size());
+		cout << "Jill's max iterator: " << *jillHighIt << endl;
+
+		delete jillData;
+	}
+	else
+		cout << "Jill had no data to get." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	calculateAndPrint();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
