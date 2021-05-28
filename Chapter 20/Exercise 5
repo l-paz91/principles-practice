@@ -1,0 +1,84 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 5
+
+	Define an input and output operator (<< and >>) for vector.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+istream& operator>>(istream& inStream, vector<T>& inVector)
+{
+	cout << "Enter data: ";
+
+	if (inStream.eof())
+	{
+		inStream.clear();
+		inStream.ignore(INT_MAX, '\n');
+	}
+
+	T temp;
+	while(inStream >> temp)
+		inVector.push_back(temp);
+
+	return inStream;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+ostream& operator<<(ostream& outStream, vector<T>& inVector)
+{
+	outStream << "Vector: ";
+	for (const T value : inVector)
+		outStream << value << ", ";
+
+	return outStream;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// vector of strings
+	vector<string> vString;
+	cin >> vString;
+	cout << vString << endl;
+
+	// vector of doubles
+	vector<double> vDouble;
+	cin >> vDouble;
+	cout << vDouble << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
