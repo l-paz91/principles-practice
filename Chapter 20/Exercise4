@@ -6,6 +6,8 @@
 
 	Find and fix the errors in the Jack-and-Jill example from section 20.3.1 by 
 	using STL techniques throughout.
+	
+	To test empty files, edit jackData.txt and jillData.txt found in exercise 2.
 
 */
 // https://github.com/l-paz91/principles-practice/
