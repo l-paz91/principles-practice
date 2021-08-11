@@ -16,7 +16,7 @@
 
 int arrayLength(const char* c)
 {
-	char* temp = const_cast<char*>(c);
+	char* temp = const_cast<char*>(c);	// oh dear. one day I'll re-write this without using const_cast....sigh
 	int size = 0;
 	for (; *temp != 0; ++temp)
 		++size;
