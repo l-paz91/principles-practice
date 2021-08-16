@@ -1,0 +1,86 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 7
+
+	Find the lexicographical last string in an unsorted vector<string>.
+
+	Note from me - This exercise is a "gotcha". 
+	Lexicographical order is basically alphabetical order but to ascii chars, 
+	uppercase is alphabetically before lowercase so Zebra would come before 
+	zany when it should be after.
+
+	See the blog post for more information:
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+bool lexicographicalCompare(char a, char b)
+{
+	return tolower(a) < tolower(b);
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	vector<string> v{
+		"eye",
+		"cent",
+		"trashy",
+		"hop",
+		"bath",
+		"stop material",
+		"material",
+		"Zebra",
+		"zany",
+		"language",
+		"horses",
+		"summer",
+		"Apple",
+		"snatch",
+		"123"
+	};
+
+	string lastString = v[0];
+	for (int i = 0; i < v.size(); ++i)
+	{
+		bool result = std::lexicographical_compare(v[i].begin(), v[i].end(), lastString.begin(), lastString.end(), lexicographicalCompare);
+    
+    // !result is numbers - a - z, result is z - a - numbers
+		if (!result)
+			lastString = v[i];
+	}
+
+	cout << "The lexicographical last string in the unsorted vector is: " << lastString << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
