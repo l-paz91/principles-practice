@@ -5,42 +5,36 @@
 #include "std_lib_facilities.h"
 
 // -----------------------------------------------------------------------------
-vector<int> digits;
-int number(0);
-
-// -----------------------------------------------------------------------------
 
 int main()
 {
 	cout << "Enter up to 4 digits >> ";
-	string digit; cin >> digit;
+	string digit; 
+	cin >> digit;
+
 	if (digit.size() > 4)
 		error("Too many numbers.");
 
-	for (int i = 0; i < digit.size(); ++i)
-		digits.push_back(digit[i] - '0');
+	size_t found = digit.find_first_not_of("0123456789");
+	if (found != digit.npos)
+		error("That's not a number");
 
-	int mult(1);
-	for (int i = digits.size() - 1; i >= 0; --i)
-	{
-		number += (digits[i] * mult);
-		mult *= 10;
-	}
+	int number = stoi(digit);
 
 	cout << number << " is ";
-	switch (digits.size())
+	switch (digit.size())
 	{
 	case 1:
-		cout << digits[0] << " one(s)." << endl;
+		cout << digit[0] << " one(s)." << endl;
 		break;
 	case 2:
-		cout << digits[0] << " ten(s) and " << digits[1] << "one(s)" << endl;
+		cout << digit[0] << " ten(s) and " << digit[1] << " one(s)" << endl;
 		break;
 	case 3:
-		cout << digits[0] << " hundred(s) and " << digits[1] << "ten(s) and " << digits[2] << "one(s)." << endl;
+		cout << digit[0] << " hundred(s) and " << digit[1] << " ten(s) and " << digit[2] << " one(s)." << endl;
 		break;
 	case 4:
-		cout << digits[0] << " thousand(s) and " << digits[1] << "hundred(s) and " << digits[2] << "ten(s) and " << digits[3] << " one(s)." << endl;
+		cout << digit[0] << " thousand(s) and " << digit[1] << " hundred(s) and " << digit[2] << " ten(s) and " << digit[3] << " one(s)." << endl;
 		break;
 	}
 	
