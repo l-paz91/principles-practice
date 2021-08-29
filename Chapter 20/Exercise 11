@@ -1,0 +1,78 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 11
+
+	Given a list<int> as a (by-reference) parameter, make a vector<double> and 
+	copy the elements of the list into it. Verify that the copy was complete and 
+	correct. Then print the elements sorted in increasing value.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+void intListToVectorDouble(list<int>& l)
+{
+	vector<double> doubleVector(l.begin(), l.end());
+
+	cout << "Double List: " << endl;
+	for (double d : doubleVector)
+		cout << d << ", ";
+	cout << "\n-----------------------------------------------------------------------------" << endl;
+
+	cout << "Int List after copy: " << endl;
+	for (int i : l)
+		cout << i << ", ";
+	cout << "\n-----------------------------------------------------------------------------" << endl;
+
+	sort(doubleVector.begin(), doubleVector.end());
+	cout << "Double List Sorted: " << endl;
+	for (double d : doubleVector)
+		cout << d << ", ";
+	cout << "\n-----------------------------------------------------------------------------" << endl;
+
+	cout << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	list<int> intList{ 1890,24,13,4,53,6,700, 35, -1, 1000, -56, };
+
+	cout << "Int List before copy: " << endl;
+	for (int i : intList)
+		cout << i << ", ";
+	cout << "\n-----------------------------------------------------------------------------" << endl;
+
+	intListToVectorDouble(intList);
+}
+
+ // -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
