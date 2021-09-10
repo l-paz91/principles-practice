@@ -67,8 +67,10 @@ public:
 	{ 
 		for (Iterator it = begin(); it != nullptr; ++it)
 		{
-			if (it.get()->mSucc == nullptr)
-				return it.get()->mValue;
+			Iterator temp = it;
+			++temp;
+			if (temp == nullptr)
+				return *it;
 		}
 
 		return front();
@@ -113,7 +115,6 @@ public:
 	Iterator& operator++() { mCurr = mCurr->mSucc; return *this; }	// forward
 	Iterator& operator--() { mCurr = mCurr->mPrev; return *this; }	// backward
 	Elem& operator*() { return mCurr->mValue; }						// get contents of
-	Link<Elem>* get() const { return mCurr; }					// get pointer to current
 
 	bool operator==(const Iterator& b) const { return mCurr == b.mCurr; }
 	bool operator!=(const Iterator& b) const { return mCurr != b.mCurr; }
