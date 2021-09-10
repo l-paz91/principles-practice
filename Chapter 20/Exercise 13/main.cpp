@@ -2,10 +2,12 @@
 // https://lptcp.blogspot.com/
 // 
 /*
-	Chapter 20 - Exercise 12
+	Chapter 20 - Exercise 13
 
-	Complete the definition of list from section 20.4.1-2 and get the high() 
-	example to run. Allocate a Link to represent one past the end.
+	We don't really need a "real" one-past-the-end Link for a list. Modify your 
+	solution to the previous exercise to use 0 to represent a pointer to the (non-existent) 
+	one-past-the-end Link (list<Elem>::end()); that way, the size of an empty list 
+	can be equal to the size of a single pointer.
 
 */
 // https://github.com/l-paz91/principles-practice/
@@ -47,6 +49,7 @@ void fct()
 	cout << "The highest value in the list is: " << *it << endl;
 	int f = myList.front();
 	int b = myList.back();
+	cout << "Front: " << f << "       |  Back : " << b << endl;
 }
 
  // -----------------------------------------------------------------------------
