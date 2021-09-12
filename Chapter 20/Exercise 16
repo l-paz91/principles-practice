@@ -1,0 +1,117 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 16
+
+	Define an ovector that is like a pvector except that [] and * operators return 
+	a reference to the object pointed to by an element rather than the pointer.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include <type_traits>
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+// vector that holds pointers and deletes objects upon destruction
+template<class T>
+class OVector
+{
+	// only allow this class to compile if T is a pointer type
+	static_assert(is_pointer<T>::value, "This type must be a pointer. Use a normal vector");
+
+	using size_type = typename vector<T>::size_type;
+	using It = typename vector<T>::iterator;
+
+public:
+	OVector() {}
+	explicit OVector(size_type n) : mVector(n) {}
+	OVector(size_type n, const T& v) : mVector(n, v) {}
+	template <class I>
+	OVector(I first, I last) : mVector(first, last) {}
+	OVector(initializer_list<T> list) : mVector(list) {}
+
+	~OVector()
+	{
+		for (T t : mVector)
+			delete t;
+	}
+
+	// ---- element access
+	using decay_t = typename remove_pointer<T>::type;
+	decay_t& operator[](unsigned int i) { return *mVector[i]; }
+	const decay_t& operator[](unsigned int i) const { return *mVector[i]; }
+	decay_t& operator*() { return *mVector[0]; }
+
+	T& front() { return mVector.front(); }
+	T& back() { return mVector.back(); }
+
+	// ---- iterators
+	It begin() { return mVector.begin(); }
+	It end() { return mVector.end(); }
+
+	// ---- capacity
+	const bool empty() const { return mVector.empty(); }
+	const size_type size() const { return mVector.size(); }
+	const size_type max_size() const { return mVector.size(); }
+	void reserve(size_type new_cap) { mVector.reserve(new_cap); }
+	const size_type capacity() const { return mVector.capacity(); }
+	void shrink_to_fit() { mVector.shrink_to_fit(); }
+
+	// ---- modifiers
+	void clear()
+	{
+		for (T t : mVector)
+			delete t;
+		mVector.clear();	// this won't call destructors on pointers so we need to delete first
+	}
+
+	It insert(It pos, const T& value) { return mVector.insert(pos, value); }
+	It erase(It pos) { return mVector.erase(pos); }
+	void push_back(const T& value) { mVector.push_back(value); }
+	void pop_back() { mVector.pop_back(); }
+	void resize(size_type count) { mVector.resize(count); }
+	void swap(vector<T>& other) { mVector.swap(other); }
+
+private:
+	vector<T> mVector;
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	OVector<int*> ovInt{ new int(1), new int(2), new int(3) };
+	cout << ovInt[1] << endl;
+	cout << *ovInt << endl;
+	cout << **ovInt.begin() << endl;
+	ovInt.clear();
+	//PVector<int> vInt{ 1, 2, 3 };  // uncomment this line to see the static assert error
+}
+
+ // -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
