@@ -1,0 +1,122 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 17
+
+	Define an ownership_vector that holds pointers to objects like pvector but 
+	provides a mechanism for the user to decide which objects are owned by the 
+	vector (i.e., which objects are deleted by the destructor). Hint: This 
+	exercise is simple if you were awake for Chapter 13.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include <type_traits>
+
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+
+typedef uint32_t uint32;
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+// vector that holds pointers and deletes objects upon destruction
+template<class T>
+class Ownership_vector
+{
+	using size_type = typename vector<T>::size_type;
+
+public:
+	Ownership_vector() {}
+
+	Ownership_vector(T* a, T* b = 0, T* c = 0, T* d = 0)
+	{
+		if (a) push_back(a);
+		if (b) push_back(b);
+		if (c) push_back(c);
+		if (d) push_back(d);
+	}
+
+	~Ownership_vector()
+	{
+		for (auto t : mPtrVector)		// auto; for when you're too lazy to figure out what the return type should be
+			delete t;
+	}
+
+	// ---- element access
+	T& operator[](int i) { return *mLocalVector[i]; }
+	const T& operator[](int i) const { return *mLocalVector[i]; }
+	void print()
+	{
+		if (mLocalVector.empty())
+		{
+			cout << "Vector is empty." << endl;
+			return;
+		}
+
+		for (auto i : mLocalVector)
+			cout << *i << ", ";
+		cout << endl;
+	}
+
+	// ---- capacity
+	int size() const { return mLocalVector.size(); }
+
+	// ---- modifiers
+	void clear()
+	{
+		for (auto t : mPtrVector)
+			delete t;
+		mPtrVector.clear();		// this won't call destructors on pointers so we need to delete first
+		mLocalVector.clear();
+	}
+
+	void push_back(T& value) { mLocalVector.push_back(&value); }
+	void push_back(T* value) { mLocalVector.push_back(value); mPtrVector.push_back(value); }
+
+private:
+	vector<T*> mLocalVector;	// objects that are local and passed to Ownership_vector by ref
+	vector<T*> mPtrVector;		// objects that have been allocated by new and need to be deleted by Ownership_vector
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	int num = 5;
+	Ownership_vector<int> ovInt{ new int(1), new int(2), new int(3)};
+	ovInt.push_back(new int(111));
+	ovInt.push_back(new int(333));
+	ovInt.push_back(new int(555));
+	ovInt.push_back(num);
+
+	ovInt.print();
+	ovInt.clear();
+	ovInt.print();
+
+	ovInt.push_back(new int(50));
+	ovInt.push_back(num);
+	ovInt.print();
+}
+
+ // -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
