@@ -128,18 +128,14 @@ public:
 	It& operator++()
 	{
 		++mCurrent;
-		auto i = mCurrent - mParent->begin();
-		if (i >= mParent->size() || i < 0)
-			throw Range_error(i);
+		rangeCheck();
 		return mCurrent;
 	}
 
 	It& operator--()
 	{
 		--mCurrent;
-		auto i = mCurrent - mParent->begin();
-		if (i >= mParent->size() || i < 0)
-			throw Range_error(i);
+		rangeCheck();
 		return mCurrent;
 	}
 
@@ -149,6 +145,57 @@ public:
 
 	bool operator==(const It& i) const { return mCurrent == i; }
 	bool operator!=(const It& i) const { return mCurrent != i; }
+
+	It& operator+(int n)
+	{
+		mCurrent += n;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	It& operator+=(CheckedIt& i)
+	{
+		auto pos = mCurrent + i.mCurrent;
+		mCurrent += pos;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	It& operator+=(int n)
+	{
+		mCurrent += n;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	It& operator-(int n)
+	{
+		mCurrent -= n;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	It& operator-=(CheckedIt& i)
+	{
+		auto pos = mCurrent - i.mCurrent;
+		mCurrent -= pos;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	It& operator-=(int n)
+	{
+		mCurrent -= n;
+		rangeCheck();
+		return mCurrent;
+	}
+
+	void rangeCheck()
+	{
+		auto i = mCurrent - mParent->begin();
+		if (i >= mParent->size() || i < 0)
+			throw Range_error(i);
+	}
 
 private:
 	v* mParent;
