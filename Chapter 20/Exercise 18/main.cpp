@@ -32,9 +32,22 @@ void fct()
 	checkedIt = v.begin();
 	cout << *checkedIt << endl; 	// should print 1
 
-	++checkedIt; ++checkedIt; ++checkedIt;
+	checkedIt += 3;
 	cout << *checkedIt << endl;		// should print 4
 	--checkedIt;
+	cout << *checkedIt << endl;		// should print 3
+
+	checkedIt += 4;
+	cout << *checkedIt << endl;		// should print 7
+
+	checkedIt = checkedIt - 2;
+	cout << *checkedIt << endl;		// should print 5
+
+
+	vector<int>::CheckedIt checkedIt2(&v);
+	checkedIt2 = checkedIt;
+	checkedIt2 -= 2;
+	checkedIt -= checkedIt2;
 	cout << *checkedIt << endl;		// should print 3
 
 	// move the iterator outside of v.size()
