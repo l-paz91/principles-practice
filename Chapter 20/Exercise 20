@@ -1,0 +1,131 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 20 - Exercise 20
+
+	Run a small timing experiment to compare the cost of using vector and list. 
+	You can find an explanation of how to time a program in section 26.6.1. 
+	Generate N random int values in the range [0:N). As each int is generated, 
+	insert it into a vector<int> (which grows by one element each time).
+
+	Keep the vector sorted; that is, a value is inserted after every previous value 
+	that is less than or equal to the new value and before every previous value 
+	that is larger than the new value. Now do the same experiment using a list<int> 
+	to hold to the ints. For which N is the list faster than the vector? Try to 
+	explain your result. This experiment was first suggested by John Bentley.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <chrono>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+void simpleTimer(const string& pFunctionName, void(*pFunction)())
+{
+	using namespace chrono;
+
+	// begin time
+	auto t1 = system_clock::now();
+
+	// function to execute
+	pFunction();
+
+	// end time
+	auto t2 = system_clock::now();
+
+	cout << pFunctionName << "() " << " took: "
+		<< duration_cast<milliseconds>(t2 - t1).count() << " milliseconds." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+template<class c>
+void insert(int num, c& container)
+{
+	typename c::iterator it = container.begin();
+	while (it != container.end())
+	{
+		if (num <= *it)
+			break;
+		++it;
+	}
+	container.insert(it, num);
+}
+
+// -----------------------------------------------------------------------------
+
+void testVector()
+{
+	int n = 100000;
+	vector<int> v;
+
+	for (int i = 0; i < n; ++i)
+	{
+		int rand = randint(0, n);
+		v.insert(
+			std::upper_bound(v.begin(), v.end(), rand),
+			rand);
+		//insert(rand, v);
+	}
+
+	cout << "testVector finished." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+void testList()
+{
+	int n = 10000;
+	list<int> v;
+
+	for (int i = 0; i < n; ++i)
+	{
+		int rand = randint(0, n);
+		v.insert(
+			std::upper_bound(v.begin(), v.end(), rand),
+			rand);
+		//insert(rand, v);
+	}
+
+	cout << "testList finished." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	simpleTimer("testVector", &testVector);
+	simpleTimer("testVector", &testVector);
+	simpleTimer("testVector", &testVector);
+	simpleTimer("testVector", &testVector);
+	simpleTimer("testVector", &testVector);
+	simpleTimer("testList", &testList);
+	simpleTimer("testList", &testList);
+	simpleTimer("testList", &testList);
+	simpleTimer("testList", &testList);
+	simpleTimer("testList", &testList);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
