@@ -47,6 +47,7 @@ void simpleTimer(const string& pFunctionName, void(*pFunction)())
 
 // -----------------------------------------------------------------------------
 
+// this makes vector much slower and list somewhat faster but only if N is < 2000
 template<class c>
 void insert(int num, c& container)
 {
@@ -112,6 +113,11 @@ void fct()
 	simpleTimer("testList", &testList);
 	simpleTimer("testList", &testList);
 	simpleTimer("testList", &testList);
+	
+	// results:
+	// using std::upper_bound() with insert always makes vector the fastest. Can insert 1 million items in 31 seconds
+	// I stopped timing list with 1 million items after 10 minutes.
+	// Using my own custom insert function made list faster when N < 2000. Anything above that is in minute territory and I stopped keeping track.
 }
 
 // -----------------------------------------------------------------------------
