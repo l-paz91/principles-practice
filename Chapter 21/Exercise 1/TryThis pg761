@@ -1,0 +1,71 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 1 - Try This pg 761
+
+	Are you sure those two definitions are logically equivalent? How would you be
+	sure? Try constructing an argument for their being equivalent. That done, try
+	both on some data.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <chrono>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+// standard find
+template<typename It, typename T>
+It find1(It pFirst, It pLast, const T& pVal)
+{
+	while (pFirst != pLast && *pFirst != pVal)
+		++pFirst;
+	return pFirst;
+}
+
+// -----------------------------------------------------------------------------
+
+// "pedestrian" find
+template<typename It, typename T>
+It find2(It pFirst, It pLast, const T& pVal)
+{
+	for (It p = pFirst; p != pLast; ++p)
+		if (*p == pVal)
+			return p;
+	return pLast;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	vector<int> v{ 45, 5, 68, 896, 53, 21, 2, 1, 32, 47, 4852, 4, 44, 45 };
+	auto f1 = find1(v.begin(), v.end(), 4);
+	auto f2 = find2(v.begin(), v.end(), 4);
+
+	cout << "4 is at position: " << (f1 - v.begin()) << " using f1." << endl;
+	cout << "4 is at position: " << (f2 - v.begin()) << " using f2." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
