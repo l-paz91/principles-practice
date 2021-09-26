@@ -1,0 +1,10 @@
+{ ketchup, 45.5, 1 }
+{ baked beans, 10.1, 2 }
+{ cornflakes, 13.5, 3 }
+{ jam, 876.1, 4 }
+{ nutella, 67, 5 }
+{ bacon, 100, 6 }
+{ scrambled eggs, 34, 7 }
+{ toast, 79.345, 8 }
+{ marmalade, 9, 9 }
+{ coffee, 999.99, 10 }
