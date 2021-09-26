@@ -1,0 +1,175 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Drill 2
+
+	Drill 1
+	Define a map<string, int> called msi.
+
+	Drill 2
+	Insert ten (name, value) pairs into it, e.g., msi["lecture"]=21.
+
+	Drill 3
+	Output the (name, value) pairs to cout in some format of your choice.
+
+	Drill 4
+	Erase the (name, value) pairs from msi.
+
+	Drill 5
+	Write a function that reads value pairs from cin and places them in msi.
+
+	Drill 6
+	Read 10 pairs from input and enter them into msi.
+
+	Drill 7
+	Write the elements of msi to cout.
+
+	Drill 8
+	Output the sum of the (integer) values in msi.
+
+	Drill 9
+	Define a map<int, string> called mis.
+
+	Drill 10
+	Output the elements of mis to cout.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <map>
+#include <type_traits>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename T2>
+void printMap(const map<T, T2>& m)
+{
+	for (const auto& p : m)
+		cout << "{ " << p.first << ", " << p.second << " }" << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename T2>
+void readIntoMap(map<T, T2>& m)
+{
+	// all of this could be implemented in the while loop argument however,
+	// I feel this is easier to read and it prevents unnecessary variable creation
+	while (cin.good())
+	{
+		cout << "Enter key: ";
+		T s;
+		if (getline(cin, s))
+		{
+			cout << "\nEnter value: ";
+			T2 n = 0;
+			if (cin >> n)
+			{
+				cin.ignore(1000, '\n');	// clear cin of the newline after int input so getline works again
+				m.insert({ s , n });
+			}
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename T2>
+ostream& operator<<(ostream& output, const map<T, T2>& m)
+{
+	for (const auto& p : m)
+		output << "{ " << p.first << ", " << p.second << " }" << endl;
+	output << "// -----------------------------------------------------------------------------" << endl;
+
+	return output;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename T2>
+void copySwapMapElements(const map<T, T2>& m1, map<T2, T>& m2)
+{
+	for (const auto& p : m1)
+		m2.insert({ p.second, p.first });
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// Drill 1 - Define a map
+	// Drill 2 - Insert 10 pairs
+	map<string, int> msi{
+		{"green", 1},
+		{"yellow", 2},
+		{"red", 3},
+		{"pink", 4},
+		{"blue", 5},
+		{"orange", 6},
+		{"purple", 7},
+		{"cyan", 8},
+		{"navy", 9},
+		{"peach", 10}
+	};
+
+	// Drill 3 - Output map to cout in some format
+	cout << "// -----------------------------------------------------------------------------" << endl;
+	cout << "Drill 3:" << endl;
+	printMap(msi);
+
+	// Drill 8 - Output sum of ints in map
+	cout << "Drill 8:" << endl;
+	int sum = 0;
+	for (const auto& p : msi)
+		sum += p.second;
+	cout << sum;
+
+	// Drill 4 - Erase the pairs from map
+	cout << "Drill 4:" << endl;
+	msi.clear();
+	cout << "Size of map after clearing contents: " << msi.size() << endl;
+
+	// Drill 5 - Create function that reads in pairs from cin
+	// Drill 6 - Read in ten pairs from input
+	cout << "Drill 5, 6:" << endl;
+	readIntoMap(msi);
+	printMap(msi);
+
+	// Drill 7 - Write map elements to cout
+	cout << "Drill 7:" << endl;
+	cout << msi;
+
+	// Drill 9 - Create map<int, string>
+	map<int, string> mis;
+	cout << "Drill 10:" << endl;
+	copySwapMapElements(msi, mis);
+
+	// Drill 10 - Output mis to cout
+	cout << mis;
+	
+	cout << "End of map." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
