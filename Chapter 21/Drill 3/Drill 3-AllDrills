@@ -1,0 +1,150 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Drill 3
+
+	Drill 1
+	Read some floating-point values (at least 16 values) from a file into a 
+	vector<doubles> called vd.
+
+	Drill 2
+	Output vd to cout.
+
+	Drill 3
+	Make a vector vi of type vector<int> with the same number of elements as vd; 
+	copy the elements from vd into vi.
+
+	Drill 4
+	Output the pairs of (vd[i], vi[i]) to cout, one pair per line.
+
+	Drill 5
+	Output the sum of the elements of vd.
+
+	Drill 6
+	Output the difference between the sum of the elements of vd and the sum of 
+	the elements of vi.
+
+	Drill 7
+	There is a standard library algorithm called reverse that takes a sequence 
+	(pair of iterators) as arguments; reverse vd, and output vd to cout.
+
+	Drill 8
+	Compute the mean value of the elements in vd; output it.
+
+	Drill 9
+	Make a new vector<double> called vd2 and copy all elements of vd with values 
+	lower than (less than) the mean into vd2.
+
+	Drill 10
+	Sort vd, output it again.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <numeric>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+ostream& operator<<(ostream& pOutput, const vector<double>& pVec)
+{
+	for (double d : pVec)
+		pOutput << d << ", ";
+	return pOutput;
+}
+
+// -----------------------------------------------------------------------------
+
+struct LessThan
+{
+	LessThan(double pD) : d(pD) {}
+
+	bool operator()(const double d1)
+	{
+		return d1 < d;
+	}
+
+	double d;
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// Drill 1 - read at least 16 floating-point values into a vector from a file
+	const string fromFile = "FloatingPointValues.txt";
+
+	ifstream inputStream{ fromFile };
+	istream_iterator<double> istreamIterator{ inputStream };
+	istream_iterator<double> endOfStream;
+
+	vector<double> vd{ istreamIterator, endOfStream };
+
+	// Drill 2 - output vector to cout
+	cout << vd << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 3 - Make int vector, copy values from vd into it
+	//vector<int> vi(vd.begin(), vd.end());			// gives some nasty template warnings due to casting but it works
+	vector<int> vi(vd.size());						// safer, more explicit way of doing it
+	for (uint32 i = 0; i < vi.size(); ++i)
+		vi[i] = static_cast<int>(vd[i]);
+
+	// Drill 4 - output pairs to cout, one per line
+	for (uint32 i = 0; i < vi.size(); ++i)
+		cout << vi[i] << ",\t" << vd[i] << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 5 - output sum of vd
+	const double sumVD = std::accumulate(vd.begin(), vd.end(), 0.0);
+	cout << "Sum of vd: " << sumVD << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 6 - output different in sum between vi and vd
+	const int sumVI = std::accumulate(vi.begin(), vi.end(), 0);
+	cout << "Difference between sum of VD and VI: " << sumVD - sumVI << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 7 - reverse vd and output to cout
+	std::reverse(vd.begin(), vd.end());
+	cout << vd << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 8 - compute mean of vd
+	const double meanVD = sumVD / vd.size();
+	cout << "Mean of vd: " << meanVD << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 9 - copy values less than meanVD into vd2
+	vector<double> vd2;
+	std::copy_if(vd.begin(), vd.end(), std::back_inserter(vd2), LessThan(meanVD));
+	cout << vd2 << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// Drill 10 - sort vd
+	sort(vd.begin(), vd.end());
+	cout << vd << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
