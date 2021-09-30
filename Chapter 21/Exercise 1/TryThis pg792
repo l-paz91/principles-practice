@@ -1,0 +1,65 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 1
+
+	Try This - Pg792
+	First get the program as written to work and test it with a small file of,
+	say, a few hundred words. Then try the emphatically not recommended version
+	that guesses about the size of input and see what happens when the input buffer
+	b overflows. Note that worst-case scenario is that the overflow led to nothing
+	bad in your particular example, so that you would be tempted to ship it to
+	users.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <unordered_map>
+#include <numeric>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	const string fromFile = "CorporateGibberish.txt";
+	const string toFile = "AboutUs.txt";
+
+	ifstream is{ fromFile };
+	ofstream os{ toFile };
+
+	istream_iterator<string> ii{ is };
+	istream_iterator<string> eos;
+	ostream_iterator<string> oo{ os, "\n" };
+
+	// good
+	vector<string> b2{ ii, eos };
+	copy(b2.begin(), b2.end(), oo);
+
+	// bad
+	const int max_size = INT_MAX;
+	vector<string> b{ max_size };	// don't guess about the amount of input!!
+	copy(ii, eos, b.begin());
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
