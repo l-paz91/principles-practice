@@ -149,7 +149,7 @@ void fct()
 {
 	// Drill 1 - Create Item struct, fill with 10 items
 	string fromFile = "ItemList.txt";
-	string toFile = "NewItemList.text";
+	string toFile = "NewItemList.txt";
 
 	ifstream is{ fromFile };
 	ofstream os{ toFile };
