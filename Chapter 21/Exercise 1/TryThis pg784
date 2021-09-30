@@ -1,0 +1,118 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 1
+
+	Try This - Pg785
+	Get this little example to work. Then add a few companies of your own choice,
+	with weights of your choice.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <map>
+#include <numeric>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+
+
+// -----------------------------------------------------------------------------
+
+template<typename In, typename In2, typename T, typename BinOp, typename BinOp2>
+T MyInnerProduct(In first, In last, In2 first2, T init, BinOp op, BinOp op2)
+{
+	while (first != last)
+	{
+		init = op(init, op2(*first, *first2));
+		++first;
+		++first2;
+	}
+	return init;
+}
+
+// -----------------------------------------------------------------------------
+
+double weightedValue(const pair<string, double>& a, const pair<string, double>& b)
+{
+	return a.second * b.second;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	map<string, double> dowPrice = {
+		{"MMM", 81.86},
+		{"AA", 34.69},
+		{"MO", 54.45},
+		{"MSFT", 283.15},
+		{"KO", 52.6},
+		{"MCD", 241.315},
+		{"INTC", 53.52}
+	};
+
+	map<string, double> dowWeight = {
+		{"MMM", 5.8549},
+		{"AA", 2.4808},
+		{"MO", 3.8940},
+		{"MSFT", 5.435891},
+		{"KO", 1.013679},
+		{"MCD", 4.675632},
+		{"INTC", 1.023823}
+	};
+
+	map<string, string> dowName = {
+		{"MMM", "3M Co."},
+		{"AA", "Alcoa Inc"},
+		{"MO", "Altria Group Inc."},
+		{"MSFT", "Microsoft Corporation"},
+		{"KO", "Coca-Cola Company"},
+		{"MCD", "McDonald's Corporation"},
+		{"INTC", "Intel Corporation"}
+	};
+
+	//double alcoaprice = dowPrice["AAA"];
+	//double bowingPrice = dowPrice["BA"];
+
+	if (dowPrice.find("INTC") != dowPrice.end())
+		cout << "Intel is in the Dow\n" << endl;
+
+	for (const auto& p : dowPrice)
+	{
+		const string& symbol = p.first;
+		cout << symbol << "\t" << p.second << "\t" << dowName[symbol] << endl;
+	}
+
+	double dji_index = inner_product(
+		dowPrice.begin(), 
+		dowPrice.end(),			// all companies
+		dowWeight.begin(),		// their weights
+		0.0,					// initial value
+		std::plus<>(),			// add (as usual)
+		weightedValue);			// extract values and weights and multiply
+	cout << "DJI Index: " << dji_index << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
