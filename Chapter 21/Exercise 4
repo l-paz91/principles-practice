@@ -1,0 +1,93 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 4
+
+	Implement count_if() yourself. Test it.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <unordered_map>
+#include <numeric>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename It>
+typename iterator_traits<It>::difference_type myCount(It begin, It end, const T& value)
+{
+	typename iterator_traits<It>::difference_type count = 0;
+	for (; begin != end; ++begin)
+		if (*begin == value)
+			++count;
+	return count;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename It, typename Predicate>
+typename iterator_traits<It>::difference_type myCount_if(It begin, It end, Predicate p)
+{
+	typename iterator_traits<It>::difference_type count = 0;
+	for (; begin != end; ++begin)
+		if (p(*begin))
+			++count;
+	return count;
+}
+
+// -----------------------------------------------------------------------------
+
+struct LargerThan
+{
+	LargerThan(string pS) : s(pS) {}
+	bool operator()(string& pS) { if (pS > s) return true; else return false; }
+	string s;
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	const string fromFile = "CorporateGibberish.txt";	// found in exercise 1 folder
+	const string toFile = "AboutUs.txt";
+
+	ifstream is{ fromFile };
+	ofstream os{ toFile };
+
+	istream_iterator<string> ii{ is };
+	istream_iterator<string> eos;
+	ostream_iterator<string> oo{ os, "\n" };
+
+	// good
+	vector<string> b2{ ii, eos };
+	copy(b2.begin(), b2.end(), oo);
+
+	int num = myCount(b2.begin(), b2.end(), "and");
+	cout << "Number of times 'and' was seen: " << num << endl;
+
+	int num2 = myCount_if(b2.begin(), b2.end(), LargerThan("wall"));
+	cout << "Number of words greater than 'wall' seen: " << num2 << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
