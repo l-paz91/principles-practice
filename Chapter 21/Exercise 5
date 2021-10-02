@@ -1,0 +1,112 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 5
+
+	What would we have to do if we couldn't return end() to indicate "not found"? 
+	Redesign and re-implement find() and count() to take iterators to the first 
+	and last elements. Compare the results to the standard versions.
+
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <unordered_map>
+#include <numeric>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename It>
+typename iterator_traits<It>::difference_type myCount(It first, It last, const T& value)
+{
+	typename iterator_traits<It>::difference_type count = 0;
+
+	for (; first != last; ++first)
+		if (*first == value)
+			++count;
+
+	// check last - this will error if end() is passed in
+	if (*first == value)
+		++count;
+
+	return count;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename It>
+bool myFind(It first, It last, const T& value, It& output)
+{
+	for (; first != last; ++first)
+	{
+		if (*first == value)
+		{
+			output = first;
+			return true;
+		}
+	}
+
+	// check last - this will error if end() is passed in
+	if (*first == value)
+	{	
+		output = first;
+		return true;
+	}
+
+	return false;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	const string fromFile = "CorporateGibberish.txt";	// found in exercise 1 folder
+	const string toFile = "AboutUs.txt";
+
+	ifstream is{ fromFile };
+	ofstream os{ toFile };
+
+	istream_iterator<string> ii{ is };
+	istream_iterator<string> eos;
+	ostream_iterator<string> oo{ os, "\n" };
+
+	vector<string> b2{ ii, eos };
+	copy(b2.begin(), b2.end(), oo);
+
+	int num = myCount(b2.begin(), std::prev(b2.end()), "and");
+	cout << "Number of times 'and' was seen: " << num << endl;
+
+	vector<string>::iterator it;
+	if(myFind(b2.begin(), std::prev(b2.end()), "and", it))
+		cout << "First 'and' is at position: " << it - b2.begin() << endl;
+	else
+		cout << "Not found." << endl;
+
+	if (myFind(b2.begin(), std::prev(b2.end()), "E", it))
+		cout << "First 'E' is at position: " << it - b2.begin() << endl;
+	else
+		cout << "Not found." << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
