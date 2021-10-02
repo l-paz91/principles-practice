@@ -1,0 +1,120 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 6
+
+	In the Fruit example in section 21.6.5, we copy Fruits into the set. What if 
+	we didn't want to copy the Fruits? We could have a set<Fruit*> instead. 
+	However, to do that, we'd have to define a comparison operation for that set. 
+	Implement the Fruit example using a set<Fruit*, Fruit_comparison>. Discuss 
+	the differences between the two implementations.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <numeric>
+#include <unordered_map>
+#include <set>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+struct Fruit
+{
+	Fruit() : name(), unitPrice(), count() {}
+	Fruit(string pName, double pUnitPrice, int pCount) : name(pName), unitPrice(pUnitPrice), count(pCount) {}
+
+	string name;
+	double unitPrice;
+	int count;
+
+	friend ostream& operator<<(ostream& output, const Fruit& f)
+	{
+		output << "Name: " << f.name << endl;
+		output << "Unit Price:  " << "$" << f.unitPrice << endl;
+		output << "Count: " << f.count << endl;
+		return output;
+	}
+
+	friend ostream& operator<<(ostream& output, const Fruit* f)
+	{
+		output << "Name: " << f->name << endl;
+		output << "Unit Price:  " << "$" << f->unitPrice << endl;
+		output << "Count: " << f->count << endl;
+		return output;
+	}
+
+};
+
+// -----------------------------------------------------------------------------
+
+struct Fruit_order
+{
+	bool operator()(const Fruit& a, const Fruit& b) const 
+	{
+		return a.name < b.name;
+	}
+};
+
+// -----------------------------------------------------------------------------
+
+struct Fruit_comparison
+{
+	bool operator()(const Fruit* a, const Fruit* b) const
+	{
+		return a->name < b->name;
+	}
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	set<Fruit, Fruit_order> inventory;	// use Fruit_order(x, y) to compare fruits
+	inventory.insert(Fruit("quince", 5, 1));
+	inventory.insert(Fruit("apple", 0.37, 200));
+	inventory.insert(Fruit("lemon", 0.32, 15));
+	inventory.insert(Fruit("lime", 0.30, 16));
+	inventory.insert(Fruit("banana", 0.09, 10));
+
+	for (const auto& x : inventory)
+		cout << x << endl;
+
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	set<Fruit*, Fruit_comparison> inventoryPtrs;
+	inventoryPtrs.insert(new Fruit("melon", 5, 1));
+	inventoryPtrs.insert(new Fruit("pumpkin", 0.37, 200));
+	inventoryPtrs.insert(new Fruit("orange", 0.32, 15));
+	inventoryPtrs.insert(new Fruit("mango", 0.30, 16));
+	inventoryPtrs.insert(new Fruit("kiwi", 0.09, 10));
+
+	for (const auto& x : inventoryPtrs)
+		cout << x << endl;
+
+	// clean up set
+	for (auto& x : inventoryPtrs)
+		delete x;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
