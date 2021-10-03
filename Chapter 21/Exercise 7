@@ -1,0 +1,181 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 7
+
+	Write a binary search function for a vector<int> (without using the standard 
+	one). You can choose any interface you like. Test it. How confident are you 
+	that your binary search function is correct? Now write a binary search function 
+	for a list<string>. Test it. How much do the two binary search functions 
+	resemble each other? How much do you think they would have resembled each 
+	other if you had not known about the STL?
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <numeric>
+#include <unordered_map>
+#include <set>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+// specific search that takes in a vector
+template<typename T>
+bool myBinarySearch_v(const vector<T>& v, const T& value)
+{
+	// look at middle element
+	int middle = v.size() / 2;
+
+	if (v[middle] == value)
+		return true;
+
+	// if less than x - search the left half of container
+	if (value < v[middle])
+	{
+		auto middleIt = v.begin() + middle;
+		auto result = std::find(v.begin(), middleIt, value);
+		if (result != middleIt)
+			return true;
+		else
+			return false;
+	}
+
+	// if more than x - search the right half of container
+	if (value > v[middle])
+	{
+		auto middleIt = v.begin() + middle;
+		auto result = std::find(middleIt, v.end(), value);
+		if (result != v.end())
+			return true;
+		else
+			return false;
+	}
+
+	// if reached last or first without finding x - return false
+	return false;
+}
+
+// -----------------------------------------------------------------------------
+
+// specific search that takes in a list
+template<typename T>
+bool myBinarySearch_l(const list<T>& l, const T& value)
+{
+	// look at middle element
+	int middle = l.size() / 2;
+	auto middleIt = std::next(l.begin(), middle);
+	if (*middleIt == value)
+		return true;
+
+	// if less than x - search the left half of container
+	if (value < *middleIt)
+	{
+		auto result = std::find(l.begin(), middleIt, value);
+		if (result != middleIt)
+			return true;
+		else
+			return false;
+	}
+
+	// if more than x - search the right half of container
+	if (value > *middleIt)
+	{
+		auto result = std::find(middleIt, l.end(), value);
+		if (result != l.end())
+			return true;
+		else
+			return false;
+	}
+
+	// if reached last or first without finding x - return false
+	return false;
+}
+
+// -----------------------------------------------------------------------------
+
+// generic search that can work with any container
+template<typename It, typename T>
+bool myBinarySearch(It begin, It end, const T& value)
+{
+	// look at middle element
+	It middleIt = begin;
+	std::advance(middleIt, std::distance(begin, end) / 2);
+	if (*middleIt == value)
+		return true;
+
+	// container has 2 or less elements
+	if (middleIt == begin)
+		return false;
+
+	// if less than x - search the left half of container
+	if (value < *middleIt)
+		return myBinarySearch(begin, middleIt, value);
+
+	// if more than x - search the right half of container
+	if (value > *middleIt)
+		return myBinarySearch(middleIt, end, value);
+
+	// if reached last or first without finding x - return false
+	return false;
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	vector<int> v{ 1,2,45, 3,789,4,5,6,2342,5,6,123,10 };
+	sort(v);
+	list<string> l{ "banana", "apple", "kiwi", "quince", "mango", "pineapple", "tomato" };
+	l.sort();
+
+	// vector specific
+	bool vResult = myBinarySearch_v(v, 45);
+	cout << std::boolalpha << vResult << endl;			// true
+	vResult = myBinarySearch_v(v, 123);					// true
+	cout << vResult << endl;
+	vResult = myBinarySearch_v(v, 11);					// false
+	cout << vResult << endl;
+
+	// generic
+	vResult = myBinarySearch(v.begin(), v.end(), 45);	// true
+	cout << vResult << endl;
+	vResult = myBinarySearch(v.begin(), v.end(), 11);	// false
+	cout << vResult << endl;
+
+	// list specific
+	string s = "pineapple";
+	string s2 = "starfruit";
+	bool lResult = myBinarySearch_l(l, s);				// true
+	cout << lResult << endl;
+	lResult = myBinarySearch_l(l, s2);					// false
+	cout << lResult << endl;
+
+	// generic
+	lResult = myBinarySearch(l.begin(), l.end(), s);	// true
+	cout << lResult << endl;
+	lResult = myBinarySearch(l.begin(), l.end(), s2);	// false
+	cout << lResult << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
