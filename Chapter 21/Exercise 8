@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 8
+
+	Take the word-frequency example from section 21.6.1 and modify it to output 
+	its lines in order of frequency (rather than in lexicographical order). An 
+	example would be 3: C++ rather than C++: 3.
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <numeric>
+#include <map>
+#include <unordered_map>
+#include <set>
+
+//--GLOBALS--//
+
+// -----------------------------------------------------------------------------
+
+template<typename T, typename T2>
+struct sortByValue
+{
+	bool operator()(const pair<T, T2>& p, const pair<T, T2>& p2) const
+	{
+		return p.second < p2.second;
+	}
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	map<string, int> words;
+
+	ifstream is{ "OpeningStatement.txt" };
+	while (!is.eof())
+	{
+		string s;
+		is >> s;
+		++words[s];	// subscript using s as index, then ++ the value (which is int)
+	}
+
+	for (const auto& p : words)
+		cout << p.second << ": " << p.first << endl;
+
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	// temporary container
+	vector<pair<string, int>> v;
+	for (const auto& p : words)
+		v.push_back(p);
+
+	sort(v.begin(), v.end(), sortByValue<string, int>());
+
+	words.clear();
+
+	for (const auto& p : v)
+		cout << p.second << ": " << p.first << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
