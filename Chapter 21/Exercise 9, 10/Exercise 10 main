@@ -1,0 +1,89 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 21 - Exercise 10
+
+	Compute the total value of the orders in the two files from the previous exercise. 
+	The value of an individual Purchase is (of course) its unit_price*count.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#define _CRT_SECURE_NO_WARNINGS
+
+#include "std_lib_facilities.h"
+#include "Order.h"
+
+#include <numeric>
+#include <map>
+#include <unordered_map>
+#include <set>
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	Order order(
+		"Bjarne Stroustrup", 
+		"1 Pointer Lane, Pointer Town, Pointershire, LP2 CTS, C++", 
+		std::time(nullptr),
+		{ Purchase("Book", 45.95, 1), Purchase("Laptop", 950.50, 1) }
+	);
+
+	cout << order << endl;
+	order.writeToFile();
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	Order order2("Bjarne Stroustrup Order.txt");
+	cout << order2 << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	vector<Order> orders;
+	OrderHelpers::getOrdersFromFile(orders, "Orders.txt");
+	for (Order o : orders)
+		cout << o << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	sort(orders.begin(), orders.end(), OrderHelpers::sortByName());
+	ofstream out("Multiple Orders.txt");
+	for (Order o : orders)
+		out << o;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+
+	list<Order> listOrders;
+	OrderHelpers::getOrdersFromFile(listOrders, "Orders2.txt");
+	listOrders.sort(OrderHelpers::sortByAddress());
+
+	listOrders.sort(OrderHelpers::sortByName());	// need to sort otherwise it will crash
+	vector<Order> mergedVec;
+	std::merge(orders.begin(), orders.end(), listOrders.begin(), listOrders.end(), back_inserter(mergedVec), OrderHelpers::sortByName());
+	ofstream mergedOut("MergedFile.txt");
+	for (Order o : mergedVec)
+		mergedOut << o;
+
+	// Exercise 10 - compute total order
+	double totalValue = 0.0;
+	for (Order o : mergedVec)
+		totalValue += o.getPurchaseValue();
+	cout << "Total value of the orders from MergedFile: " << totalValue << endl;
+	cout << "// -----------------------------------------------------------------------------" << endl;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
