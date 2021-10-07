@@ -21,6 +21,8 @@ public:
 		, mQuantity(pAmount)
 	{}
 
+	const double getPurchaseValue() const { return mUnitPrice * mQuantity; }
+
 	friend ostream& operator<<(ostream& outStream, const Purchase& p)
 	{
 		outStream << p.mProductName << "*"
@@ -68,6 +70,7 @@ public:
 	void writeToFile();
 	friend ostream& operator<<(ostream& outStream, const Order& o);
 	void readInFromFile(ifstream& readIn);
+	const double getPurchaseValue() const;
 
 	const string& getName() const { return mName; }
 	const string& getAddress() const { return mAddress; }
