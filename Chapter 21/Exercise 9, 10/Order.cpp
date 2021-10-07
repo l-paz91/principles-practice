@@ -93,6 +93,16 @@ void Order::readInFromFile(ifstream& readIn)
 
 // -----------------------------------------------------------------------------
 
+const double Order::getPurchaseValue() const
+{
+	double d = 0.0;
+	for (Purchase p : mPurchases)
+		d += p.getPurchaseValue();
+	return d;
+}
+
+// -----------------------------------------------------------------------------
+
 std::ostream& Order::writeOut(ostream& os) const
 {
 	os << mName << "\n"
