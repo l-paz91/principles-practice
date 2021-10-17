@@ -41,6 +41,7 @@ Revised June 8 2014: added #ifndef to workaround Microsoft C++11 weakness
 #include <regex>
 #include <random>
 #include <stdexcept>
+#include <conio.h>
 
 //#define _CRTDBG_MAP_ALLOC
 //#include <crtdbg.h>
@@ -294,7 +295,19 @@ inline void keep_window_open(string s)
 	}
 }
 
+// -----------------------------------------------------------------------------
 
+// @ BEGIN LPTCP - add simple continue function
+inline void pressKeyToContinue()
+{
+	cin.clear();
+	cout << "Press any key to continue\n";
+	_getch();
+	return;
+}
+// @ END LPTCP - add simple continue function
+
+// -----------------------------------------------------------------------------
 
 // error function to be used (only) until error() is introduced in Chapter 5:
 inline void simple_error(string s)	// write ``error: s and exit program
