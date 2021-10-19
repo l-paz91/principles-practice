@@ -117,7 +117,6 @@ namespace OrderHelpers
 		for (Order o : pCont)
 		{
 			d += o.getPurchaseValue();
-			o.printPurchases();
 		}
 		return d;
 	}
