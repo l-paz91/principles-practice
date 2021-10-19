@@ -1,0 +1,612 @@
+Introducing Computer Programming
+via Gameboy Advance Homebrew
+Gary Kacmarcik
+
+Sylvie Giral Kacmarcik
+
+Google
+651 N. 34th Street
+Seattle, WA 98103
+
+Whole Earth Montessori School
+2930 - 228th Street SE
+Bothell, WA 98021
+
+garykac@google.com
+
+sylvie.gk@wemschool.org
+
+ABSTRACT
+
+Keywords
+
+Computer Science and recommends having students learn
+about algorithms and logic, but not having them actually
+implement these concepts in code until Level II.
+Based on our teaching experience, we believe that the critical age for creating this spark of interest in computer programming is around grades 6-8, with some students being
+ready as early as 5th grade. Pre-programming skills can
+certainly be taught before this time, but real programming
+requires a higher level of abstract thinking, which students
+begin to exhibit around 5th or 6th grade.
+As for the upper bound for this critical range, starting
+around 8th or 9th grade students become increasingly influenced by their social environment and begin to apply stereotypes to themselves and others. Our goal is to reach the
+students before these societal influences set in and to have
+them build confidence writing programs before they learn
+that computer programming is “too difficult” or “too challenging”.
+In our approach, we focus on this critical age period and
+work toward sparking an interest in computer programming
+by providing a compelling goal for the students. In our case,
+this compelling goal is the creation of a game that runs on
+real Gameboy Advance (GBA) or Nintendo DS (NDS) hardware.
+
+K-12 education, Nintendo Gameboy, Nintendo DS, homebrew, C
+
+2.
+
+This paper describes our work motivating a group of students (grades 5-8) to learn real-world computer programming by introducing them to homebrew development for
+the Nintendo Gameboy Advance (GBA) and DS (NDS) systems using C. Students use a freely available professional
+toolchain (devkitPro) for development. A custom application was written that allowed the students to easily create
+their own tilesets (sprites and background maps) and quickly
+get started building their first ROMs. A series of tutorials
+was created to complement the program and help the students through the creation of their first game.
+
+Categories and Subject Descriptors
+K.3.2 [Computers and Education]: Computers and Information Science Education—computer science education,
+curriculum
+
+General Terms
+Design, Experimentation, Languages
+
+1.
+
+GOALS
+
+Beyond simply reaching students during this window of
+opportunity, we had a number of other goals that we hoped
+to achieve with this project.
+Teach programming. Walk the students through the
+basics of programming and help them turn their ideas (in
+this case, game ideas) into a working program.
+Demystify computers. Give the students a concrete
+understanding of how computers work and a general idea of
+what they can and cannot do. The subtext of this message
+is that the programmer is in complete control of what the
+computer does.
+Show the link between software and hardware. We
+feel that it is important for students to understand the differences between software and hardware and also to understand
+how they are connected. While programming can be taught
+without regard to the underlying hardware, the student gain
+a more grounded experience if they can see how the abstract
+programs they are creating relate to the hardware they can
+see and hold.
+Show how programs are written. Provide experience
+with a real programming environment for a real-world application. The older students can easily tell the difference be-
+
+INTRODUCTION
+
+There is an ever-expanding body of work that demonstrates that children as young as elementary school are ready
+and able to begin learning how to program. This extends as
+far back as Paperts's work with Logo in the late 60's[4], but
+more recent work[1, 6], shows that this is still an active area
+of development.
+This approach is in contrast to the ACM Model Curriculum[7], which doesn't recommend introducing actual programming until Level II, which is 9th or 10th grade. Level
+I in this model (grades K-8) is termed the Foundations of
+
+Permission to make digital or hard copies of all or part of this work for
+personal or classroom use is granted without fee provided that copies are
+not made or distributed for profit or commercial advantage and that copies
+bear this notice and the full citation on the first page. To copy otherwise, to
+republish, to post on servers or to redistribute to lists, requires prior specific
+permission and/or a fee.
+SIGCSE'09, March 3–7, 2009, Chattanooga, Tennessee, USA.
+Copyright 2009 ACM 978-1-60558-183-5/09/03 ...$5.00.
+
+281
+
+Between a real environment and a sandbox environment that
+was created “for kids”. It can be de-motivating to work
+within an environment that is recognized as a padded playground with too many safeguards. Teenagers are especially
+at risk here because of their need to be treated as an adult
+and their sensitivity to situations where they are not.
+Allow students to create their own graphics. This
+aspect is important because students are far more motivated
+when they are manipulating objects that they created themselves than when they are manipulating pre-generated objects. The ability to completely customize the project gives
+the students an increased sense of accomplishment and ownership in the project.
+In addition, we also set a goal of creating tools and materials (tutorials) that could be used by other teachers (or
+motivated students).
+It is important to note that we didn't expect the students to master programming at this age. For the younger
+students, our expectation was that they would follow the
+tutorials and gain exposure to what code looks like and how
+it is created. More experienced students were expected to
+build on this and begin making independent changes to the
+program.
+
+3.
+
+The selection of a GBA for the target device has a number
+of benefits and few drawbacks.
+A primary benefit of the GBA is that it is highly motivating for a broad range of students, from kindergarden
+up through (and beyond) the university level. For many
+students, a Gameboy or DS was the first real electronic device that they owned, so it occupies a special position in
+their heart. Another embedded device that we considered
+was a cell phone, but the wide range of manufacturers and
+models with different programming environments made this
+approach impractical.
+In addition, a complete development toolchain for the
+GBA and NDS is readily and freely available. This toolchain
+includes a C compiler, linker, various emulators and other
+tools. This means that no special purchases are needed to
+run the course. Optionally, programmable cartridges can be
+purchased for the students, but this is not necessary
+
+4 .
+By using an embedded system like the GBA or NDS, it
+is easier to make the connection between the software being
+written and the hardware that it runs on. Programs written
+for this class run directly on the hardware with no Virtual
+Machine or Operating System to complicate the discussion.
+During the class, we discuss how memory is structured and
+provide students with a memory map.
+As for the drawbacks, there are two significant ones. First,
+the development toolchain was not created with elementary
+school education in mind, so it can be rather complicated
+to work with. In addition, the debugging environment is
+not ideal for an introductory class. We addressed the first
+of these concerns by creating additional tools that hide the
+complexity of the toolchain. For the debugging issue, we do
+three things: we structure the tutorials to avoid the need
+for real debugging; we create tutorials to introduce debugging concepts; and we walk the students through debugging
+sessions.
+One final aspect of our approach is that we specifically
+target the creation of 2D games rather than 3D games, even
+though many students are highly motivated to create the
+latter. There are three main reasons for this decision. First,
+3D gaming is far more abstract than 2D gaming and requires advanced math that has not yet been introduced in
+middle school. Second, all of the programming techniques
+learned while creating 2D games will apply when creating
+a 3D game, so there's no need to complicate things by introducing 3D. These added complications bring extra challenges that can set the student up for failure and discourage
+them for pursuing programming. And finally, it is difficult
+and time-consuming to create your own 3D models for use
+in a 3D game, so the students would likely be forced to rely
+on pre-generated models and graphics.
+Our belief is that expanding into 3D programming in high
+school is a better approach — ideally this would be integrated into a math class where the corresponding fundamentals are taught.
+
+RELATED WORK
+
+There are a number of different programming environments that have been created with the purpose of introducing computer programming concepts. Notable among these
+are Alice1 [2], Scratch2 [3] and Squeak3 [5].
+Visual Programming. Our approach differs from these
+other approaches primarily in that we avoid the visual programming metaphor. This is not because we don't believe
+the visual approach to be useful, but rather because we believe that it is more appropriate for an introductory step
+that focuses on programming structure and concepts. We
+believe that students should transition away from this as
+soon as they have grasped the basic concepts being taught.
+Many of the benefits of a visual approach (no typos, no
+syntax errors) work well for an introduction but can leave the
+student feeling lost when they want to transition to a real
+programming environment. Relying too much on a dragand-drop approach to programming can leave the student
+unprepared for the realities of text-based programming.
+However, we don't believe that our approach should be the
+only exposure that students have to computer programming.
+We believe that it fits well into a program that starts with
+visual programming (like Squeak or Scratch) and continues
+onto more advanced topics.
+Connection to Underlying Hardware. Another difference is motivated by our desire to make a strong link
+between software and hardware. To make this connection,
+we introduced a considerable amount of “low level” material
+that is outside the scope of these other environments.
+
+4.
+
+APPROACH
+
+5.
+
+Our approach for achieving these goals is to show the students how to program for an embedded system that they
+are already familiar with — Nintendo's Gameboy Advance
+(GBA) and Nintendo DS (NDS) handheld gaming systems.
+
+ENVIRONMENT
+
+Homebrew development tools are not typically known for
+their accessibility and friendliness to the beginning programmer, and the available GBA and NDS development tools
+4
+Although it is recommended for the instructor to have at
+least one of these cartridges available to demonstrate student
+projects running on real hardware since this will further feed
+their motivation and enthusiasm.
+
+1
+
+http://www.alice.org/
+2
+http://scratch.mit.edu/
+3
+http://www.squeak.org/
+
+282
+
+are no exception. devkitPro5 , the toolchain used in this
+class, was created with the assumption that the programmer
+would be comfortable using command-line tools to process
+the game assets (the images and audio snippets used in the
+game) and to build the project into a working ROM file.
+In addition, a number of excellent 2D tile/map/sprite editors exist (E.g., Mappy6 , Tile Studio7 and Open tUME8 ).
+However, these are more advanced general-purpose tools
+that are not readily accessible to students just starting out
+in tile-based game development.
+It was this lack of a middle-school appropriate tile editor
+that motivated the creation of our own tile/sprite editor that
+specifically targeted the GBA and NDS. This tool, called
+Spritely9 , allows the students to interactively create their
+own graphic elements for their project.
+
+ing topics. These topics range from basic pre-programming
+skills (number systems, boolean logic) and basic programming skills (variables, control flow, ...) down to core digital
+hardware building blocks (n- and p-type MOSFETs, CMOS
+logic gates).
+However, the carrot that was held in front of the students
+was the promise of creating their own software project that
+would run on a real piece of Nintendo hardware. This goal
+can be emphasized by demonstrating previous-year student
+projects at the beginning of the class.
+Wherever possible throughout the course, we made reference to this goal and made a connection between what they
+were learning and how that would help them with their game
+project. For example,
+1 - to practice binary to hexadecimal conversion, the students drew their own 8x8 bitmaps and converted them
+to binary and hexadecimal. Later, we expanded on
+this lesson to show how tiles on the GBA are stored as
+paletted pixmaps.
+2 - when discussing computer memory, we used the GBA
+memory map as an example and showed how GBA
+cartridges simply expand the memory by mapping into
+the upper addresses.
+3 - in the hardware section, we disassembled a GBA in
+class and identified the various components. Students
+recognized that the tactile switch used for the left/right
+shoulder buttons is the same device that we used on
+the solderless breadboards during the hardware portion of the class.
+
+6.1
+Figure 1: Screenshot of Spritely's sprite editor.
+Beyond being a simple sprite and tile editor, Spritely
+also allows the students to export their work as a complete
+project which will automatically generate all of the files necessary (C source files, a project file and a makefile) to build
+a basic, but functional, sample project for either the GBA
+or NDS. All of the tutorials created for this class use this
+base project as a starting point.
+
+6.
+
+Tutorials
+
+The programming part of the class is divided into small
+tutorials that last for one or two classes each. The tutorials were designed to introduce programming concepts while
+demonstrating how to perform many basic game tasks.
+The following is an overview of the GBA/NDS programming tutorials that were used in the class:
+
+6.1.1
+
+Creating a ROM
+
+In this first tutorial, the students create a sprite using
+Spritely, learn how to export and build a project, and then
+run their project in an emulator. At this time, we also copy
+their ROM file onto a cartridge and run it on real GBA or
+NDS hardware.
+The purpose of this tutorial is to have the students gain
+experience with the development environment and to give
+them the satisfaction of seeing their project run.
+The export process creates a project that is targeted at
+either a GBA or an NDS. The code differences are minor between the 2 versions, and all of the tutorials will work with
+either codebase. Typically, the students start with code targeting the GBA because the emulators are more mature,
+but will create an NDS version when targeting real hardware because the NDS writable cartridges are more readily
+available. For the NDS version, note that only one screen is
+used (for consistency with the GBA version).
+Also note that no code is edited during this tutorial —
+when the project is exported, Spritely creates a complete
+project that has one object (the "player") that can move
+around the screen.
+
+CURRICULUM
+
+This class was presented as a series of 1 hour per week
+classes that lasted throughout the school year (and into the
+summer). All of the students (6 girls and 2 boys) were voluntary participants who needed to make sacrifices to attend
+— this was an after school event and that led to a number
+of scheduling conflicts for the students (and parents). The
+class was run from September 2007 until August 2008 and
+at the start of the class there were 8 students age 10-13.
+A major goal of this class is to link computer software
+with the underlying hardware. Because of this, the curriculum covers a wide range of computer science and engineer5
+
+http://www.devkitpro.org
+http://www.tilemap.co.uk/mappy.php
+7
+http://tilestudio.sourceforge.net/
+8
+http://members.aol.com/opentume/
+9
+http://code.google.com/p/spritely
+6
+
+283
+
+6.1.2
+
+Animating Objects
+
+In this tutorial, the students create an animated sequence
+of sprites and then turn it into a single animated object on
+the screen.
+
+6.1.3
+
+Creating Multiple Objects
+
+This tutorial has the students go through the steps needed
+to create a second sprite in Spritely and then instantiate it
+as an object on the screen.
+At this point, it is noted that the various objects don't
+interact with each other, which leads to the next tutorial on
+collisions.
+
+6.1.4
+
+Figure 2: Sample code from a tutorial.
+
+Handling Collisions
+about how the information was conveyed within each tutorial. Each step within a tutorial was broken down into
+chunks that were as small as possible with the student building and running the project after each step.
+Within each step, another challenge is presenting the code
+in a manner that is accessible to students unfamiliar with
+writing code. It is common in tutorials that target older
+students to present a block of new code and indicate that it
+should be inserted before or after some other block of code.
+In our experience, this is not sufficient for students who
+are still getting accustomed to programming and we needed
+to provide more context for the students. We addressed this
+problem by including the surrounding code as context, but
+we needed to be sure to highlight the code changes that the
+students needed to make. This was accomplished by graying
+out the existing code and highlighting the new code with
+color-coding and arrows. Since the tutorials are written in
+HTML, this was done by using a custom CSS-based code
+pretty-printer10 that included special support for disabling
+and highlighting lines of code.
+Figure 2 shows an example of the markup that we use in
+our tutorials to provide the context needed for the students.
+
+The next tutorial introduces collision detection as a mechanism for having the objects interact with each other and
+with the screen boundaries. A single “player” object and a
+number of “target” objects are created and placed on the
+screen. Each target has a normal state and a highlighted
+state and when the player collides with the target, the target is highlighted. Two variants are used in class: one where
+the target stays highlighted even after the player moves away
+and another where the target is highlighted only when the
+player is colliding with the target.
+During the discussion on collisions, the difference between
+bounding-box collisions and pixel-perfect collisions is discussed and related to their own experiences with 2D and 3D
+games.
+
+6.1.5
+
+Handling a Single Projectile
+
+Here the students respond to a button press by creating
+a projectile that flies off the screen.
+Because of school policy, we discouraged students from
+using bullets as their projectiles and encouraged them to be
+more creative. For example, we had one a student whose
+project had arrows hitting targets in the game. We also
+mentioned that the game mechanics were the same regardless of the graphics and that the graphics could be changed
+to be whatever they wanted (wink, wink) if they continued
+working on their project at home.
+
+6.1.6
+
+6.3
+
+Creating Pong
+
+The next tutorial walks the students through the process
+of creating the classic arcade game “Pong” from start to
+finish. This tutorial takes two 1-hour class sessions and introduces basic AI concepts for controlling an opponent.
+
+6.1.7
+
+• Interstitial Screens (Splash, Between Levels, Ending)
+• Level Creation
+• Platform and Background Collisions
+
+Handling Multiple Projectiles
+
+This tutorial is the first one that relies on arrays and for
+loops. This project works well as a motivator for these concepts because of the frustration that they experienced while
+playing their game with a single projectile.
+
+6.1.8
+
+Background Scrolling
+Multiple Screens (DS only)
+Because many of these tutorials will require enhancements
+to Spritely, we are actively developing this program to better
+support these tutorials.
+
+Gathering Objects
+
+This is a continuation of the Handling Collisions tutorial
+and has the target object disappear from the screen when the
+player collides with them. The second part of this tutorial
+adds an indicator on the bottom of the screen to keep track
+of how many targets have been gathered so far.
+
+6.2
+
+Expansion
+
+As this is a continuing effort, we are still producing additional tutorials with a mind to having the students create
+a full game. To that end, we plan on creating tutorials to
+cover the following topics:
+
+7.
+
+EVALUATION
+
+Given the rather abstract goal of sparking an interest in
+computer programming, it was challenging to create a set of
+relevant metrics. In the end, we created a set of spontaneous
+metrics that we believe are closely aligned with our goals.
+
+Presenting Code
+
+Beyond structuring the tutorials so that they introduce
+a single concept at a time, we also needed to be concerned
+
+10
+
+284
+
+http://code.google.com/p/precodeformat/
+
+8.
+
+Table 1: Number of students satisfiying each of the
+evaluation metrics.
+Grade
+# Drop Recom Relate Debug Prog
+5th
+3
+1
+2
+3
+1
+0
+7th
+3
+1
+2
+2
+1
+1
+8th
+2
+0
+1
+1
+2
+1
+Total
+8
+25%
+62.5% 62.5%
+50%
+25%
+
+CONCLUSIONS
+
+Overall, the class was successful in motivating the students to learn about programming and there was enough
+interest to continue the program for the next school year
+and add an advanced program that continues to build upon
+what the students have already learned.
+We had a number of challenges during the class, most
+of which were related to inconsistent familiarity with basic
+computer operation. Many of the students were not yet comfortable navigating the directory structure of a computer's
+hard drive and none of them had been exposed to a shell
+or command prompt. Because of this, we needed to spend
+more time covering basics than we originally intended.
+During the coming school year, we are planning on addressing these concerns by creating more lessons that focus
+on basic computer and pre-programming skills that we will
+introduce at an earlier age (4th and 5th grade). This will
+allow us to focus more on the core concepts of programming
+and debugging in the more advanced class.
+We also believe that the students could have benefited
+from earlier exposure to visual programming tools. While
+we believe that it is important to introduce the students
+to text-based programming, the concepts could have been
+introduced earlier via these tools and the students would
+most likely have progressed faster through the material since
+it would serve as a review and application of the knowledge.
+And finally, while we are making these tools and tutorials
+available on the web, we recognize that this class is not necessarily easy to teach even with ready-made materials. To
+address this, we intend to host teacher training sessions to
+allow instructors to gain confidence with the material before
+using it in their own class.
+
+By spontaneous metrics, we mean those metrics that we
+can observe in the students without prompting. For example, rather than ask them if they would recommend the class
+to others, we observe whether they did recommend the class.
+While this approach would not be as effective for a short, intensive class, the fact that this class was spread throughout
+the school year and into the summer gave us ample opportunity to observe these signals.
+The five metrics that we observed were:
+Drop - The class dropout rate. Since this class was
+held as an optional class over the course of the school
+year (and summer), the students had numerous opportunities to decide that their time was better spent
+elsewhere. All the students in the class needed at one
+point or another to make sacrifices to continue with
+the course.
+Recommend - Did the student recommend the class
+to someone else? We counted this whenever a student
+asked if one of their friends could take the class or when
+a parent approached us about the class and mentioned
+that the source of their interest was one of the students.
+Relate - Did the student volunteer information about
+how class material related to their real world experiences? This would commonly occur during the preclass time when people were still settling down, but it
+also occurred spontaneously during lessons.
+
+9.
+
+REFERENCES
+
+[1] D. Frost. Fourth grade computer science. In Proceedings
+of the 38th SIGCSE technical symposium on Computer
+science education, pages 301–306, 2007.
+[2] C. Kelleher, R. Pausch, and S. Kiesler. Storytelling
+alice motivates middle school girls to learn computer
+programming. In Proceedings of the SIGCHI conference
+on Human factors in computing systems, pages
+1455–1464, 2007.
+[3] J. Maloney, L. Burd, Y. Kafai, N. Rusk, B. Silverman,
+and M. Resnick. Scratch: A sneak preview. In Second
+International Conference on Creating, Connecting, and
+Collaborating through Computing, pages 104–109, 2004.
+[4] S. Papert. Mindstorms: Children, Computers and
+Powerful Ideas. Harvester Press, 1980.
+[5] J. Steinmetz. Computers and squeak as environments
+for learning. In K. Rose and M. Guzdial, editors,
+Squeak: Open Personal Computing and Multimedia.
+Prentice Hall, 2001.
+[6] J. Thol, K. Kahn, and C. G. Jansson. Real
+programming of an adventure game by an 8 year old. In
+Proceedings of the ICLS, pages 473–480. Lawrence
+Erlbaum Associates, 2002.
+[7] A. Tucker, F. Deek, J. Jones, D. McCowan,
+C. Stephenson, and A. Verno. A model curriculum for
+k-12 computer science: Final report of the acm k-12
+task force curriculum committee, second edition.
+Technical report, Association for Computing
+Machinery, 2006.
+
+Debug - Did the student resolve syntax/compilation
+errors independently? This is a problem-solving skill
+that is a necessary step before the students feel confident to make their own changes to the program.
+Program - Did the student program beyond basic
+class requirements? Usually this occurred when advanced students made additional changes during class,
+but it also happened when they did programming outside of class. While all of the students used Spritely
+outside of class to create new sprites/backgrounds, this
+is measuring whether they actually wrote code.
+See Table 1 for a summary of the results. Other than the
+drop rate, these are observed metrics and thus they most
+likely underreport the actual figures since we missed signals
+if they did not occur during class time. For comparison,
+when students were asked outright if they would recommend
+the class to others, all of the students present responded that
+they would.
+Of the 2 students who dropped the class, one needed to
+drop because her family moved and the other (in 5th grade)
+because, while she was interested in the end goal, she missed
+a number of classes because of personal issues, fell behind
+and was unable to catch up.
+
+285
