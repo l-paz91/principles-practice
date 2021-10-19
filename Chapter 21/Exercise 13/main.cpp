@@ -90,6 +90,7 @@ void fct()
 		// remove plurals
 		if (s[s.size() - 1] == 's')
 			s.pop_back();	// remove last character
+		// sometimes there were strings like 'issues,'. The , got replaced with whitestring so we need to check 2nd to last char now
 		else if (s.size() > 2 && s[s.size() - 2] == 's' && s[s.size() - 1] == ' ')
 			s.erase(s.end() - 2);
 
