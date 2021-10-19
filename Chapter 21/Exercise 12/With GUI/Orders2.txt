@@ -1,0 +1,53 @@
+Karl Urban
+42332 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Tue Oct  5 20:45:08 2021
+Book*45.95*1
+
+Betty White
+678 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Wed Oct  6 18:42:36 2021
+Ryzen CPU*950.99*1
+Asus Crosshair VII Maximus*659.50*1
+Gaming Mouse*24.99*1
+
+Julie Andrews
+43 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Fri Oct  1 12:01:42 2021
+How To Train Your Threads*50.03*1
+
+Ryan Reynolds
+3 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Thu Sep  30 16:53:02 2021
+A Book*25*3
+
+Hugh Jackman
+8 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Mon Oct  4 09:36:47 2021
+RGB Keyboard*100.01*1
+
+Kate Beckinsale
+56 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Fri Sep  24 11:11:11 2021
+Your Code Sucks*50.60*2
+
+Brad Pitt
+5 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Mon Oct  4 13:23:48 2021
+Linked Lists*90.23*3
+Vectors*50.21*10
+
+Clint Eastwood
+78 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Fri Oct  1 14:34:52 2021
+RGB Lights*100.3*3
+RGB Desk*150.36*2
+
+Barbara Streisand
+A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Thu Sep  30 18:45:12 2021
+Regular Monitor*25.20*1
+
+Elvis Presley
+4 A Road, Pointer Town, Pointershire, LP2 CTS, C++
+Thu Sep  30 09:17:43 2021
+Whiteboard*5*15
