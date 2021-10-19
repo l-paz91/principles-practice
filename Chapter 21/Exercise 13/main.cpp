@@ -12,7 +12,7 @@
 	program on a real-world text file with at least 5000 words (e.g., a research 
 	paper).
   
-  Notte - this is disgustingly hacky.
+  Note - this is disgustingly hacky.
 
 */
 // https://github.com/l-paz91/principles-practice/
