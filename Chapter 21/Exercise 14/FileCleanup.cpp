@@ -99,7 +99,10 @@ std::string FileQuery::findMostOccurring()
 	for (auto p : mWordOccurrence)
 	{
 		if (p.second > n)
+		{
 			mostFrequent = p.first;
+			n = p.second;
+		}
 	}
 	return mostFrequent;
 }
