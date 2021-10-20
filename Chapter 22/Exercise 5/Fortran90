@@ -1,0 +1,5 @@
+program hello
+  ! This was built using https://rextester.com/l/fortran_online_compiler
+  ! because I couldn't figure out how to install it on windows
+  print *, 'Hello, World!'
+end program hello
