@@ -1,0 +1,29 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 22 - Exercise 5
+
+	Write a "Hello, World!" program in each of the languages mentioned in this 
+	chapter.
+
+	C++
+	Built and written using Visual Studio Community 2019 on Windows 10.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <iostream>
+
+int main()
+{
+	std::cout << "Hello, world!" << std::endl;
+
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
