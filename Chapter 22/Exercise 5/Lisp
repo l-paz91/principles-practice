@@ -1,0 +1,6 @@
+;;;; Apparently you're supposed to put 4 semi-colons at the top of a source file in lisp!
+
+;;; Then follow it up with three if it's the beginning of a line???
+;;; Anyway, this was built using the online 'Common Lisp' compiler https://rextester.com/l/common_lisp_online_compiler
+
+(format t "Hello, World!")
