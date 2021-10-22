@@ -1,0 +1,9 @@
+*> Cobol uses stars and arrows for comments! How fancy
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLOWRD.
+
+PROCEDURE DIVISION.
+DISPLAY "SIMPLE HELLO WORLD". *> You can even do it at the end of lines!
+STOP RUN.
+
+*> Not gonna lie, this comment style makes me feel like a hacker
