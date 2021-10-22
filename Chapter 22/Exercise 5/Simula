@@ -1,0 +1,8 @@
+! comments are done like this;
+! the compiler gave many warnings when compiling this but it worked;
+
+! compiled using Compile Simula Online https://www.tutorialspoint.com/compile_simula_online.php ;
+Begin
+   OutText ("Hello, World!");
+   Outimage;
+End;
