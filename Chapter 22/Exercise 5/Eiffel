@@ -1,0 +1,18 @@
+-- Compiled using https://www.eiffel.org/codeboard
+class
+    APPLICATION
+
+inherit
+    ARGUMENTS_32
+
+create
+    make
+
+feature {NONE}
+
+    make
+        do
+            print ("Hello World!%N")
+        end
+
+end
