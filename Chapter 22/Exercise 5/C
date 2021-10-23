@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+/* Built using MSVC and Developer Command Prompt */
+
+int main()
+{
+    printf("Hello, World! I hate printf with a passion!.\n");
+    return 0;
+}
