@@ -1,0 +1,4 @@
+-- comments are done with 2 dashes in haskell
+-- compiled using https://www.tutorialspoint.com/compile_haskell_online.php
+
+main = putStrLn "hello world"
