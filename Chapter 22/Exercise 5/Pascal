@@ -1,0 +1,6 @@
+(* These are comments *)
+(* Compiled online using https://www.tutorialspoint.com/compile_pascal_online.php*)
+program Hello;
+begin
+  writeln ('Hello World')
+end.
