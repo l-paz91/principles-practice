@@ -1,0 +1,6 @@
+"Lol as if you actually put comments in quotes"
+"I feel like I'm talking to myself"
+
+"Compiled with https://www.tutorialspoint.com/execute_smalltalk_online.php"
+
+Transcript show: 'Hello, world!'.
