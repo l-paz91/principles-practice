@@ -1,0 +1,8 @@
+// Compiled using https://www.jdoodle.com/online-java-compiler/
+public class MyClass 
+{
+    public static void main(String args[]) 
+    {
+      System.out.println("Hello Java! ");
+    }
+}
