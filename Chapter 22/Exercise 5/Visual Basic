@@ -1,0 +1,10 @@
+Imports System
+' single quotes are comments in VB, how strange
+' Compiled using Visual Studio 2019 Community
+Module Module1
+    Sub Main()
+        Console.WriteLine("Hello Visual Basic!")
+        Console.WriteLine("Press Enter key to exit.")
+        Console.ReadLine()
+    End Sub
+End Module
