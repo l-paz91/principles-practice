@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP Hello World</title>
+    </head>
+    <body>
+    <?php
+        // you can comment in many ways in PHP
+        # like this as well
+        /* Compiled using https://www.w3schools.com/php/phptryit.asp?filename=tryphp_syntax*/
+        // but it has to be wrapped in php tags
+    ?>
+        <?php echo '<p>Hello PHP!</p>'; ?>
+    </body>
+</html>
