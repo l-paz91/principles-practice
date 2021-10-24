@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+<!-- No need to compile this bad boy! -->
+<body>
+
+  <p>Brought to you by HTML and Notepad!</p>
+
+  <script>
+    alert( 'Hello, world!' );
+  </script>
+
+  <p>...And Google Chrome</p>
+
+</body>
+
+</html>
