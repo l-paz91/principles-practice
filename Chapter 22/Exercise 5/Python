@@ -1,0 +1,3 @@
+# comments are done like this
+# compiled and run using Visual Studio 2019 Community
+print("Hello Python!")
