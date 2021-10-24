@@ -1,0 +1,15 @@
+using System;
+
+// compiled and run using Visual Studio 2019 Community
+namespace csharpHelloWorld
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello C#!");
+            Console.Write("Press any key to continue...");
+            Console.ReadKey();
+        }
+    }
+}
