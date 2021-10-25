@@ -1,5 +1,5 @@
 *> Cobol uses stars and arrows for comments! How fancy
->* Built using JDoodle Online Compiler https://www.jdoodle.com/execute-cobol-online/ with GNU Cobol 3.0
+*> Built using JDoodle Online Compiler https://www.jdoodle.com/execute-cobol-online/ with GNU Cobol 3.0
 
 IDENTIFICATION DIVISION.
 PROGRAM-ID. HELLOWRD.
