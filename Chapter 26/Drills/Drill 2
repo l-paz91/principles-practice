@@ -1,0 +1,62 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 23 - Drill 2
+
+	Get the little program from section 23.7 to work; that may involve figuring 
+	out how to set the project and/or command-line options to link to the regex 
+	library and use the regex headers.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <regex>
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	ifstream in{ "PostalCodes.txt" };		// input file
+	if (!in)
+	{
+		cerr << "no file\n";
+	}
+
+	regex pat{ R"(\w{2}\s*\d{5}(-\d{4})?)" };	// a postal code pattern
+
+	int lineNum = 0;
+	for (string line; getline(in, line);)		// read input line into input buffer
+	{
+		++lineNum;
+		smatch matches;		// I won't lie, I find the word "smatch" extremely amusing
+		if (regex_search(line, matches, pat))
+		{
+			cout << lineNum << ": " << matches[0] << endl;
+			if (1 < matches.size() && matches[1].matched)		// sub match
+			{
+				cout << "\t: " << matches[1] << endl;
+			}
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	keep_window_open();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
