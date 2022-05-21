@@ -2,10 +2,12 @@
 // https://lptcp.blogspot.com/
 // 
 /*
-	Chapter 23 - Exercise 4
+	Chapter 23 - Exercise 5
 
-	Find a real email message file (containing real email messages) and modify the 
-	email example to extract subject lines from sender names taken as input from the user.
+	Find a large email message file (thousands of messages) and then time it as
+	written with a multimap and with that multimap replaced by an unordered
+	multimap. Note that our application does not take advantage of the ordering
+	of the multimap.
 
 */
 // https://github.com/l-paz91/principles-practice/
