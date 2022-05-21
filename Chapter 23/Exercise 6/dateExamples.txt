@@ -1,0 +1,50 @@
+Text Connector DateTime Formats
+The Fields tab on the Text File As A Source or Text File As A Target Connection dialog has an option to set the data type for the selected field. If you choose DateTime, you must enter the format for the Date/Time in the Date Format field using one of the following formats:
+
+yyyy-M-d — Example: 2013-6-23 | 2013 June 23rd
+M/d/yyyy — Example: 6/23/2013 | June 23rd 2013
+d/M/yyyy — Example: 22/6/2013 | 22 June 2013
+dd.MM.yyyy — Example: 21.07.2013 | 21st July 2013
+dd/MM/yyyy — Example: 24/08/2013 | 24th August 2013
+yyyy/M/d — Example: 2013/9/23 | 2013 September 23
+yyyy-MM-dd — Example: 2013-10-23 | 2013 October 23
+yyyyMMddTHH:mmzzz — Example: 20130623T13:22-0500
+You can enter a format that reflects your data, using any of the following elements.
+
+Zone information
+
+DateTime Examples
+US Standard Format
+M/d/yyyy — Example: 6/23/2013
+
+h:mm:ss tt — Example: 5:45:22 AM and 5:45:22 PM
+
+ISO8601 Format
+20130623T0545-0500 using the format yyyymmddTHHmmzzz
+20130623T05:45-0500
+20130623T05:45+0500
+20130623T0545+0500
+
+Russia And Germany Standard Format
+dd.MM.yyyy — Example: 23.06.2013
+
+H:mm:ss — Example: 5:45:22 (and 17:45:22)
+
+UK, Spain, France and Italy standard format
+dd/MM/yyyy — Example: 23/06/2013
+
+HH:mm:ss — Example: 05:45:22 and 17:45:22
+
+China And Japan Standard Format
+yyyy/M/d — Example: 23/6/2013
+
+Long Format: yyyy年M月dd日 — Example: 2013年6月23日
+
+H:mm:ss — Example: 05:45:22 and 17:45:22
+
+Korea Standard Format
+yyyy-MM-dd — Example: 23/6/2013
+
+Long Format: yyyy년 M월 dd일 — Example: 2013년 6월 23일)
+
+tt h:mm:ss — Example: AM 5:45:22 and PM 5:45:22
