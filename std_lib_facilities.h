@@ -67,6 +67,20 @@ template<class T> string to_string(const T& t)
 
 // -----------------------------------------------------------------------------
 
+//@ LPTCP BEGIN - add from_string from section 23.2
+template<typename T>
+T from_string(const string& s)
+{
+	istringstream is{ s };
+	T t;
+	if (!(is >> t))
+		cerr << "Bad cast from string.\n";
+	return t;
+}
+//@ LPTCP END - add from_string from section 23.2
+
+// -----------------------------------------------------------------------------
+
 struct Range_error : out_of_range {	// enhanced vector range error reporting
 	int index;
 	Range_error(int i) :out_of_range("Range error: " + to_string(i)), index(i) { }
