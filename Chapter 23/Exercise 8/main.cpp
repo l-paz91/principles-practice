@@ -42,10 +42,10 @@ void fct()
 		exit(1);
 	}
 
-	//cout << "\nFile name: ";	// using CorporateGibberish.txt
-	//string file;
-	//cin >> file;
-	ifstream txtFile{"CorporateGibberish.txt"};
+	cout << "\nFile name: ";	// using CorporateGibberish.txt
+	string file;
+	cin >> file;
+	ifstream txtFile{file};
 
 	int lineNum = 0;
 
