@@ -1,0 +1,160 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 23 - Exercise 11
+
+	Modify the table-checking program from section 23.9 to see if the number of 
+	students is increasing or decreasing over the years in question.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <map>
+#include <regex>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct ClassSize
+{
+	ClassSize(int pBoys, int pGirls, int pTotal)
+		: mBoys(pBoys)
+		, mGirls(pGirls)
+		, mTotal(pTotal)
+	{}
+
+	int mBoys;
+	int mGirls;
+	int mTotal;
+};
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// table files: https://github.com/l-paz91/principles-practice/tree/master/Chapter%2023/Exercise%209
+	//ifstream inputFile{ "table.txt" };		// standard table
+	//ifstream inputFile{ "table2.txt" };	// has new line after end of table
+	ifstream inputFile{ "table3.txt" };	// has new lines in table and after
+
+	// patterns
+	regex header{ R"(^[\w ]+(	[\w ]+)*$)" };
+	regex row{ R"(^[\w ]+(		\d+)( \d+)( \d+)$)" };
+	
+	// make sure the table has a header
+	string line;
+	int lineNum = 0;
+
+	if (getline(inputFile, line))
+	{
+		smatch matches;
+		if (!regex_match(line, matches, header))
+		{
+			error("No header.");
+		}
+	}
+
+	// column totals
+	int boys = 0;
+	int girls = 0;
+
+	// map to store years to class size (keeps years as unique)
+	map<char, ClassSize> yearsAndClassSize;
+
+	while (getline(inputFile, line))
+	{
+		if(line.empty())
+			continue;	// will skip to next line
+
+		++lineNum;
+		smatch matches;
+		if (!regex_match(line, matches, row))
+		{
+			cerr << "Bad line: " << lineNum << endl;
+		}
+
+		if (inputFile.eof())
+		{
+			cout << " at eof()\n";
+		}
+
+		// check row
+		int currBoy = from_string<int>(matches[1]);
+		int currGirl = from_string<int>(matches[2]);
+		int currTotal = from_string<int>(matches[3]);
+		if (currBoy + currGirl != currTotal)
+		{
+			error("Bad row sum.\n");
+		}
+
+		if (matches[0] == "Aile klasser \t\t184 202 386")
+		{
+			if (currBoy != boys)
+				error("Boys don't add up!\n");
+			if (currGirl != girls)
+				error("Girls don't add up!\n");
+
+			if (!(inputFile >> ws).eof())
+				error("Characters after total line");
+
+			// end of table - check whether class sizes are increasing/decreasing
+			int prevTotal = yearsAndClassSize.begin()->second.mTotal;
+			for (auto it = yearsAndClassSize.begin(); it != yearsAndClassSize.end(); ++it)
+			{
+				if (prevTotal > it->second.mTotal)
+				{
+					cout << "Class size decreased in year: " << it->first << " from " << prevTotal << " to " << it->second.mTotal << '\n';
+				}
+				else if (prevTotal < it->second.mTotal)
+				{
+					cout << "Class size increased in year: " << it->first << " from " << prevTotal << " to " << it->second.mTotal << '\n';
+				}
+				else
+				{
+					cout << "Class size stayed the same." << '\n';
+				}
+				prevTotal = it->second.mTotal;
+			}
+
+			return;
+		}
+
+		// update totals
+		boys += currBoy;
+		girls += currGirl;
+		char year = matches[0].first[0];
+		
+		auto search = yearsAndClassSize.find(year);
+		if (search != yearsAndClassSize.end())
+		{
+			search->second.mBoys += currBoy;
+			search->second.mGirls += currGirl;
+			search->second.mTotal += currTotal;
+		}
+		else
+		{
+			yearsAndClassSize.insert(pair<int, ClassSize>(year, ClassSize(currBoy, currGirl, currTotal)));
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
