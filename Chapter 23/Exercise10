@@ -2,10 +2,11 @@
 // https://lptcp.blogspot.com/
 // 
 /*
-	Chapter 23 - Exercise 11
+	Chapter 23 - Exercise 10
 
-	Modify the table-checking program from section 23.9 to see if the number of 
-	students is increasing or decreasing over the years in question.
+	Modify the table-checking program from section 23.9 to write a new table 
+	where the rows with the same initial digit (indication the year: first 
+	grades start with 1) are merged.
 
 */
 // https://github.com/l-paz91/principles-practice/
