@@ -1,0 +1,57 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 23 - Exercise 13
+
+	Does dot (.) match '\n'? Write a program to find out.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <regex>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	string s = "Line 1. . . .\n. ..Line2.\nL.i.n.e.3. .";
+	regex pat{ R"(\n)" };
+	regex pat2{ R"(\.)" };
+
+	smatch matches;
+	if (regex_search(s, matches, pat))
+	{
+		string newString = regex_replace(s, pat, "%");
+		cout << "Original: " << s << '\n';
+		cout << "Replacing new lines with %: " << newString << endl;
+	}
+
+	if (regex_search(s, matches, pat2))
+	{
+		string newString = regex_replace(s, pat2, "%");
+		cout << "Original: " << s << '\n';
+		cout << "Replacing (.) with %: " << newString << endl;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
