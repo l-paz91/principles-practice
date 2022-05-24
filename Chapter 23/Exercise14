@@ -1,0 +1,99 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 23 - Exercise 14
+
+	Write a program that, like the one in section 23.8.7, can be used to experiment 
+	with pattern matching by typing in a pattern. However, have it read a file into 
+	memory (representing a line break with the new line character, '\n'), so that 
+	you can experiment with patterns spanning line breaks. Test it and document a 
+	dozen test patterns.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <regex>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// accept a pattern and a set of lines from input
+	// check the pattern and search for lines with that pattern
+	regex pattern;
+
+	string input;
+	cout << "Enter pattern: ";
+	getline(cin, input);
+
+	try
+	{
+		pattern = input;
+		cout << "\nPattern: " << input << "\n";
+	}
+	catch (regex_error e)
+	{
+		cout << input << " is not a valid regular expression\n";
+		pressKeyToContinue();
+		exit(1);
+	}
+
+	// https://github.com/l-paz91/principles-practice/blob/master/Chapter%2023/Exercise%208/CorporateGibberish.txt
+	string file{ "CorporateGibberish.txt" };
+	ifstream txtFile{ file };
+
+	int lineNum = 0;
+
+	string newString;
+
+	for (string line; getline(txtFile, line);)
+	{
+		newString += line + '\n';
+		++lineNum;
+		smatch matches;
+
+		if (regex_search(line, matches, pattern))
+		{
+			cout << "----Matched in original text----" << '\n';
+			cout << "Line " << lineNum << ": " << line << "\n";
+			for (uint32 i = 0; i < matches.size(); ++i)
+			{
+				cout << "\tMatches[" << i << "]: " << matches[i] << '\n';
+			}
+		}
+	}
+
+	// when the file has newlines represented by '\n'
+	smatch matches;
+
+	if (regex_search(newString, matches, pattern))
+	{
+		cout << "----Matched in condensed text----" << '\n';
+		for (uint32 i = 0; i < matches.size(); ++i)
+		{
+			cout << "\tMatches[" << i << "]: " << matches[i] << '\n';
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
