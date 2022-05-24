@@ -1,0 +1,148 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 23 - Exercise 12
+
+	Write a program, based on the program that finds lines containing dates 
+	(exercise 6), that finds all dates and reformats them to the ISO yyyy-mm-dd 
+	format. The program should take an input file and produce and output file that 
+	is identical to the input file except for the changed date formatting.
+
+	I decided not to do ALL date formats due to time.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <regex>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+enum class RegexPattern
+{
+	e1,
+	e2
+};
+
+// -----------------------------------------------------------------------------
+
+vector<string> getDateNumbers(const string& pDate)
+{
+	string num;
+	vector<string> dateNums;
+	for (char c : pDate)
+	{
+		if (isdigit(c))
+		{
+			num += c;
+		}
+		else
+		{
+			if (isspace(c))
+			{
+				continue;
+			}
+			dateNums.push_back(num);
+			num = "";
+		}
+	}
+
+	dateNums.push_back(num);
+	return dateNums;
+}
+
+// -----------------------------------------------------------------------------
+
+void printAndReplace(vector<string>& pV, RegexPattern pPattern)
+{
+	// yyyy-mm-dd
+	switch (pPattern)
+	{
+	case RegexPattern::e1:
+	{
+		// first pattern mm/dd/yyyy
+		// 2 matches
+		regex pat1{ R"((\D0?[1-9]|1[0-2])[-.\/](([0-2][0-9])|3[0-1])[-.\/]\d{4})" };
+		for (uint32 i = 0; i < pV.size(); ++i)
+		{
+			smatch matches;
+			if (regex_search(pV[i], matches, pat1))
+			{
+				cout << "\nReplacing: " << pV[i] << "\n<< with >> ";
+				string date = matches[0];
+				vector<string> dateNums = getDateNumbers(date);
+				string newDate = dateNums[2] + '-' + dateNums[0] + '-' + dateNums[1];
+				pV[i] = regex_replace(pV[i], regex(date), newDate);
+				cout << pV[i] << "\n\n";
+			}
+		}
+		break;
+	}
+	case RegexPattern::e2:
+	{
+		// second pattern: dd/mm/yyyy
+		// 7 matches
+		regex pat2{ R"((([0-2][0-9])|3[0-1])[-.\/](0?[1-9]|1[0-2])[-.\/]\d{4})" };
+		for (uint32 i = 0; i < pV.size(); ++i)
+		{
+			smatch matches;
+			if (regex_search(pV[i], matches, pat2))
+			{
+				cout << "\nReplacing: " << pV[i] << "\n<< with >> ";
+
+				string date = matches[0];
+				vector<string> dateNums = getDateNumbers(date);
+				string newDate = dateNums[2] + '-' + dateNums[1] + '-' + dateNums[0];
+
+				pV[i] = regex_replace(pV[i], pat2, newDate);
+				cout << pV[i] << "\n\n";
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// get the information
+	vector<string> txtFile;
+
+	// https://github.com/l-paz91/principles-practice/blob/master/Chapter%2023/Exercise%206/dateExamples.txt
+	ifstream in{ "dateExamples.txt" };
+	for (string s; getline(in, s);)
+	{
+		txtFile.push_back(s);
+	}
+
+	cout << "Pattern mm/dd/yyyy" << endl;
+	printAndReplace(txtFile, RegexPattern::e1);
+
+	cout << "\nPattern dd/mm/yyyy" << endl;
+	printAndReplace(txtFile, RegexPattern::e2);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
