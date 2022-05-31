@@ -1,0 +1,61 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 5
+
+	Read ten floating-point values from input and put them into a Matrix<double>. 
+	Matrix has no push_back() so be careful to handle an attempt to enter a wrong 
+	number of doubles. Print out the Matrix.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+
+#include "Matrix11.h"
+#include "MatrixIO11.h"
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	using namespace Numeric_lib;
+
+	// using the provided I/O operations
+	// input format must be { number ... }
+	Matrix<double> tenDoubles(10);
+	cin >> tenDoubles;
+	cout << tenDoubles << '\n'
+
+	// another way - specific to 1D matrix
+	for (Index i = 0; i < tenDoubles.size(); ++i)
+	{
+		cout << "Enter double " << i + 1 << " >> ";
+		double num = 0;
+		cin >> num;
+		tenDoubles[i] = num;
+	}
+	cout << '\n';
+	cout << tenDoubles << endl;
+
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
