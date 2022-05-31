@@ -1,0 +1,54 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 8
+
+	Read six ints into a Matrix<int,2> m(2,3) and print them out.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Matrix11.h"
+#include "MatrixIO11.h"
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	using namespace Numeric_lib;
+
+	Matrix<int, 2> m(2, 3);
+	for (Index row = 0; row < m.dim1(); ++row)
+	{
+		for (Index column = 0; column < m.dim2(); ++column)
+		{
+			int n = 0;
+			cout << "Number >> ";
+			cin >> n;
+			m[row][column] = n;
+		}
+	}
+
+	cout << m;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
