@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 7
+
+	Read ten complex<double>s from cin (yes, cin supports >>  for complex) and 
+	put them into a Matrix. Calculate and output the sum of the ten complex numbers.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <complex>
+
+#include "Matrix11.h"
+#include "MatrixIO11.h"
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	using namespace Numeric_lib;
+
+	constexpr int limit = 10;
+	Matrix<complex<double>> complexMatrix(limit);
+	complex<double> sum;
+
+	for (int i = 0; i < complexMatrix.size(); ++i)
+	{
+		complex<double> temp;
+		cout << "Complex " << i << ">> ";
+		cin >> temp;	// using format (num,num)
+		complexMatrix[i] = temp;
+		sum += temp;
+	}
+
+	cout << sum;
+	cout << complexMatrix;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
