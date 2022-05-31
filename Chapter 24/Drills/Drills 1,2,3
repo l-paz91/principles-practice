@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 1
+
+	Print the size of a char, a short, an int, a long, a float, a double, an int*, 
+	and a double* (use sizeof, not <limits>).
+
+	Chapter 24 - Drill 2
+
+	Print out the size as reported by sizeof of Matrix<int> a(10), Matrix<int> b(100), 
+	Matrix<double> c(10), Matrix<int, 2> d(10,10), Matrix<int, 3> e(10,10,10).
+
+	Chapter 24 - Drill 3
+
+	Print out the number of elements of each of the Matrixes from 2.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "Matrix11.h"
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	// Drill 1
+	cout << "char:\t" << sizeof(char) << '\n';
+	cout << "short:\t" << sizeof(short) << '\n';
+	cout << "int:\t" << sizeof(int) << '\n';
+	cout << "long:\t" << sizeof(long) << '\n';
+	cout << "float:\t" << sizeof(float) << '\n';
+	cout << "double:\t" << sizeof(short) << '\n';
+	cout << "int*:\t" << sizeof(int*) << '\n';
+	cout << "double*: " << sizeof(double*) << '\n';
+
+	using namespace Numeric_lib;
+
+	// Drill 2
+	Matrix<int> a(10);
+	Matrix<int> b(100);
+	Matrix<double> c(10);
+	Matrix<int, 2> d(10, 10);
+	Matrix<int, 3> e(10, 10, 10);
+
+	cout << "\nMatrix sizes:" << '\n';
+	cout << "Matrix a: " << sizeof(a) << '\n';
+	cout << "Matrix b: " << sizeof(b) << '\n';
+	cout << "Matrix c: " << sizeof(c) << '\n';
+	cout << "Matrix d: " << sizeof(d) << '\n';
+	cout << "Matrix e: " << sizeof(e) << '\n';
+
+	// Drill 3
+	cout << "\nNumber of elements in each Matrix:" << '\n';
+	cout << "Matrix a: " << a.size() << '\n';
+	cout << "Matrix b: " << b.size() << '\n';
+	cout << "Matrix c: " << c.size() << '\n';
+	cout << "Matrix d: " << d.size() << '\n';
+	cout << "Matrix e: " << e.size() << '\n';
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
