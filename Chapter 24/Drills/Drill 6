@@ -25,12 +25,11 @@ void fct()
 	using namespace Numeric_lib;
 
 	int m, n;
-	m = 10;
-	n = 10;
-	//cout << "m >> ";
-	//cin >> m;
-	//cout << "n >> ";
-	//cin >> n;
+	m = n = 0;
+	cout << "m >> ";
+	cin >> m;
+	cout << "n >> ";
+	cin >> n;
 
 	Matrix<double, 2> multTable(m, n);
 	for (Index row = 0; row < multTable.dim1(); ++row)
