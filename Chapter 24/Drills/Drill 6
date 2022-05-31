@@ -1,0 +1,72 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 6
+
+	Compute a multiplication table for [0,n) * [0, m) and represent it as a 2D Matrix. 
+	Take n and m from cin and print out the table nicely (assume that m is small 
+	enough that the results fit on a line).
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+
+#include "Matrix11.h"
+#include "MatrixIO11.h"
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	using namespace Numeric_lib;
+
+	int m, n;
+	m = 10;
+	n = 10;
+	//cout << "m >> ";
+	//cin >> m;
+	//cout << "n >> ";
+	//cin >> n;
+
+	Matrix<double, 2> multTable(m, n);
+	for (Index row = 0; row < multTable.dim1(); ++row)
+	{
+		for (Index column = 0; column < multTable.dim2(); ++column)
+		{
+			multTable[row][column] = (row+1) * (column+1);
+		}
+	}
+
+	// provided output - not exactly printed "nicely"
+	//cout << multTable;
+
+	for (Index row = 0; row < multTable.dim1(); ++row)
+	{
+		for (Index column = 0; column < multTable.dim2(); ++column)
+		{
+			cout << multTable[row][column] << "\t";
+		}
+		cout << '\n';
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
