@@ -1,0 +1,94 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 24 - Drill 4
+
+	Write a program that takes ints from cin and outputs the sqrt() of each int, 
+	or "no square root" if sqrt(x) is illegal for some x (i.e., check your sqrt() 
+	return values).
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <cerrno>
+#include <cfenv>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	bool quit = false;
+
+	while (!quit)
+	{
+		cout << "\nEnter int to get square root >> ";
+		int num = 0;
+		cin >> num;
+
+		feclearexcept(FE_ALL_EXCEPT);
+		errno = 0;
+
+		int sr = sqrt(num);
+
+		if (fetestexcept(FE_INEXACT))
+		{
+			cout << "Rounding was necessary to store the result of floating point operation." << '\n';
+		}
+
+		if (errno != 0)
+		{
+			cout << "No square root. Number supplied was illegal." << '\n';
+			cout << strerror(errno) << '\n';
+
+			if (fetestexcept(FE_DIVBYZERO))
+			{
+				cout << "Pole error occurred in an earlier floating-point operation." << '\n';
+			}
+			else if (fetestexcept(FE_INVALID))
+			{
+				cout << "Domain error occurred in an earlier floating-point operation." << '\n';
+			}
+			else if (fetestexcept(FE_OVERFLOW))
+			{
+				cout << "The result of the earlier floating-point operation was too large to be representable." << '\n';
+			}
+			else if (fetestexcept(FE_UNDERFLOW))
+			{
+				cout << "The result of the earlier floating-point operation was subnormal with a loss of precision." << '\n';
+			}
+
+			continue;
+		}
+
+		cout << "Square root: " << sr << '\n';
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+
+		//cout << "\nQuit? >> 0/1 >> ";
+		//cin >> quit;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// done to keep an eye on memory tracking (it will always report as a leak if done in main)
+	fct();
+
+	cout << "\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
