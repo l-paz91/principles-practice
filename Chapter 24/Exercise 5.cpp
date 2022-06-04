@@ -169,9 +169,12 @@ MatrixD2 randomMatrixD2(In pIndex)
 	default_random_engine ran((unsigned int)time(0));		// generates integers
 	uniform_real_distribution<> ureal{ 0, 1000 };
 
-	for (In i = 0; i < v.dim1(); ++i)
+	for (In row = 0; row < v.dim1(); ++row)
 	{
-		v[i] = ureal(ran);
+		for (In col = 0; col < v.dim2(); ++col)
+		{
+			v[row][col] = ureal(ran);
+		}
 	}
 
 	return v;
