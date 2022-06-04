@@ -151,7 +151,7 @@ MatrixD1 randomMatrixD1(In pIndex)
 {
 	MatrixD1 v(pIndex);
 	default_random_engine ran((unsigned int)time(0));		// generates integers
-	uniform_real_distribution<> ureal{ 0, 1000 };	// maps ints to doubles in [0:INT_MAX)
+	uniform_real_distribution<> ureal{ 0, 10 };	// maps ints to doubles in [0:INT_MAX)
 
 	for (In i = 0; i < pIndex; ++i)
 	{
@@ -165,9 +165,9 @@ MatrixD1 randomMatrixD1(In pIndex)
 
 MatrixD2 randomMatrixD2(In pIndex)
 {
-	MatrixD2 v(pIndex, 2);
+	MatrixD2 v(pIndex, pIndex);
 	default_random_engine ran((unsigned int)time(0));		// generates integers
-	uniform_real_distribution<> ureal{ 0, 1000 };
+	uniform_real_distribution<> ureal{ 0, 10 };
 
 	for (In row = 0; row < v.dim1(); ++row)
 	{
