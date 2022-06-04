@@ -190,7 +190,7 @@ void solveRandomSystem(In pIndex)
 	MatrixD2 a = array2d;
 	MatrixD1 b = array1d;
 
-	//MatrixD2 a = randomMatrixD2(pIndex);	// i think this always has to be an identity matrix, not just random numbers??
+	//MatrixD2 a = randomMatrixD2(pIndex);
 	//MatrixD1 b = randomMatrixD1(pIndex);
 
 	cout << "A = " << a << '\n';
