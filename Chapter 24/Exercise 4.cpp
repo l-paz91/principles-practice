@@ -6,8 +6,6 @@
 
 	Get the Gaussian elimination program to work; that is, complete it, get it to compile, 
 	and test it with a simple program.
-  
-  Note - this will always error, but I think that was the point of the exercise...
 
 */
 // https://github.com/l-paz91/principles-practice/
