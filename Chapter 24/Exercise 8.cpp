@@ -2,12 +2,9 @@
 // https://lptcp.blogspot.com/
 // 
 /*
-	Chapter 24 - Exercise 7
+	Chapter 24 - Exercise 8
 
-	Rewrite the Gaussian elimination program without using the Matrix library;
-	that is, use built-in arrays or vectors instead of Matrixes.
-
-  Note - I think this works...I'm not good at maths
+	Animate the Gaussian elimination.
 
 */
 // https://github.com/l-paz91/principles-practice/
@@ -336,19 +333,31 @@ MatrixD2 randomMatrixD2(In pIndex)
 
 void solveRandomSystem(In pIndex = 2)
 {
+	MatrixD2 array2d_1 = { {0, 1}, {1, 0} };
+	MatrixD2 array2d_2 = { { 0, 1, 2, 3, 4 },
+						   { 1, 1, 3, 4, 8 },
+						   { 2, 2, 4, 4, 8 },
+						   { 3, 2, 7, 5, 5 },
+						   { 5, 4, 3, 4, 7 } };
+	MatrixD2 array2d_3 = { {0, 1, 2}, {1, 0, 3}, {2, 8, 7} };
+
+	MatrixD1 array1d_1 = { 5, 6 };
+	MatrixD1 array1d_2 = { 9, 8, 1, 5, 6 };
+	MatrixD1 array1d_3 = { 5, 6, 7, 8, 9, 10 };
+
 	MatrixD2 a = { {0, 1}, {1, 0} };
 	MatrixD1 b = { 5, 6 };
 
 	//MatrixD2 a = randomMatrixD2(pIndex);
 	//MatrixD1 b = randomMatrixD1(pIndex);
 
-	cout << "A = " << a << '\n';
-	cout << "B = " << b << '\n';
+	cout << "A = " << array2d_2 << '\n';
+	cout << "B = " << array1d_2 << '\n';
 
-	MatrixD1 x = classicalGaussianElimination(a, b);
+	MatrixD1 x = classicalGaussianElimination(array2d_2, array1d_2);
 	cout << "Classical elim solution is x = " << x << '\n';
 
-	MatrixD1 v = a * x;
+	MatrixD1 v = array2d_2 * x;
 	cout << "A * x = " << v << '\n';
 }
 
