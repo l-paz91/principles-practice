@@ -65,6 +65,8 @@ void animate(const T& pInMatrix, const string& pComment)
 	cout << "."; Sleep(300); cout << ".";  Sleep(300); cout << ".\n";
 }
 
+//-----------------------------------------------------------------------------
+
 MatrixD1 getRow(const MatrixD2& pMatrixD2, In pRowIndex)
 {
 	MatrixD1 temp;
@@ -118,7 +120,8 @@ void swapRows(MatrixD2& pInMatrix, In pRow1, In pRow2)
 
 MatrixD1 sliceD1(MatrixD1& pInMatrix, In pIndex)
 {
-	// i'm not sure about this one...
+	// this surprisingly works - I'm terrible at shit like this
+	// I tried to follow the slice function in Matrix.h
 	if (pIndex < 0)
 		pIndex = 0;
 	else if (pInMatrix.size() < pIndex)
@@ -272,8 +275,6 @@ void classicalElimination(MatrixD2& pA, MatrixD1& pB)
 		for (In i = j + 1; i < n; ++i)
 		{
 			const double mult = pA[i][j] / pivot;
-			//pA[i].slice(j) = scale_and_add(pA[j].slice(j), -mult, pA[i].slice(j));
-			//pB(i) -= mult * pB(j);	// make the corresponding change to b
 
 			MatrixD1 rowA = getRow(pA, j);
 			MatrixD1 rowB = getRow(pA, i);
