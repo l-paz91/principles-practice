@@ -70,7 +70,7 @@ void fct()
 	//matrix.swap_rows(2, 4);
 	//swapRows(matrix2, 2, 4);
 
-	matrix.swap_columns(2, 3);
+	matrix.swap_columns(2, 3);	// see Matrix11Modified.h, line 523
 	swapColumns(matrix2, 2, 4);
 
 	cout << matrix;
