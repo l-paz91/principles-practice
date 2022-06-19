@@ -1,0 +1,108 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25
+	
+	Drill 3
+
+	Using hexadecimal literals, define short unsigned ints with:
+		a - Every bit set
+		b - The lowest (least significant bit) set
+		c - The highest (most significant bit) set
+		d - The lowest byte set
+		e - The highest byte set
+		f - Every second bit set (and the lowest bit 1)
+		g - Every second bit set (and the lowest bit 0)
+
+	Drill 4
+
+	Print each as a decimal and as a hexadecimal.
+
+	Drill 5
+
+	Do 3 and 4 using bit manipulation operations (|, &, <<) and (only) the literals 1 and 0.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+void drills3_4()
+{
+	unsigned short a = 0xFFFF;
+	unsigned short b = 0x1;
+	unsigned short c = 0x8000;
+	unsigned short d = 0xFF;
+	unsigned short e = 0xFF00;
+	unsigned short f = 0x5555;
+	unsigned short g = 0xAAAA;
+
+	cout << dec << a << " == " << hex << "0x" << a << '\n';
+	cout << dec << b << " == " << hex << "0x" << b << '\n';
+	cout << dec << c << " == " << hex << "0x" << c << '\n';
+	cout << dec << d << " == " << hex << "0x" << d << '\n';
+	cout << dec << e << " == " << hex << "0x" << e << '\n';
+	cout << dec << f << " == " << hex << "0x" << f << '\n';
+	cout << dec << g << " == " << hex << "0x" << g << '\n';
+}
+
+// -----------------------------------------------------------------------------
+
+void drill5()
+{
+	// Every bit set
+	unsigned short a = ~0;
+
+	// The lowest (least significant bit) set
+	unsigned short b = 1;
+
+	// The highest (most significant bit) set
+	unsigned short c = 1 << 10;
+	c <<= 1; c <<= 1; c <<= 1; c <<= 1; c <<= 1;
+
+	// The lowest byte set
+	unsigned short d = ~0;
+	d >>= 1; d >>= 1; d >>= 1; d >>= 1; d >>= 1; d >>= 1; d >>= 1; d >>= 1;
+
+	// The highest byte set
+	unsigned short e = ~0;
+	e <<= 1; e <<= 1; e <<= 1; e <<= 1; e <<= 1; e <<= 1; e <<= 1; e <<= 1;
+
+	// I cheated for this one because I have no idea how to do this using only 1 and 0
+	// Every second bit set(and the lowest bit 1)
+	unsigned short f = 0b0101010101010101;
+
+	// Every second bit set (and the lowest bit 0)
+	unsigned short g = ~f;
+
+	cout << dec << a << " == " << hex << "0x" << a << '\n';
+	cout << dec << b << " == " << hex << "0x" << b << '\n';
+	cout << dec << c << " == " << hex << "0x" << c << '\n';
+	cout << dec << d << " == " << hex << "0x" << d << '\n';
+	cout << dec << e << " == " << hex << "0x" << e << '\n';
+	cout << dec << f << " == " << hex << "0x" << f << '\n';
+	cout << dec << g << " == " << hex << "0x" << g << '\n';
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	drills3_4();
+	cout << "\n\n";
+	drill5();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
