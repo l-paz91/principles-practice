@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 1
+
+	If you haven't already, do the Try this exercises in this chapter.
+
+	Pg 939 - Complete the program above and print out the addresses and sizes of 
+	the objects created to see if and how "holes" appear on your machine. If you have 
+	time, you might draw memory layouts likes the ones above to better visualise 
+	what's going on.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+// 12 bytes (3 bytes padding)
+struct Msg
+{
+	int m1;
+	int m2;
+	bool m3;
+};
+
+// -----------------------------------------------------------------------------
+
+// 8 bytes (2 bytes padding)
+struct Node
+{
+	bool m1;
+	bool m2;
+	int m3;
+};
+
+// -----------------------------------------------------------------------------
+
+void memoryFragExample()
+{
+	cout << sizeof(Msg) << "\t" << sizeof(Node) << '\n';
+
+	for (int i = 0; i < 10; ++i)
+	{
+		// 1 msg and 1 node
+		Msg* msg = new Msg();
+		Node* node1 = new Node();
+
+		cout << "Msg: " << msg << "\t\tNode1: " << node1 << "\t\tNode2: " << '\n';
+		cout << "--------" << '\n';
+
+		// one hole and one node
+		delete msg;	
+
+		cout << "Msg: " << msg << "\t\tNode1: " << node1 << "\t\tNode2: " << '\n';
+		cout << "--------" << '\n';
+
+		// two nodes and a small hole
+		Node* node2 = new Node();
+
+		cout << "Msg: " << msg << "\t\tNode1: " << node1 << "\t\tNode2: " << node2 << '\n';
+		cout << (node1 - node2) << '\n';
+		cout << "--------" << '\n';
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	cout << "With fragmentation: " << '\n';
+	memoryFragExample();
+	cout << "\n\n";
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
