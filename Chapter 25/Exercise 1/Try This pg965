@@ -1,0 +1,73 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 1
+
+	If you haven't already, do the Try this exercises in this chapter.
+
+	Pg 965 - Draw out the bit patterns on a piece of paper. Using paper, then figure 
+	out what the answer would be for si=128. Then run the program to see if your machine agrees.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <bitset>
+
+template<typename T>
+void print(T i)
+{
+	cout << i << '\t';
+}
+
+// -----------------------------------------------------------------------------
+
+void print(char i)
+{
+	cout << (int)i << '\t';
+}
+
+// -----------------------------------------------------------------------------
+
+void print(signed char i)
+{
+	cout << (int)i << '\t';
+}
+
+// -----------------------------------------------------------------------------
+
+void print(unsigned char i)
+{
+	cout << (int)i << '\t';
+}
+
+// -----------------------------------------------------------------------------
+
+void infinite()
+{
+	int si = 128;
+	char c = si;		//
+	unsigned char uc = si;	// will print 128 as max is 255
+	signed char sc = si;	// will print -127 as max is 127
+	print(si); print(c); print(uc); print(sc);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	infinite();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
