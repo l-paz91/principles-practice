@@ -1,0 +1,176 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 1
+
+	If you haven't already, do the Try this exercises in this chapter.
+
+	Pg 973 - The key was bs; what was the text?
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <bitset>
+
+// -----------------------------------------------------------------------------
+
+// long *const v declares a pointer that cannot be changed (like a reference)
+// but the contents can be changed
+// const long* declares a pointer who contents cannot be changed (but the pointer can point at something else)
+void encipher(const unsigned long* const v, unsigned long* const w, const unsigned long* const k)
+{
+	static_assert(sizeof(long) == 4, "size of long wrong for TEA");
+
+	unsigned long y = v[0];
+	unsigned long z = v[1];
+	
+	unsigned sum = 0;
+	const unsigned long delta = 0x9e3779b9;
+
+	// post fix decrement (will decrement after being used)
+	for (unsigned long n = 32; n-- > 0; )
+	{
+		y += (z << 4 ^ z >> 5) + z ^ sum + k[sum & 3];
+		sum += delta;
+		z += (y << 4 ^ y >> 5) + y ^ sum + k[sum >> 11 & 3];
+	}
+
+	w[0] = y;
+	w[1] = z;
+}
+
+// -----------------------------------------------------------------------------
+
+void decipher(const unsigned long* const v, unsigned long* const w, const unsigned long* const k)
+{
+	static_assert(sizeof(long) == 4, "size of long wrong for TEA");
+
+	unsigned long y = v[0];
+	unsigned long z = v[1];
+
+	unsigned sum = 0xc6ef3720;
+	const unsigned long delta = 0x9e3779b9;
+
+	// sum = delta<<5, in general sum = delta * n
+	for (unsigned long n = 32; n-- > 0; )
+	{
+		z -= (y << 4 ^ y >> 5) + y ^ sum + k[sum >> 11 & 3];
+		sum -= delta;
+		y -= (z << 4 ^ z >> 5) + z ^ sum + k[sum & 3];
+	}
+
+	w[0] = y;
+	w[1] = z;
+}
+
+// -----------------------------------------------------------------------------
+
+void teaEncipher()
+{
+	const int nchar = 2 * sizeof(long);		// 64 bits
+	const int kchar = 2 * nchar;			// 128 bits
+
+	string key, infile, outfile;
+
+	cout << "Please enter input file name, output file name, and key:\n";
+	cin >> infile >> outfile >> key;
+	while (key.size() < kchar)
+	{
+		key += '0';		// pad key
+	}
+
+	ifstream inf(infile);
+	ofstream outf(outfile);
+	if (!inf || !outf)
+		error("bad file name.");
+
+	const unsigned long* k = reinterpret_cast<const unsigned long*>(key.data());
+
+	unsigned long outptr[2];
+	char inbuf[nchar];
+	unsigned long* inptr = reinterpret_cast<unsigned long*>(inbuf);
+	int count = 0;
+
+	while (inf.get(inbuf[count]))
+	{
+		outf << hex;
+		if (++count == nchar)
+		{
+			encipher(inptr, outptr, k);
+			// pad with leading zeros
+			outf << setw(8) << setfill('0') << outptr[0] << ' '
+				<< setw(8) << setfill('0') << outptr[1] << ' ';
+			count = 0;
+		}
+	}
+
+	if (count)
+	{
+		// pad
+		while (count != nchar)
+		{
+			inbuf[count++] = 0;
+		}
+
+		encipher(inptr, outptr, k);
+		outf << outptr[0] << ' ' << outptr[1] << ' ';
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void teaDecipher()
+{
+	const int nchar = 2 * sizeof(long);		// 64 bits
+	const int kchar = 2 * nchar;			// 128 bits
+
+	string key = "bs";
+	string infile = "InputDecipherText.txt";
+	string outfile = "OutputDecipherText.txt";
+
+	while (key.size() < kchar)
+	{
+		key += '0';		// pad key
+	}
+
+	ifstream inf(infile);
+	ofstream outf(outfile);
+	if (!inf || !outf)
+		error("bad file name.");
+
+	const unsigned long* k = reinterpret_cast<const unsigned long*>(key.data());
+
+	unsigned long inptr[2];
+	char outbuf[nchar + 1];
+	outbuf[nchar] = 0;
+	unsigned long* outptr = reinterpret_cast<unsigned long*>(outbuf);
+	int count = 0;
+	inf.setf(ios_base::hex, ios_base::basefield);
+
+	while (inf >> inptr[0] >> inptr[1])
+	{
+		decipher(inptr, outptr, k);
+		outf << outbuf;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	teaDecipher();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
