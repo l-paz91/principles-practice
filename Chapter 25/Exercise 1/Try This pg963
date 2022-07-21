@@ -1,0 +1,51 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 1
+
+	If you haven't already, do the Try this exercises in this chapter.
+
+	Pg 963 - The following example may look innocent, but it is an infinite loop:
+	void infinite()
+	{
+		unsigned char mx = 160;    // very large
+		for(signed char i = 0; i < max; ++i) cout << int(i) << '\n';
+	}
+	Run it and explain why.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <bitset>
+
+// -----------------------------------------------------------------------------
+
+void infinite()
+{
+	unsigned char mx = 160;    // very large
+	for (signed char i = 0; i < mx; ++i) cout << int(i) << '\n';
+
+	// A signed char can be in the range of -127 to 127. An unsigned char can be 0 - 255. 
+	// The signed char therefore will never reach 160 and it will wrap round causing the infinite loop.
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	infinite();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
