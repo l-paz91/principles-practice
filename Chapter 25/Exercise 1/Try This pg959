@@ -1,0 +1,48 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 1
+
+	If you haven't already, do the Try this exercises in this chapter.
+
+	Pg 959 - Get the bits example to work and try out a few values to develop a feel 
+	for binary and hexadecimal representations. If you get confused about the 
+	representation of negative values, just try again after reading section 25.5.3.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <bitset>
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	for (int i; cin >> i; )
+	{
+		cout << dec << i << " == "
+			<< hex << "0x" << i << " == "
+			<< bitset<8*sizeof(int)>{static_cast<uint32_t>(i)} << '\n';
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
