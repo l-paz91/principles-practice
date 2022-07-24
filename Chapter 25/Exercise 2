@@ -1,0 +1,109 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 2
+
+	Initialise a 32-bit signed integer with the bit patterns and print the result: 
+	- all zeros, 
+	- all ones,
+	- alternating ones and zeros (starting with a leftmost zero), 
+	- alternating zeros and ones (starting with a leftmost one),
+	- the 110011001100...pattern, 
+	- the 001100110011...pattern, 
+	- the pattern of all-one bytes and all-zero bytes starting with an all-one byte, 
+	- the pattern of all-one bytes and all-zero bytes starting with an all-zero byte. 
+	Repeat that exercise with a 32-bit unsigned integer.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <bitset>
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void print(T pInt)
+{
+	cout << dec << pInt << "\t--\t" << hex << pInt << "\t--\t" << bitset<32>(pInt) << '\n';
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	int allZeros = 0b00000000000000000000000000000000;
+	print(allZeros);
+
+	int allOnes =  ~allZeros;
+	print(allOnes);
+
+	int alternating10 = 0b10101010101010101010101010101010;
+	print(alternating10);
+
+	int alternating01 = 0b01010101010101010101010101010101;
+	print(alternating01);
+
+	int pat1100 = 0b11001100110011001100110011001100;
+	print(pat1100);
+
+	int pat0011 = 0b00110011001100110011001100110011;
+	print(pat0011);
+
+	int all1BytesStarting = 0b11111111000000001111111100000000;
+	print(all1BytesStarting);
+
+	int all0BytesStarting = 0b00000000111111110000000011111111;
+	print(all0BytesStarting);
+}
+
+// -----------------------------------------------------------------------------
+
+void fct2()
+{
+	unsigned int allZeros = 0b00000000000000000000000000000000;
+	print(allZeros);
+
+	unsigned int allOnes = ~allZeros;
+	print(allOnes);
+
+	unsigned int alternating10 = 0b10101010101010101010101010101010;
+	print(alternating10);
+
+	unsigned int alternating01 = 0b01010101010101010101010101010101;
+	print(alternating01);
+
+	unsigned int pat1100 = 0b11001100110011001100110011001100;
+	print(pat1100);
+
+	unsigned int pat0011 = 0b00110011001100110011001100110011;
+	print(pat0011);
+
+	unsigned int all1BytesStarting = 0b11111111000000001111111100000000;
+	print(all1BytesStarting);
+
+	unsigned int all0BytesStarting = 0b00000000111111110000000011111111;
+	print(all0BytesStarting);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+	cout << "\n\n";
+	fct2();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
