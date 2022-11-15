@@ -1,0 +1,50 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25 - Exercise 9
+
+	Without using any standard headers (such as <limits>) or documentation, compute 
+	the number of bits in an int and determine whether char is signed or unsigned 
+	on your implementation.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+//#include "std_lib_facilities.h"
+
+// used to print to console window
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// count the number of bits in an int
+	int i = 1;
+	cout << "Number of bits in an int " << sizeof(int) * 8 << '\n';
+
+	// determine whether char is signed or unsigned
+	int ic = 129; // doesn't fit into a char
+	char c = ic;
+	unsigned char uc = ic;
+	signed char sc = ic;
+	cout << "c: " << (int)c << '\n';
+	cout << "uc: " << (int)uc << '\n';
+	cout << "sc: " << (int)sc << '\n';
+
+	cout << "\n\n";
+	cin.clear();
+	cout << "Press any key to continue\n";
+	_getch();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
