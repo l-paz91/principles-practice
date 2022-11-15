@@ -1,0 +1,51 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25- Exercise 6
+
+	Write an infinite loop that is hard to recognise as an infinite loop. A loop 
+	that isn't really infinite because it terminates  after completely consuming 
+	some resource is acceptable.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// visual studio is too smart for this one
+	vector<int> vInts{ 100, 100 };
+	for (uint32_t i = vInts.size(); i >= 0; --i)
+	{
+		cout << "Endless loop\n";
+	}
+
+	// visual studio is too smart for this one as well
+	bool complete = false;
+	while (complete = false)
+	{
+		cout << "Endless loop 2\n";
+	}
+
+	// god dammit visual studio! Stop being so clever
+	for (char i = 0; i < 255; ++i )
+	{
+		cout << "Endless loop 3\n";
+	}
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
