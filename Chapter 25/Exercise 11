@@ -1,0 +1,118 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25 - Exercise 11
+
+	Repeat the previous exercise, but keep the bits in a bitset<32>.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include <bitset>
+
+// R6000 Physical Page Number
+struct PPN
+{
+	unsigned int PFN	: 22;		// Page frame number
+	int					: 3;		// unused
+	unsigned int CCA	: 3;		// Cache coherency algorithm
+	bool nonreachable	: 1;
+	bool dirty			: 1;
+	bool valid			: 1;
+	bool global			: 1;
+};
+
+// -----------------------------------------------------------------------------
+
+void printPPN(const PPN& pPPN)
+{
+	cout << "--PPN--\n";
+
+	cout << "PFN: " << pPPN.PFN << '\n';
+	cout << "CCA: " << pPPN.CCA << '\n';
+	cout << "nonreachable: " << pPPN.nonreachable << '\n';
+	cout << "dirty: " << pPPN.dirty << '\n';
+	cout << "valid: " << pPPN.valid << '\n';
+	cout << "global: " << pPPN.global << '\n';
+	cout << "----------------------------------------------------------------------------\n";
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	//initialise a PPN
+	PPN ppn;
+	ppn.PFN = 404;
+	ppn.CCA = 7;
+	ppn.nonreachable = false;
+	ppn.dirty = false;
+	ppn.valid = true;
+	ppn.global = true;
+
+	// read and print each value
+	printPPN(ppn);
+
+	// change each field
+	ppn.PFN = 101;
+	ppn.CCA = 5;
+	ppn.nonreachable = true;
+	ppn.dirty = true;
+	ppn.valid = false;
+	ppn.global = false;
+
+	// print the result
+	printPPN(ppn);
+
+	// store PPN in a 32-bit bitset
+	bitset<32> ppn2 = 0;
+
+	// set the first 22 bits (the PFN), this means we need to shift left 10 times to
+	// where PFN starts from the most significant bit (the right-most bit)
+	// as ppn2 is already set to 0 we can just straight assign this first one
+	ppn2 = (404 << 10);
+
+	// now set the CCA. This is 3 bits from bit 6 to 4. We only need to shift 4 times from the MSB
+	// however we now need to use | to set those bits
+	ppn2 |= (7 << 4);
+
+	// now set the bools
+	ppn2 |= (0 << 3);	// nonreachable
+	ppn2 |= (0 << 2);	// dirty
+	ppn2 |= (1 << 1);	// valid
+	ppn2 |= 1;			// global - no need to shift as it's always the MSB
+
+	// now print them
+	cout << "--PPN as an int--\n";
+	cout << bitset<32>(ppn2) << '\n';
+
+	// this one needs no masking as when we shift right 10 times, 0's will be filled in from the left leaving us with
+	// just the 22 bit PFN number
+	cout << "PFN: " << (ppn2 >> 10).to_ullong() << '\n';
+
+	// to get the CCA, we need to shift right 4 times. However we need to mask off the first 25 numbers
+	// 1 AND 0 is 0. 1 AND 1 is 1. Therefore, as we know that we set CCA to 7, we can just AND it with the number we set it with
+	// because 7 in 25 bits will be 0 in everything but the last 7 bits
+	cout << "CCA: " << ((ppn2 >> 4).to_ullong() & 0x7) << '\n';
+
+	// we set nonreachable to false. Therefore we AND it with 1, because if it was set to true, ANDing with 1 will show us that
+	cout << "nonreachable: " << ((ppn2 >> 3).to_ullong() & 1) << '\n';
+
+	cout << "dirty: " << ((ppn2 >> 2).to_ullong() & 1) << '\n';
+	cout << "valid: " << ((ppn2 >> 1).to_ullong() & 1) << '\n';
+	cout << "global: " << (ppn2.to_ullong() & 1) << '\n';
+
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
