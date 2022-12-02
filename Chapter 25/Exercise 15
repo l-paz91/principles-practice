@@ -1,0 +1,277 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 25 - Exercise 15
+
+	Measure the time (section 26.6.1) it takes to allocate 10,000 objects of random 
+	sizes in the [1000:0)-byte range using new; then measure the time it takes to 
+	deallocate them using delete.
+
+	Do this twice, once deallocating in the reverse order of allocation and once 
+	deallocating in random order.
+
+	Then, do the equivalent  of allocating 10,000 objects of size 500 bytes from a 
+	pool and freeing them.
+
+	Then, do the equivalent of allocating 10,000 objects of random sizes in the 
+	[1000:0)-byte range on a stack and then free them (in reverse order).
+
+	Compare the measurements . Do each measurement at least three times to make sure 
+	the results are consistent.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include <chrono>
+#include <stack>
+
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct VariableSizeObject
+{
+	VariableSizeObject()
+		: mVariableString(500, 'a')
+	{}
+
+	VariableSizeObject(int pSize)
+		: mVariableString(pSize, 'a')
+	{}
+
+	string mVariableString;
+};
+
+// -----------------------------------------------------------------------------
+
+// allocate 10,000 objects of random sizes using new, deallocate in reverse order
+// of allocation
+// no pool
+void part1()
+{
+	using namespace chrono;
+	const int allocationSize = 10000;
+	cout << "---- Part 1 ----" << '\n';
+
+	// measure allocation
+	auto beginTimer = system_clock::now();
+
+	vector<VariableSizeObject*> vObjects;
+	for (uint32 i = 0; i < allocationSize; ++i)
+	{
+		int randSize = randint(0, 1000);	// from std_lib_facilities
+		vObjects.push_back(new VariableSizeObject(randSize));
+	}
+
+	auto endTimer = system_clock::now();
+
+	cout << "Time taken to allocate: " 
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+
+	// measure deallocation in reverse order of allocation
+	beginTimer = system_clock::now();
+
+	for (int i = vObjects.size() - 1; i >= 0; --i)
+	{
+		delete vObjects[i];
+	}
+
+	endTimer = system_clock::now();
+
+	cout << "Time taken to deallocate in reverse order of allocation: " 
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+}
+
+// -----------------------------------------------------------------------------
+
+// allocate 10,000 objects of random sizes using new, deallocate in random order
+// no pool
+void part2()
+{
+	using namespace chrono;
+	const int allocationSize = 10000;
+	cout << "---- Part 2 ----" << '\n';
+
+	// measure allocation
+	auto beginTimer = system_clock::now();
+
+	vector<VariableSizeObject*> vObjects;
+	for (uint32 i = 0; i < allocationSize; ++i)
+	{
+		int randSize = randint(0, 1000);	// from std_lib_facilities
+		vObjects.push_back(new VariableSizeObject(randSize));
+	}
+
+	auto endTimer = system_clock::now();
+
+	cout << "Time taken to allocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+
+	// randomly shuffle the vector
+	auto rng = default_random_engine(randint(1000));
+	std::shuffle(std::begin(vObjects), std::end(vObjects), rng);
+
+	// measure deallocation in random order (pointers in memory will be mixed up now)
+	beginTimer = system_clock::now();
+
+	for (int i = vObjects.size() - 1; i >= 0; --i)
+	{
+		delete vObjects[i];
+	}
+
+	endTimer = system_clock::now();
+
+	cout << "Time taken to deallocate in random order: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+}
+
+// -----------------------------------------------------------------------------
+
+// allocate 10,000 objects of size 500 bytes from a pool and free them
+// in reverse order of allocation
+void part3()
+{
+	using namespace chrono;
+	const int allocationSize = 10000;
+	const int sizeOfObject = 500;
+	VariableSizeObject object;
+
+	cout << "---- Part 3 ----" << '\n';
+
+	// measure allocation
+	auto beginTimer = system_clock::now();
+
+	vector<VariableSizeObject> vObjects;
+	vObjects.reserve(allocationSize);	// create the "pool"
+	for (uint32 i = 0; i < allocationSize; ++i)
+	{
+		vObjects.push_back(object);
+	}
+
+	auto endTimer = system_clock::now();
+
+	cout << "Time taken to allocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+
+	// measure deallocation in reverse order of allocation
+	beginTimer = system_clock::now();
+
+	for (int i = vObjects.size() - 1; i >= 0; --i)
+	{
+		vObjects[i].mVariableString.clear();
+	}
+
+	endTimer = system_clock::now();
+
+	cout << "Time taken to deallocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+}
+
+// -----------------------------------------------------------------------------
+
+// allocate 10,000 objects of size 500 bytes from a pool and free them
+// in random order
+void part4()
+{
+	using namespace chrono;
+	const int allocationSize = 10000;
+	const int sizeOfObject = 500;
+	VariableSizeObject object;
+
+	cout << "---- Part 4 ----" << '\n';
+
+	// measure allocation
+	auto beginTimer = system_clock::now();
+
+	vector<VariableSizeObject> vObjects;
+	vObjects.reserve(allocationSize);	// create the "pool"
+	for (uint32 i = 0; i < allocationSize; ++i)
+	{
+		vObjects.push_back(object);
+	}
+
+	auto endTimer = system_clock::now();
+
+	cout << "Time taken to allocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+
+	// randomly shuffle the vector
+	auto rng = default_random_engine(randint(1000));
+	std::shuffle(std::begin(vObjects), std::end(vObjects), rng);
+
+	// measure deallocation in reverse order of allocation
+	beginTimer = system_clock::now();
+
+	for (int i = vObjects.size() - 1; i >= 0; --i)
+	{
+		vObjects[i].mVariableString.clear();
+	}
+
+	endTimer = system_clock::now();
+
+	cout << "Time taken to deallocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+}
+
+// -----------------------------------------------------------------------------
+
+// allocate 10,000 objects of random sizes on a std::stack and then free them in
+// reverse order
+void part5()
+{
+	using namespace chrono;
+	const int allocationSize = 10000;
+	cout << "---- Part 5 ----" << '\n';
+
+	// measure allocation
+	auto beginTimer = system_clock::now();
+
+	stack<VariableSizeObject*> vObjects;		// using std::stack
+	for (uint32 i = 0; i < allocationSize; ++i)
+	{
+		int randSize = randint(0, 1000);	// from std_lib_facilities
+		vObjects.push(new VariableSizeObject(randSize));
+	}
+
+	auto endTimer = system_clock::now();
+
+	cout << "Time taken to allocate: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+
+	// measure deallocation in reverse order of allocation
+	beginTimer = system_clock::now();
+
+	while (!vObjects.empty())
+	{
+		delete vObjects.top();
+		vObjects.pop();
+	}
+
+	endTimer = system_clock::now();
+
+	cout << "Time taken to deallocate in reverse order of allocation: "
+		<< duration_cast<milliseconds>(endTimer - beginTimer).count() << "ms\n";
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	part1();
+	part2();
+	part3();
+	part4();
+	part5();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
