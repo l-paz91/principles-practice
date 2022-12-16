@@ -21,6 +21,10 @@ Revised November 28 2013: add a few container algorithms
 Revised June 8 2014: added #ifndef to workaround Microsoft C++11 weakness
 */
 
+// @ BEGIN LPTCP - This header has been modified over the years by myself. This version can be found here:
+// https://github.com/l-paz91/principles-practice/blob/master/std_lib_facilities.h
+// @ END LPTCP
+
 #ifndef H112
 #define H112 251113L
 
