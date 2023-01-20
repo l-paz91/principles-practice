@@ -1,0 +1,101 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Drill 1
+
+	Get the test of binary_search to run:
+	Implement the input operator for Test from section 26.3.2.2
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct Test
+{
+	vector<int> mSeq;
+	string mLabel;
+	int mVal;
+	bool mRes;
+};
+
+// -----------------------------------------------------------------------------
+
+istream& operator>>(istream& pInputStream, Test& pTest)
+{
+	char c;
+	pInputStream >> c;
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string should open with { ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mLabel;
+	pInputStream >> pTest.mVal;
+	pInputStream >> c;
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string sequence should open with { ");
+		return pInputStream;
+	}
+
+	int i = 0;
+	while (pInputStream >> i)
+	{
+		pTest.mSeq.push_back(i);
+	}
+	pInputStream.clear();
+
+	pInputStream >> c;
+	if (c != '}')
+	{
+		error("Test::operator>> test string sequence should end with } ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mRes;
+
+	return pInputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+ostream& operator<<(ostream& pOutputStream, Test& pTest)
+{
+	pOutputStream << "{ " << pTest.mLabel << " " << pTest.mVal << " {";
+	for (int i : pTest.mSeq)
+		pOutputStream << " " << i;
+	pOutputStream << " } " << pTest.mRes << " }";
+
+	return pOutputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	istringstream input1("{ 1.1 1 { 1 2 3 5 8 13 21 } 1 }");
+
+	Test test1;
+	input1 >> test1;
+
+	cout << input1.str() << '\n';
+	cout << test1;
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
