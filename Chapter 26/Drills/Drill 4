@@ -1,0 +1,275 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Drill 4
+
+	Repeat these tests for sequences of strings, such as 
+	{ Bohr Darwin Einstein Lavoisier Newton Turing }.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+struct Test
+{
+	vector<T> mSeq;
+	string mLabel;
+	T mVal;
+	bool mRes;
+};
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+istream& operator>>(istream& pInputStream, Test<T>& pTest)
+{
+	char c;
+	pInputStream >> c;
+
+	if (pInputStream.eof())
+	{
+		return pInputStream;
+	}
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string should open with { ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mLabel;
+	pInputStream >> pTest.mVal;
+	pInputStream >> c;
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string sequence should open with { ");
+		return pInputStream;
+	}
+
+	T i;
+	while (pInputStream >> i)
+	{
+		if (to_string(i) == "}")
+		{
+			pInputStream.putback(i[0]);
+			break;
+		}
+		pTest.mSeq.push_back(i);
+	}
+	pInputStream.clear();
+
+	pInputStream >> c;
+	if (c != '}')
+	{
+		error("Test::operator>> test string sequence should end with } ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mRes;
+	pInputStream >> c;
+
+	return pInputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+ostream& operator<<(ostream& pOutputStream, const Test<T>& pTest)
+{
+	pOutputStream << "{ " << pTest.mLabel << " " << pTest.mVal << " {";
+	for (int i : pTest.mSeq)
+		pOutputStream << " " << i;
+	pOutputStream << "} " << pTest.mRes << " }";
+
+	return pOutputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void readInTestsFromFile(const string& pFilename, vector<Test<T>>& pTestVector)
+{
+	ifstream testFile(pFilename);
+	if (testFile.is_open())
+	{
+		string line;
+		//cout << "Original tests from file: \n";
+		while (getline(testFile, line))
+		{
+			//cout << line << '\n';
+			istringstream testLineInput(line);
+			Test<T> tempTest;
+			testLineInput >> tempTest;
+			pTestVector.push_back(tempTest);
+		}
+		testFile.close();
+	}
+	else
+	{
+		error("readInTestsFromFile:: Couldn't open file!");
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+int testAll(istream& pInputStream)
+{
+	int errorCount = 0;
+	for (Test<T> t; pInputStream >> t;)
+	{
+		// sort sequence first
+		sort(t.mSeq);
+
+		bool result = binary_search(t.mSeq.begin(), t.mSeq.end(), t.mVal);
+
+		if (result != t.mRes)
+		{
+			cout << "Failure: test " << t.mLabel
+				<< "Looking for: " << t.mVal << ", test should be: " << t.mRes
+				<< " binary_search: " << t.mSeq.size() << " elements, val == " << t.mVal
+				<< " -> " << t.mRes << '\n';
+			++errorCount;
+		}
+	}
+
+	return errorCount;
+}
+
+// -----------------------------------------------------------------------------
+
+// write a tests description with the label pLabel to cout
+// generate a sequence of n elements starting at pBase
+// the average distance between elements is uniformly distributed in [0:pSpread)
+void makeTest(ofstream& pOutputStream, const string& pLabel, int pNumOfTests, int pBase, int pSpread)
+{
+	vector<string> vec;
+	string element;
+	string value = randString(pNumOfTests - pBase);	// make search value
+
+	pOutputStream << "{ " << pLabel << " " << value << " { ";
+
+	for (int i = 0; i < pNumOfTests; ++i)
+	{
+		element += randString(pSpread);
+		vec.push_back(element);
+	}
+
+	bool found = false;
+	for (int i = 0; i < pNumOfTests; ++i)
+	{
+		// print elements and see if value is found
+		if (vec[i] == value)
+		{
+			found = true;
+		}
+
+		pOutputStream << vec[i] << " ";
+	}
+
+	pOutputStream << " } " << found << " }\n";
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void drillA()
+{
+	const string filename = "drillATests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 2;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillA";
+		makeTest(exampleTests, label + to_string(i), 5000, 0, 1);
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll<T>(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void drillB()
+{
+	const string filename = "drillBTests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillB";
+		makeTest(exampleTests, label + to_string(i), randint(500), 0, randint(50));
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll<T>(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+template<typename T>
+void drillC()
+{
+	const string filename = "drillCTests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillC";
+		makeTest(exampleTests, label + to_string(i), 10, 0, 1);
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll<T>(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+
+	drillA<string>();
+	drillB<string>();
+	drillC<string>();
+
+	const string filename = "drillDTests.txt";
+	ifstream inputStream(filename);
+	int searchResult = testAll<string>(inputStream);
+
+	pressKeyToContinue();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
