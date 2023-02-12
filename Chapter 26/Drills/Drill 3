@@ -1,0 +1,264 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Drill 3
+
+	Based on section 26.3.1.3, complete a program that generates
+	a. A very large sequence (what would you consider very large, and why?)
+	b. Ten sequences with a random number of elements.
+	c. Ten sequences with 0, 1, 2 ... 9 random elements (but still ordered).
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct Test
+{
+	vector<int> mSeq;
+	string mLabel;
+	int mVal;
+	bool mRes;
+
+	void clear()
+	{
+		mSeq.clear();
+		mLabel = " ";
+		mVal = 0;
+		mRes = false;
+	}
+};
+
+// -----------------------------------------------------------------------------
+
+istream& operator>>(istream& pInputStream, Test& pTest)
+{
+	char c;
+	pInputStream >> c;
+
+	if (pInputStream.eof())
+	{
+		return pInputStream;
+	}
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string should open with { ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mLabel;
+	pInputStream >> pTest.mVal;
+	pInputStream >> c;
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string sequence should open with { ");
+		return pInputStream;
+	}
+
+	int i = 0;
+	while (pInputStream >> i)
+	{
+		pTest.mSeq.push_back(i);
+	}
+	pInputStream.clear();
+
+	pInputStream >> c;
+	if (c != '}')
+	{
+		error("Test::operator>> test string sequence should end with } ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mRes;
+	pInputStream >> c;
+
+	return pInputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+ostream& operator<<(ostream& pOutputStream, const Test& pTest)
+{
+	pOutputStream << "{ " << pTest.mLabel << " " << pTest.mVal << " {";
+	for (int i : pTest.mSeq)
+		pOutputStream << " " << i;
+	pOutputStream << "} " << pTest.mRes << " }";
+
+	return pOutputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+void readInTestsFromFile(const string& pFilename, vector<Test>& pTestVector)
+{
+	ifstream testFile(pFilename);
+	if (testFile.is_open())
+	{
+		string line;
+		//cout << "Original tests from file: \n";
+		while (getline(testFile, line))
+		{
+			//cout << line << '\n';
+			istringstream testLineInput(line);
+			Test tempTest;
+			testLineInput >> tempTest;
+			pTestVector.push_back(tempTest);
+		}
+		testFile.close();
+	}
+	else
+	{
+		error("readInTestsFromFile:: Couldn't open file!");
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int testAll(istream& pInputStream)
+{
+	int errorCount = 0;
+	for (Test t; pInputStream >> t; t.clear())
+	{
+		bool result = binary_search(t.mSeq.begin(), t.mSeq.end(), t.mVal);
+
+		if (result != t.mRes)
+		{
+			cout << "Failure: test " << t.mLabel
+				<< "Looking for: " << t.mVal << ", test should be: " << t.mRes
+				<< " binary_search: " << t.mSeq.size() << " elements, val == " << t.mVal
+				<< " -> " << t.mRes << '\n';
+			++errorCount;
+		}
+	}
+
+	return errorCount;
+}
+
+// -----------------------------------------------------------------------------
+
+// write a tests description with the label pLabel to cout
+// generate a sequence of n elements starting at pBase
+// the average distance between elements is uniformly distributed in [0:pSpread)
+void makeTest(ofstream& pOutputStream, const string& pLabel, int pNumOfTests, int pBase, int pSpread)
+{
+	vector<int> vec;
+	int element = pBase;
+	int value = pBase + randint(element - pBase);	// make search value
+
+	pOutputStream << "{ " << pLabel << " " << value << " { ";
+
+	for (int i = 0; i < pNumOfTests; ++i)
+	{
+		element += randint(pSpread);
+		vec.push_back(element);
+	}
+
+	bool found = false;
+	for (int i = 0; i < pNumOfTests; ++i)
+	{
+		// print elements and see if value is found
+		if (vec[i] == value)
+		{
+			found = true;
+		}
+
+		pOutputStream << vec[i] << " ";
+	}
+
+	pOutputStream << " } " << found << " }\n";
+}
+
+// -----------------------------------------------------------------------------
+
+void drillA()
+{
+	const string filename = "drillATests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 2;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillA";
+		makeTest(exampleTests, label + to_string(i), 5000, 0, 1);
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void drillB()
+{
+	const string filename = "drillBTests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillB";
+		makeTest(exampleTests, label + to_string(i), randint(500), 0, randint(50));
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void drillC()
+{
+	const string filename = "drillCTests.txt";
+	ofstream exampleTests(filename);
+
+	// make a few random tests
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; ++i)
+	{
+		string label = "drillC";
+		makeTest(exampleTests, label + to_string(i), 10, 0, 1);
+	}
+	exampleTests.close();
+
+	ifstream inputStream(filename);
+	int searchResult = testAll(inputStream);
+	if (searchResult == 0)
+	{
+		cout << "No errors found.\n";
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	drillA();
+	drillB();
+	drillC();
+
+	pressKeyToContinue();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
