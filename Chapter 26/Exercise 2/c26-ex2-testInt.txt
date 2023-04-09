@@ -1,0 +1,3 @@
+{ TestInt1 2 { 1 2 3 5 8 13 21 } 1 }
+{ TestInt2 2 { } 0 }
+{ TestInt3 2 { 1 } 0 }

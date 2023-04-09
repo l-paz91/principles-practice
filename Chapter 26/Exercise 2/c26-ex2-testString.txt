@@ -1,0 +1,3 @@
+{ TestString1 spongebob { In this exercise I'm using Visual Studio 2019 and a modified version of spongebob squarepants } 1 }
+{ TestString2 Tetris { In this exercise I'm using Visual Studio 2019 and a modified version of spongebob squarepants  } 0 }
+{ TestString3 Email { In this exercise I'm using Visual Studio 2019 and a modified version of outlook Email  } 1 }
