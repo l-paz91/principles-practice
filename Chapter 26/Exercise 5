@@ -1,0 +1,172 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Exercise 5
+
+	Add a test to the set of binary_search tests to try and catch the (unlikely) 
+	error of a binary_search modifying the sequence.
+
+	Using code from Drill 2 and testSequences.txt from Drills
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+// -----------------------------------------------------------------------------
+
+struct Test
+{
+	vector<int> mSeq;
+	string mLabel;
+	int mVal;
+	bool mRes;
+
+	void clear()
+	{
+		mSeq.clear();
+		mLabel = " ";
+		mVal = 0;
+		mRes = false;
+	}
+};
+
+// -----------------------------------------------------------------------------
+
+istream& operator>>(istream& pInputStream, Test& pTest)
+{
+	char c;
+	pInputStream >> c;
+
+	if (pInputStream.eof())
+	{
+		return pInputStream;
+	}
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string should open with { ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mLabel;
+	pInputStream >> pTest.mVal;
+	pInputStream >> c;
+
+	if (c != '{')
+	{
+		error("Test::operator>> test string sequence should open with { ");
+		return pInputStream;
+	}
+
+	int i = 0;
+	while (pInputStream >> i)
+	{
+		pTest.mSeq.push_back(i);
+	}
+	pInputStream.clear();
+
+	pInputStream >> c;
+	if (c != '}')
+	{
+		error("Test::operator>> test string sequence should end with } ");
+		return pInputStream;
+	}
+
+	pInputStream >> pTest.mRes;
+	pInputStream >> c;
+
+	return pInputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+ostream& operator<<(ostream& pOutputStream, const Test& pTest)
+{
+	pOutputStream << "{ " << pTest.mLabel << " " << pTest.mVal << " {";
+	for (int i : pTest.mSeq)
+		pOutputStream << " " << i;
+	pOutputStream << " } " << pTest.mRes << " }";
+
+	return pOutputStream;
+}
+
+// -----------------------------------------------------------------------------
+
+void readInTestsFromFile(const string& pFilename, vector<Test>& pTestVector)
+{
+	ifstream testFile(pFilename);
+	if (testFile.is_open())
+	{
+		string line;
+		//cout << "Original tests from file: \n";
+		while (getline(testFile, line))
+		{
+			//cout << line << '\n';
+			istringstream testLineInput(line);
+			Test tempTest;
+			testLineInput >> tempTest;
+			pTestVector.push_back(tempTest);
+		}
+		testFile.close();
+	}
+	else
+	{
+		error("readInTestsFromFile:: Couldn't open file!");
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+int testAll(istream& pInputStream)
+{
+	int errorCount = 0;
+	for (Test t; pInputStream >> t; t.clear())
+	{
+		auto sequenceCopy = t.mSeq;
+
+		//if (sequenceCopy.size() > 0)
+		//{
+		//	sequenceCopy[0] = 9999999;
+		//}
+
+		bool result = binary_search(t.mSeq.begin(), t.mSeq.end(), t.mVal);
+
+		if (t.mSeq != sequenceCopy)
+		{
+			cout << "Failure: test " << t.mLabel << "sequence has changed. Undefined behaviour.\n";
+			++errorCount;
+		}
+
+		if (result != t.mRes)
+		{
+			cout << "Failure: test " << t.mLabel
+				<< " binary_search: " << t.mSeq.size() << " elements, val == " << t.mVal
+				<< " -> " << t.mRes << '\n';
+			++errorCount;
+		}
+	}
+
+	return errorCount;
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	const string filename = "TestSequences.txt";
+	ifstream inputStream(filename);
+	int searchResult = testAll(inputStream);
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
