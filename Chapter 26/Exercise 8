@@ -2,14 +2,14 @@
 // https://lptcp.blogspot.com/
 // 
 /*
-		Chapter 26 - Exercise 8
+    Chapter 26 - Exercise 8
 
-	  Add a text-based interface to the graphics interface library from Chapters 12-15. 
+    Add a text-based interface to the graphics interface library from Chapters 12-15. 
     For example, the string Circle{Point{0,1},15} should generate a call Circle{Point{0,1},15}. 
     Use this interface to make a "kid's drawing" of a two-dimensional house with a 
     roof, two windows, and a door.
 
-	  Note - For this I used the start of my own "engine" called Blink:
+    Note - For this I used the start of my own "engine" called Blink:
     https://github.com/l-paz91/BlinkEngine/tree/main/BlinkEngine
 
     See the blog post:
