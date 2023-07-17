@@ -1,0 +1,166 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Exercise 11
+
+	Time the sum example from section 26.6 with m being square matrices with 
+	dimensions 100, 10,000, 1,000,000, and 10,000,000. Use random element values 
+	in the range [-10:10). Rewrite the calculation of v to use a more efficient 
+	(not O(N2)) algorithm and compare the timings.
+
+	note - there isn't really a way to do this. See my blog post:
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+#include "Matrix11.h"
+
+#include <chrono>
+
+
+typedef uint32_t uint32;
+using namespace Numeric_lib;
+
+// -----------------------------------------------------------------------------
+
+double rowSum(Matrix<double, 2> pMatrix, int pNum)
+{
+	double sum = 0;
+	for (int i = 0; i < pMatrix.dim2(); ++i)
+	{
+		sum += pMatrix(pNum, i);
+	}
+	return sum;
+}
+
+// -----------------------------------------------------------------------------
+
+double rowAccumulate(Matrix<double, 2>& pMatrix, int pRow)
+{
+	double sum = 0;
+	for (int i = 0; i < pRow; ++i)
+	{
+		sum += rowSum(pMatrix, i);
+	}
+	return sum;
+}
+
+// -----------------------------------------------------------------------------
+
+double simulateAccumulate(int pSize)
+{
+	double sum = 0;
+	for (int i = 0; i < pSize; ++i)
+	{
+		for (int j = 0; j < pSize; ++j)
+		{
+			sum += randint(-10, 10);
+		}
+	}
+	return sum;
+}
+
+// -----------------------------------------------------------------------------
+
+void randomMatrixD2(Matrix<double, 2>& pMatrix, int pSize)
+{
+	cout << "Creating matrix of size: " << pSize << '\n';
+
+	//default_random_engine ran((signed int)time(0));		// generates integers
+	//uniform_real_distribution<> ureal{ -10, 10 };
+
+	for (int row = 0; row < pMatrix.dim1(); ++row)
+	{
+		for (int col = 0; col < pMatrix.dim2(); ++col)
+		{
+			pMatrix(row, col) = randint(-10, 10);
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void timeMatrixSum(Matrix<double, 2>& pMatrix, int pNum)
+{
+	using namespace chrono;
+	auto timeNow = system_clock::now();
+
+	vector<double> doubles;
+	for (int i = 0; i < pMatrix.dim1(); ++i)
+	{
+		doubles.push_back(rowAccumulate(pMatrix, i + 1));
+	}
+
+	auto timeComplete = system_clock::now();
+	cout << "Matrix of " << pNum << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms\n";
+
+}
+
+// -----------------------------------------------------------------------------
+
+void timeMatrixSumSimulation(int pNum)
+{
+	using namespace chrono;
+	auto timeNow = system_clock::now();
+
+	simulateAccumulate(pNum);
+
+	auto timeComplete = system_clock::now();
+	cout << "Matrix of " << pNum << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms\n";
+
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	int int1 = 100;
+	int int2 = 10000;
+	int int3 = 1000000;
+	int int4 = 10000000;
+
+	Matrix<double, 2> randomMatrix1(int1, int1);
+	randomMatrixD2(randomMatrix1, int1);
+	timeMatrixSum(randomMatrix1, int1);
+
+	// the rest of these aren't possible without technology from the year 3000
+
+	//Matrix<double, 2> randomMatrix2(int2, int2);
+	//randomMatrixD2(randomMatrix2, int2);
+	//timeMatrixSum(randomMatrix2, int2);
+
+	//Matrix<double, 2> randomMatrix3(int3, int3);
+	//randomMatrixD2(randomMatrix3, int3);
+	//timeMatrixSum(randomMatrix3, int3);
+
+	//Matrix<double, 2> randomMatrix4(int4, int4);
+	//randomMatrixD2(randomMatrix4, int4);
+	//timeMatrixSum(randomMatrix4, int4);
+
+	// lets simulate them though
+	timeMatrixSumSimulation(int2);
+	timeMatrixSumSimulation(int3);
+	timeMatrixSumSimulation(int4);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
