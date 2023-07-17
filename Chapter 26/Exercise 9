@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+    Chapter 26 - Exercise 9
+
+    Add a text-based output format for the graphics interface library. For example, 
+    when a call Circle{Point{0,1},15} is executed, a string like Circle{Point{0,1},15} 
+    should be produced on an output stream.
+
+    This uses Blink Engine:
+    https://github.com/l-paz91/BlinkEngine/tree/main/BlinkEngine
+
+    You can find the change in:
+    Window.cpp Blink::Window::onTextEnteredInCommandConsole().
+
+    See the blog post:
+    https://lptcp.blogspot.com/2023/07/chapter-26-exercise-9-principles.html
+
+*/
+// https://github.com/l-paz91/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "BasicInputBox.h"
+#include "Window.h"
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	using namespace Blink;
+
+	// console commands:
+	// r.drawCircle xValue yValue Radius
+	// r.drawImage  xValue yValue filename.encoding
+
+	Blink::Window window(Point(0, 0), 650, 600, "Blink Engine");
+	
+	return Fl::run();
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
