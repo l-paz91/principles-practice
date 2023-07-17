@@ -8,6 +8,11 @@
     when a call Circle{Point{0,1},15} is executed, a string like Circle{Point{0,1},15} 
     should be produced on an output stream.
 
+    Chapter 26 - Exercise 10
+
+    Use the text-based interface from exercise 9 to write a better test for the 
+    graphical interface library.
+
     This uses Blink Engine:
     https://github.com/l-paz91/BlinkEngine/tree/main/BlinkEngine
 
@@ -16,6 +21,8 @@
 
     See the blog post:
     https://lptcp.blogspot.com/2023/07/chapter-26-exercise-9-principles.html
+
+    I decided not to do Exercise 10. See the blog post for more details.
 
 */
 // https://github.com/l-paz91/
