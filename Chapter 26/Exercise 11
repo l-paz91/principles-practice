@@ -10,7 +10,7 @@
 	(not O(N2)) algorithm and compare the timings.
 
 	note - there isn't really a way to do this. See my blog post:
-
+	https://lptcp.blogspot.com/2023/07/chapter-26-exercise-11-principles.html
 */
 // https://github.com/l-paz91/principles-practice/
 // -----------------------------------------------------------------------------
