@@ -1,0 +1,79 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Exercise 14
+
+	Repeat the previous exercise, except using a map rather than a vector so that 
+	we don't need to sort.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <chrono>
+#include <map>
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	using namespace chrono;
+	int firstSortSize = 500000;
+
+	cout << "Creating first map...\n";
+	auto timeNow = system_clock::now();
+
+	map<string, int> firstSet;
+	for (int i = 0; i < firstSortSize; ++i)
+	{
+		firstSet.insert({ randString(randint(100)), i });
+	}
+
+	auto timeComplete = system_clock::now();
+	cout << "Map of " << firstSet.size() << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms or " <<
+		duration_cast<seconds>(timeComplete - timeNow).count() << " seconds.\n";
+}
+
+// -----------------------------------------------------------------------------
+
+void fct2()
+{
+	using namespace chrono;
+	int secondSortSize = 5000000;
+
+	cout << "Creating second map...\n";
+	auto timeNow = system_clock::now();
+
+	map<string, int>  SecondSet;
+	for (int i = 0; i < secondSortSize; ++i)
+	{
+		SecondSet.insert({ randString(randint(100)), i });
+	}
+
+	auto timeComplete = system_clock::now();
+	cout << "Map of " << SecondSet.size() << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms or " <<
+		duration_cast<seconds>(timeComplete - timeNow).count() << " seconds.\n";
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+	fct2();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
