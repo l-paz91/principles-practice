@@ -1,0 +1,93 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Exercise 12
+
+	Write a program that generates random floating-point numbers and sort them 
+	using std::sort. Measure the time used to sort 500,000 doubles and 
+	5,000,000 doubles.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <chrono>
+
+// -----------------------------------------------------------------------------
+
+inline double randDouble(int pMin, int pMax)
+{
+	double lowerBound = pMin;
+	double upperBound = pMax;
+
+	uniform_real_distribution<double> distribution(lowerBound, upperBound);
+	static default_random_engine randomEngine((unsigned int)time(0));
+
+	return distribution(randomEngine);
+}
+
+// -----------------------------------------------------------------------------
+
+void timeSort(vector<double>& pVectorToSort)
+{
+	using namespace chrono;
+	auto timeNow = system_clock::now();
+
+	sort(pVectorToSort);
+
+	auto timeComplete = system_clock::now();
+	cout << "Vector of " << pVectorToSort.size() << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms or " <<
+		duration_cast<seconds>(timeComplete - timeNow).count() << " seconds.\n";
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	int firstSortSize = 500000;
+
+	vector<double> firstSet;
+	for (int i = 0; i < firstSortSize; ++i)
+	{
+		firstSet.push_back(randDouble(0, firstSortSize));
+	}
+
+	cout << "Starting first sort ...\n";
+	timeSort(firstSet);
+}
+
+void fct2()
+{
+	int secondSortSize = 5000000;
+
+	vector<double> SecondSet;
+	for (int i = 0; i < secondSortSize; ++i)
+	{
+		SecondSet.push_back(randDouble(0, secondSortSize));
+	}
+
+	cout << "Starting second sort ...\n";
+	timeSort(SecondSet);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+	fct2();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
