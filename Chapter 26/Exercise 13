@@ -1,0 +1,83 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 26 - Exercise 13
+
+	Repeat the experiment in the previous exercise, but with random strings of 
+	lengths in the [0:100) range.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#include "std_lib_facilities.h"
+
+#include <chrono>
+
+// -----------------------------------------------------------------------------
+
+void timeSort(vector<string>& pVectorToSort)
+{
+	cout << "Starting sort ...\n";
+
+	using namespace chrono;
+	auto timeNow = system_clock::now();
+
+	sort(pVectorToSort);
+
+	auto timeComplete = system_clock::now();
+	cout << "Vector of " << pVectorToSort.size() << " elements took: " <<
+		duration_cast<milliseconds>(timeComplete - timeNow).count() << "ms or " <<
+		duration_cast<seconds>(timeComplete - timeNow).count() << " seconds.\n";
+}
+
+// -----------------------------------------------------------------------------
+
+void fct()
+{
+	int firstSortSize = 500000;
+
+	cout << "Creating first vector for sort ...\n";
+	vector<string> firstSet;
+	for (int i = 0; i < firstSortSize; ++i)
+	{
+		firstSet.push_back(randString(randint(100)));
+	}
+
+	timeSort(firstSet);
+}
+
+// -----------------------------------------------------------------------------
+
+void fct2()
+{
+	int secondSortSize = 5000000;
+
+	cout << "Creating second vector for sort ...\n";
+	vector<string> SecondSet;
+	for (int i = 0; i < secondSortSize; ++i)
+	{
+		SecondSet.push_back(randString(randint(100)));
+	}
+
+	timeSort(SecondSet);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	fct();
+	fct2();
+
+	cout << "\n\n";
+	pressKeyToContinue();
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
