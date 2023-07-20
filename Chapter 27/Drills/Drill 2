@@ -1,0 +1,57 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 27 - Drill 2
+
+	Define two variables holding "Hello" and "World!" respectively; concatenate 
+	them with a space in between; and output them as Hello World!
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <crtdbg.h>
+
+// -----------------------------------------------------------------------------
+
+void keepWindowOpen()
+{
+	printf("\nPress any key to continue...");
+	_getch();
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	// define 2 variables
+	char* hello = "Hello";
+	char* world = "World!";
+
+	// create the string to hold them + 1 extra for the space
+	char helloworld[13];
+
+	// copy hello into first 5 spaces, set the space at 6, copy world! into the last 6 spaces
+	strncpy(helloworld, hello, strlen(hello));
+	helloworld[strlen(hello)] = ' ';
+	strncpy(helloworld + strlen(hello) + 1, world, strlen(world));
+	helloworld[12] = 0;
+
+	// print
+    printf("%s", helloworld);
+
+	keepWindowOpen();
+    return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
