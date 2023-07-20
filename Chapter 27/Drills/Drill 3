@@ -1,0 +1,58 @@
+// -----------------------------------------------------------------------------
+// https://lptcp.blogspot.com/
+// 
+/*
+	Chapter 27 - Drill 3
+
+	Define a C function that takes a char* parameter p and an int parameter x 
+	and print out their values in this format: p is "foo" and x is 7. Call it 
+	with a few argument pairs.
+
+*/
+// https://github.com/l-paz91/principles-practice/
+// -----------------------------------------------------------------------------
+
+//--INCLUDES--//
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <crtdbg.h>
+
+// -----------------------------------------------------------------------------
+
+void keepWindowOpen()
+{
+	printf("\nPress any key to continue...");
+	_getch();
+}
+
+// -----------------------------------------------------------------------------
+
+void cFunction(char* pString, int pInt)
+{
+	printf("pString is \"%s\" and pInt is %d.\n", pString, pInt);
+}
+
+// -----------------------------------------------------------------------------
+
+int main()
+{
+	char* hello = "Hello";
+	char* world = "World!";
+
+	int int1 = 7;
+	int int2 = 10;
+
+	cFunction(hello, int1);
+	cFunction(world, int2);
+
+	keepWindowOpen();
+    return 0;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
