@@ -12,3 +12,5 @@ My solutions aren't the best. I try not to spend all of my free time programming
 For the most part I don't change already uploaded exercises (unless there's a serious error) because I like to go back at past coding me and laugh at my stupid solutions.
 
 Thank you.
+
+Edit - I finally finished the book on the 2nd Nov 2023. I've now moved onto The C++ Programming Language.
