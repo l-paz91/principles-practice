@@ -18,8 +18,8 @@ int main()
 	//it's an even number
 	else
 	{
-		double difference = ((temps.size() / 2) + 1) - (temps.size() / 2);
-		double median = (temps.size() / 2) + (difference / 2);
+		double difference = temps[(temps.size() / 2) + 1] - temps[temps.size() / 2];
+		double median = (temps[temps.size() / 2]) + (difference / 2);
 		cout << "Median Temperature: " << median << endl;
 	}
 
